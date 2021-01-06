@@ -1,23 +1,13 @@
 ---
 layout: post
-title: Sample Post with Markdown
-subtitle : How markdown is displayed as html
-tags: [Sample Post, Demo]
+title: Markdown Grammar
+tags: [Markdown]
 author: Nayeong Kim
 comments : True
 ---
 
-This post show result from awesome Markdown techniques like jekyll. 
-`Jekyll` supports to transform your plain text into static websites and blogs. 
-
-you can easy to change style in `_utility.html` and a sample of the formatting follows.
-
 <br>
-
-이 포스팅은 놀라운 Markdown 기술들로 만들어진 결과물입니다.
-
-`_utility.html`에서 스타일을 변경할 수 있으며, 서식 샘플은 아래와 같습니다.
-
+<h2>마크다운 문법 by Nayeong Kim</h2>
 <br>
 
 <h2>1. HTML headings</h2>
