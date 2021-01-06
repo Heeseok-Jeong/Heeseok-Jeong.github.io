@@ -4,29 +4,34 @@ url : "https://Heeseok-Jeong.github.io"
 
 # Blog Settings
 theme_settings :
-  title : Grape Theme
+  title : Heeseok Jeong
   favicon : assets/favicon.ico
 
   # Profile Settings
   profile :
     image : assets/img/smile.png
     username : Heeseok Jeong
-    description : creator of Grape-Theme! Grape-Theme is my first jekyll theme and you can customize this theme easily.
+    description : Developer.
     experience :
       - start : 2020-07-01
         end : 2020-08-25
         experience : KONAN Technology, Intern
-    skills : 
+      - start : 2021-01-05
+        # end : 2020-08-25
+        experience : SSAFY, 5th
+    skills :
       - skill : Java
-        value : 80  # Percent value
-        
+        value : 80
+      - skill : Python
+        value : 80
+
   # Icons
   icons :
     email:  "dldydldy@naver.com"
-    linkedin:  # Full URL 
+    linkedin:  # Full URL
     github: Heeseok-Jeong
-    gitlab: 
-    bitbucket: 
+    gitlab:
+    bitbucket:
     google_plus:
     twitter:
     youtube:
@@ -34,7 +39,7 @@ theme_settings :
     instagram:
 
   # Disqus
-  disqus_shortname :
+  disqus_shortname : heeseok-jeong
 
 # Pagination
 paginate: 5
