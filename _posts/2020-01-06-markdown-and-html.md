@@ -61,9 +61,9 @@ comments : True
 
 <h2>4. hyperlink</h2>
 {% highlight html %}
-[naye0ng's blog](https://naye0ng.github.io)
+[heeseok's blog](https://heeseok-jeong.github.io)
 {% endhighlight %}
-[naye0ng's blog](https://naye0ng.github.io)
+[heeseok's blog](https://heeseok-jeong.github.io)
 
 <br>
 
