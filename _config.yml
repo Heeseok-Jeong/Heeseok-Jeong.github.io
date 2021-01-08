@@ -23,7 +23,7 @@ theme_settings :
       - skill : Java
         value : 80
       - skill : Python
-        value : 80
+        value : 85
 
   # Icons
   icons :
