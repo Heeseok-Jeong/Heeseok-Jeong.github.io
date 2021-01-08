@@ -1,13 +1,28 @@
 ---
 layout: post
 title: 싸피 5기 합격 후기
-<!-- subtitle : How markdown is displayed as html -->
+subtitle : SSAFY, Samsumg Software Academy For Youth
 tags: [SSAFY]
 author: Heeseok Jeong
 comments : True
 ---
 
-# 서류전형
+<br>
+## 지원동기
+작년 10월부터 시작된 싸피 5기 전형 결과가 12월 중순에 나왔다.  
+
+처음으로 취준을 하면서 현대 오토에버 서류를 뚫었지만 코테에서 떨어졌다.  
+또 여러 회사의 공채, 인턴을 지원했지만 코테에서 번번히 떨어지면서 실력이 부족함을 느꼈다.  
+
+싸피는 친한 학교 선배가 3기였기에 잘 알고 있었다.  
+그렇기에 싸피에서 알고리즘 공부와 자바, 스프링을 활용하여 웹백엔드 개발자로 성장하기를 기대하며 지원하였다.  
+
+
+<br>
+<hr>
+## 전형
+아래는 각 전형들에 대해 어떻게 준비했는지 당시 기록한 내용이다.<br>
+### 서류전형
 
 - SW 관심 계기와 어떤 개발자 되고 싶은지
 
@@ -24,17 +39,16 @@ comments : True
     - 실전적인 프로젝트 통해 전문성 개발하고 싶음 강조
 - IT적으로 취업 노력 경험
 
-# 온라인 테스트
+### 온라인 테스트
 
 - 인적성
 - CT
 
-# 면접
+### 면접
 
 - CT
 - PT
 - 면접
 
 <h2>결과</h2>
-⇒ 합격
-![sample image]({{ site.baseurl }}/assets/img/ssafy_pass.jpg)
+![Pass Image]({{ site.baseurl }}/assets/img/ssafy_pass.png)
