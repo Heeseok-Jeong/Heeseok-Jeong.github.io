@@ -21,9 +21,11 @@ theme_settings :
         experience : SSAFY, 5th
     skills :
       - skill : Java
-        value : 80
+        value : 75
       - skill : Python
         value : 85
+      - skill : C++
+        value : 70
 
   # Icons
   icons :
