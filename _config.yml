@@ -44,7 +44,7 @@ theme_settings :
   disqus_shortname : heeseok-jeong
 
 # Pagination
-paginate: 10
+paginate: 5
 paginate_path: "blog/page:num"
 
 # Build Ssttings

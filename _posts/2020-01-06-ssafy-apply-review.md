@@ -2,7 +2,7 @@
 layout : post
 title : 싸피 5기 합격 후기
 subtitle : SSAFY, Samsumg Software Academy For Youth
-tags : [SSAFY, Review]
+tags : [SSAFY]
 author : Heeseok Jeong
 comments : True
 sitemap :
@@ -10,7 +10,8 @@ sitemap :
   priority : 1.0
 ---
 
-<br>
+## 지원  
+
 작년 10월부터 시작된 싸피 5기 전형 결과가 12월 중순에 나왔다.
 <br><br>
 처음으로 취준을 하면서 현대 오토에버 서류를 뚫었지만 코테에서 떨어졌다. 또 여러 회사의 공채, 인턴을 지원했지만 코테에서 번번히 떨어지면서 실력이 부족함을 느꼈다.

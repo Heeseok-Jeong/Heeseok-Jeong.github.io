@@ -2,7 +2,7 @@
 layout : post
 title : Python Grammar for Coding Test
 subtitle : 동빈북 부록 A
-tags : [Python, CT]
+tags : [Problem Solving]
 author : Heeseok Jeong
 comments : True
 sitemap :

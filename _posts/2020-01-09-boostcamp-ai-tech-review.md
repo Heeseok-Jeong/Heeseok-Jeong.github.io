@@ -2,7 +2,7 @@
 layout : post
 title : 부스트캠프 AI Tech 합격 후기
 subtitle : 부스트캠프 AI Tech
-tags : [BoostCamp AI Tech, AI, Review]
+tags : [BoostCamp AI Tech]
 author : Heeseok Jeong
 comments : True
 sitemap :
@@ -10,7 +10,8 @@ sitemap :
   priority : 1.0
 ---
 
-<br>
+## 지원  
+
 AI 에 관심이 있어 캡스톤 프로젝트로 '고유명사 사전을 이용한 한영 번역기' 를 했고, 현장실습으로 코난 테크놀로지에서 AI 엔지니어링 직무 인턴을 하였다.
 <br><br>
 하지만 '과연 내가 대학원에 가지 않고 AI 직무로 취업할 수 있을까? 날고 기는 석박사들이 있는데 안되겠지..' 하며 현실적으로 취업하기 더 좋은 웹백엔드 직무에 대해 생각하였다.
