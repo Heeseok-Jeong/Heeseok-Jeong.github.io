@@ -10,7 +10,8 @@ sitemap :
   priority : 1.0
 ---
 
-## 인생은 B 와 D 사이 C
+## 인생은 B 와 D 사이 C  
+
 누가 그랬다. 인생은 Birth 와 Death 사이에 Choice 만 있을 뿐이라고.
 <br><br>
 

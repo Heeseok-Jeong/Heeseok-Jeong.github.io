@@ -1,7 +1,7 @@
 ---
 layout : post
 title : Python Grammar for Coding Test
-<!-- subtitle : How markdown is displayed as html -->
+subtitle : 동빈북 부록 A
 tags : [Python, CT]
 author : Heeseok Jeong
 comments : True
