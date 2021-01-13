@@ -1,10 +1,13 @@
 ---
-layout: post
-title: 부스트캠프 AI Tech 등록과 싸피 퇴소
+layout : post
+title : 부스트캠프 AI Tech 등록과 싸피 퇴소
 subtitle : Trade-off
-tags: [BoostCamp AI Tech, SSAFY]
-author: Heeseok Jeong
+tags : [BoostCamp AI Tech, SSAFY]
+author : Heeseok Jeong
 comments : True
+sitemap :
+  changefreq : daily
+  priority : 1.0
 ---
 
 ## 인생은 B 와 D 사이 C

@@ -1,10 +1,13 @@
 ---
-layout: post
-title: 싸피 5기 합격 후기
+layout : post
+title : 싸피 5기 합격 후기
 subtitle : SSAFY, Samsumg Software Academy For Youth
-tags: [SSAFY, Review]
-author: Heeseok Jeong
+tags : [SSAFY, Review]
+author : Heeseok Jeong
 comments : True
+sitemap :
+  changefreq : daily
+  priority : 1.0
 ---
 
 <br>
@@ -76,7 +79,7 @@ SW 관심 계기와 어떤 개발자 되고 싶은지
     - 구체적으로 구현하려면 뭐가 중요할지 질문
     - 어떤 서비스 있을지 구체적으로 예시 들라함
     - 해당 주제가 뭔지 설명하라 함  
-    
+
 <br>
 <hr>
 <h2>결과</h2>

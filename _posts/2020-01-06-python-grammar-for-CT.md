@@ -1,10 +1,13 @@
 ---
-layout: post
-title: Python Grammar for Coding Test
+layout : post
+title : Python Grammar for Coding Test
 <!-- subtitle : How markdown is displayed as html -->
-tags: [Python, CT]
-author: Heeseok Jeong
+tags : [Python, CT]
+author : Heeseok Jeong
 comments : True
+sitemap :
+  changefreq : daily
+  priority : 1.0
 ---
 
 

@@ -1,10 +1,13 @@
 ---
-layout: post
-title: 싸피 스타트캠프 1주차 회고
+layout : post
+title : 싸피 스타트캠프 1주차 회고
 subtitle : SSAFY, Samsumg Software Academy For Youth
-tags: [SSAFY]
-author: Heeseok Jeong
+tags : [SSAFY]
+author : Heeseok Jeong
 comments : True
+sitemap :
+  changefreq : daily
+  priority : 1.0
 ---
 
 ## 스타트캠프

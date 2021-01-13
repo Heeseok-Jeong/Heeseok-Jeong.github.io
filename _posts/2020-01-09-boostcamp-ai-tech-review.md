@@ -1,10 +1,13 @@
 ---
-layout: post
-title: 부스트캠프 AI Tech 합격 후기
+layout : post
+title : 부스트캠프 AI Tech 합격 후기
 subtitle : 부스트캠프 AI Tech
-tags: [BoostCamp AI Tech, AI, Review]
-author: Heeseok Jeong
+tags : [BoostCamp AI Tech, AI, Review]
+author : Heeseok Jeong
 comments : True
+sitemap :
+  changefreq : daily
+  priority : 1.0
 ---
 
 <br>

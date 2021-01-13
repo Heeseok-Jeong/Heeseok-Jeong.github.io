@@ -1,9 +1,12 @@
 ---
-layout: post
-title: Markdown Grammar
-tags: [Markdown]
-author: Nayeong Kim
+layout : post
+title : Markdown Grammar
+tags : [Markdown]
+author : Nayeong Kim
 comments : True
+sitemap :
+  changefreq : daily
+  priority : 1.0
 ---
 
 <br>
