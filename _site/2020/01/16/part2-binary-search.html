@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-이진 탐색" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="Problem Solving" />
+  <meta name="description" content="탐색 범위를 반으로 좁혀가며 빠르게 탐색하는 알고리즘" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-이진 탐색" />
+  <meta property="og:description" content="탐색 범위를 반으로 좁혀가며 빠르게 탐색하는 알고리즘" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2020/01/16/part2-binary-search.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-이진 탐색" />
+  <meta name="twitter:description" content="탐색 범위를 반으로 좁혀가며 빠르게 탐색하는 알고리즘" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-이진 탐색</title>
+</head>
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">이진 탐색</h1>
+    <p class="subtitle">탐색 범위를 반으로 좁혀가며 빠르게 탐색하는 알고리즘</p>
+    <p class="meta">
+      January 16, 2020
+    </p>
+  </section>
+  <section class="post-content">
+    <h3 id="순차-탐색">순차 탐색</h3>
+
+<ul>
+  <li>데이터를 앞에서부터 하나씩 확인, 탐색의 기본</li>
+  <li>count() 함수 등에 사용되며 많이 쓰임</li>
+  <li>O(N) )
+<br /><br /></li>
+</ul>
+
+<h3 id="이진-탐색-특징">이진 탐색 특징</h3>
+
+<ul>
+  <li>리스트 내에서 데이터를 매우 빠르게 탐색할 수 있음</li>
+  <li>이진 탐색은 배열 내부 데이터가 정렬되어 있어야만 사용 가능</li>
+  <li>탐색 범위를 절반씩 좁혀감</li>
+  <li>시작점 s, 끝점 e, 중간점 mid 세 변수 사용</li>
+  <li>찾으려는 데이터와 mid 데이터를 비교하여 원하는 데이터를 찾는 과정</li>
+  <li>범위 좁힐 때 mid 자리는 포함하지 않도록 짜자!</li>
+  <li>O(logN)</li>
+  <li>2 가지 방법 구현 가능
+    <ul>
+      <li>재귀</li>
+      <li>반복문</li>
+    </ul>
+  </li>
+  <li>간단한 원리지만 코테에서 이진 탐색을 구현할 수 있는 사람은 10% 내외임. 무조건 <strong>여러 차례 직접 구현하면서 외울것</strong></li>
+  <li>
+    <p>일반적으로 코테에서 이진 탐색 문제는 탐색 범위 크게 주는 경우가 많음, 데이터 개수가 1,000만을 넘거나, 검색 값 범위가 1,000억 이상이면 이진 탐색을 고려할 것</p>
+
+    <p>→ 이럴 때 입력 값은 반드시 sys.stdin.readline().rstrip() 해야 입력 시간 초과 안걸림
+<br /><br /></p>
+  </li>
+</ul>
+
+<h3 id="이진-탐색-트리">이진 탐색 트리</h3>
+
+<ul>
+  <li>자료구조</li>
+  <li>이진 탐색을 지원해줌</li>
+  <li>두 자식을 가지며 왼쪽은 부모보다 작고, 오른쪽은 부모보다 큼</li>
+  <li>보통 이진 탐색 트리 자료구조를 구현하는 문제는 안나옴
+<br /><br /></li>
+</ul>
+
+<h3 id="부품-찾기-문제">부품 찾기 문제</h3>
+
+<p>N (1 ≤ N ≤ 10^6) 개의 부품의 정수 번호가 담긴 리스트에서 M (1 ≤ M ≤ 10^5) 개 원소를 찾는 문제. M 개 원소를 순차적으로 보며 찾는 부품이 있으면 ‘yes’ 를 출력하고, 없으면 ‘no’ 를 출력하라.</p>
+
+<p>N = 5, [8, 3, 7, 9, 2]</p>
+
+<p>M = 3, [5, 7, 9]</p>
+
+<p>⇒ no yes yes</p>
+
+<p>솔루션</p>
+
+<ol>
+  <li>이진 탐색</li>
+  <li>
+    <dl>
+      <dt>계수 정렬</dt>
+      <dd>백만짜리 리스트를 만들어서 카운트 세고, 0 이 아니면 yes 출력.</dd>
+    </dl>
+  </li>
+  <li>
+    <dl>
+      <dt>set 사용</dt>
+      <dd>부품 리스트를 set 에 넣어서 중복 제거 → 찾는 부품을 순차적으로 돌며 순차 탐색
+<br /><br /></dd>
+    </dl>
+  </li>
+</ol>
+
+<h3 id="파라메트릭-서치">파라메트릭 서치</h3>
+
+<ul>
+  <li>최적화 문제 (최댓값 or 최솟값 찾기) 를 결정 문제 (O or X) 로 바꾸는 해결 기법</li>
+  <li>원하는 조건을 만족하는 가장 알맞은 값을 찾는 문제에 주로 나옴</li>
+  <li>나는 시작점을 min 으로 잡았는데, 문제는 0 으로 잡음. 나처럼 하면 안되는건가?
+⇒ m 이 클 경우 height가 원소들보다 작아질 수도 있기 때문에 0 으로 잡는게 맞음</li>
+  <li>파라메트릭 서치 문제는 반복문으로 해결</li>
+  <li>백준 나무자르기 문제 볼 것!</li>
+</ul>
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>
