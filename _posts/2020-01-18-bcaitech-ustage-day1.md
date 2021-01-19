@@ -1,7 +1,7 @@
 ---
 layout : post
 title : Ustage Day 1
-subtitle : BoostCamp AI Tech
+subtitle : 코스 소개 및 파이썬 개요
 tags : [BoostCamp AI Tech]
 author : Heeseok Jeong
 comments : True
