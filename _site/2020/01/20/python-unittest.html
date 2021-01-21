@@ -75,9 +75,12 @@
   <section class="post-content">
     <h1 id="목차">목차</h1>
 
+<p><br /></p>
+
 <ul>
   <li><a href="#단위-테스트란?">단위 테스트란?</a></li>
   <li><a href="#파이썬에서는-어떻게?">파이썬에서는 어떻게?</a></li>
+  <li><a href="#결론">결론</a></li>
 </ul>
 
 <p><br /></p>
@@ -86,11 +89,12 @@
 <p><br /></p>
 
 <h1 id="단위-unit-테스트란">단위 (Unit) 테스트란?</h1>
+<p><br /></p>
 
 <p>일반적으로 테스트는 어떤 대상이 목적에 맞게 행동하는지를 검사하는 것이다. 소프트웨어에서 테스트도 마찬가지이다.<br />
 <br /></p>
 
-<p>소프트웨어가 여러 개의 동작을 하는 함수들로 구성돼있을 때, 한 번에 모든 기능이 잘 동작하는지 살펴보는 것은 좋지 않다. 실패할 경우 어떤 부분에서 기능이 동작하지 않는지 알기 어렵기 때문이다. 따라서 단위 (Unit) 별로 기능을 테스트 해야한다.<br />
+<p>소프트웨어가 여러 개의 동작을 하는 함수들로 구성돼 있을 때, 한 번에 모든 기능이 잘 동작하는지 살펴보는 것은 좋지 않다. 실패할 경우 어떤 부분에서 기능이 동작하지 않는지 알기 어렵기 때문이다. 따라서 단위 (Unit) 별로 기능을 테스트 해야한다.<br />
 <br /></p>
 
 <p>보통 유닛은 하나의 동작을 하도록 설계한다. 그러므로 단위 테스트는 하나의 동작이 잘 수행하는지 하나씩 살펴보는 작업이다.</p>
@@ -101,6 +105,7 @@
 <p><br /></p>
 
 <h1 id="파이썬에서는-어떻게">파이썬에서는 어떻게?</h1>
+<p><br /></p>
 
 <p>파이썬은 유닛 테스트를 위한 각종 기능을 사용할 수 있는 <code class="language-plaintext highlighter-rouge">unittest</code> 모듈을 지원한다.
 <br /></p>
@@ -115,9 +120,16 @@
 <br />
 <br /></p>
 
+<blockquote>
+  <p><a href="https://docs.python.org/ko/3/library/unittest.html#assert-methods">assert 함수 더 보기</a></p>
+</blockquote>
+
+<p><br />
+<br /></p>
+
 <h3 id="예시">예시</h3>
 
-<p><code class="language-plaintext highlighter-rouge">arith.py</code> 라는 어떤 수행에 필요한 기능들을 담은 파일이 있다면 이 파일에 들어있는 모듈들을 검사하는 <code class="language-plaintext highlighter-rouge">test_arith.py</code> 를 만들어 테스팅을 진행하면 된다.</p>
+<p><code class="language-plaintext highlighter-rouge">arith.py</code> 라는 어떤 수행에 필요한 기능들을 담은 파일이 있다면 이 파일을 모듈로 불러와 안에 있는 유닛 메서드들을 검사하는 <code class="language-plaintext highlighter-rouge">test_arith.py</code> 를 만들어 테스팅을 진행하면 된다.</p>
 
 <blockquote>
   <p>arith.py</p>
@@ -160,7 +172,12 @@
 </code></pre></div></div>
 <p><br /></p>
 
-<p>결과는 <code class="language-plaintext highlighter-rouge">test_add</code> 테스트는 통과하고 <code class="language-plaintext highlighter-rouge">test_subtract</code> 테스트는 결과 -1 과 예측값 1 이 다르므로 통과하지 못한다.</p>
+<h3 id="결과">결과</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">test_add</code> 테스트 통과</li>
+  <li><code class="language-plaintext highlighter-rouge">test_subtract</code> 테스트 실패, 결과 -1 과 예측값 1 이 다르므로</li>
+</ul>
 
 <p><br />
 <br /></p>
@@ -174,7 +191,21 @@
 
 <p><br /></p>
 
+<h1 id="결론">결론</h1>
+<p><br /></p>
+
+<blockquote>
+  <p>하나의 기능을 지닌 유닛을 테스트하는 <code class="language-plaintext highlighter-rouge">unittest</code> 모듈을 사용하여 유닛 테스트를 진행할 수 있다. 테스트 케이스를 정의하고 그 밑에 테스트할 함수들을 만들어 테스트를 수행한다.</p>
+</blockquote>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
 <h1 id="참조">참조</h1>
+<p><br /></p>
+
 <p><a href="https://wikidocs.net/16107">50. unittest - 단위테스트</a></p>
 
   </section>
