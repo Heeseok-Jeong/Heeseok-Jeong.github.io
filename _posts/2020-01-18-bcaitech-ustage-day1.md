@@ -17,7 +17,7 @@ sitemap :
 - [파이썬 개요](#파이썬-개요)
 - [파이썬 코딩환경](#파이썬-코딩환경)
 - [피어 세션](#피어-세션)
-- [느낀점](#느낀점)
+- [Today I Felt](#today-i-felt)
   
 <br>
 <hr>
@@ -213,7 +213,7 @@ export PATH=“/Users/유저네임/miniconda3/bin:$PATH” 입력 
 <hr>
 <br>
 
-# 느낀점
+# Today I Felt
 
 ## 자율성
 

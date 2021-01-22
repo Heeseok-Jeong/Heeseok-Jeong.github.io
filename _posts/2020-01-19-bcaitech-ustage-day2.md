@@ -19,7 +19,7 @@ sitemap :
 - [피어 세션](#피어-세션)
 - [과제중 얻은 Tip](#과제중-얻은-tip)
 - [TA 세션](#ta-세션)
-- [느낀점](#느낀점)
+- [Today I Felt](#today-i-felt)
 
 <br>
 <hr>
@@ -380,7 +380,7 @@ print(ham) # [0, 1]
 <hr>
 <br>
 
-# 느낀점
+# Today I Felt
 
 ## 관성 장착중
 

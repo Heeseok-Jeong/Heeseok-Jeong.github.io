@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Python Mock for unittest" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="Python" />
+  <meta name="description" content="유닛테스트 지원사격" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Python Mock for unittest" />
+  <meta property="og:description" content="유닛테스트 지원사격" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2020/01/21/python-mock.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Python Mock for unittest" />
+  <meta name="twitter:description" content="유닛테스트 지원사격" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Python Mock for unittest</title>
+</head>
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Python Mock for unittest</h1>
+    <p class="subtitle">유닛테스트 지원사격</p>
+    <p class="meta">
+      January 21, 2020
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+
+<p><br /></p>
+<ul>
+  <li><a href="#mock-이란">Mock 이란?</a></li>
+  <li><a href="#사용법">사용법</a></li>
+  <li><a href="#결론">결론</a></li>
+</ul>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<h1 id="mock-이란">Mock 이란?</h1>
+<p><br /></p>
+
+<p>유닛 테스트를 수행할 때 단순히 맞고 틀린지 등을 비교하는 <code class="language-plaintext highlighter-rouge">assert</code> 계열의 함수만으로 테스트가 충분하지 않을 때가 있다. 테스트를 위해 외부 API 가 필요하거나 복잡한 테스트 환경이 필요할 때, <code class="language-plaintext highlighter-rouge">mock</code> 을 import 하여 테스트를 진행하면 된다.<br />
+<br /></p>
+
+<p><code class="language-plaintext highlighter-rouge">mock</code> 의 원래 뜻은 모조품, 모조 객체이다. 즉, <code class="language-plaintext highlighter-rouge">mock</code> 은 테스트에 필요한 객체를 직접 사용하지 않고 대신 그 객체인척 행동해주는 기특한 모듈인 것이다.</p>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<h1 id="사용법">사용법</h1>
+<p><br /></p>
+
+<ol>
+  <li>decorator
+ <code class="language-plaintext highlighter-rouge">@mock</code> 데코레이터를 통해 객체를 mock 으로 치환시킬 수 있다.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        
+
+</code></pre></div>    </div>
+  </li>
+  <li>context manager</li>
+  <li>inline</li>
+</ol>
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>
