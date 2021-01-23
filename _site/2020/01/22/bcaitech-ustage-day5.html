@@ -139,7 +139,7 @@
 </code></pre></div>    </div>
 
     <ul>
-      <li>익셉션 발생해도 프로그램 끝나지 않음, 안정적으로 프로그램 수행</li>
+      <li>익셉션 발생해도 프로그램 끝나지 않음, 안정적으로 프로그램 수행 가능</li>
       <li>맨 밑에 <code class="language-plaintext highlighter-rouge">except Exception</code> 하는건 어떤 익셉션인지 알기 어렵기 때문에 좋지 않음</li>
     </ul>
   </li>
@@ -257,11 +257,11 @@
   <span class="n">cwd</span> <span class="o">=</span> <span class="n">pathlib</span><span class="p">.</span><span class="n">Path</span><span class="p">.</span><span class="n">cwd</span><span class="p">()</span> <span class="c1"># 현재 path 위치 알려줌
 </span>  <span class="n">cwd</span><span class="p">.</span><span class="n">parent</span> <span class="c1"># 하나 윗경로 알려줌
 </span></code></pre></div>    </div>
-  </li>
-  <li>
-    <p>등등 기타 모듈 필요할 때 찾아서 쓰면 됨</p>
+    <p><br /></p>
   </li>
 </ul>
+
+<p>등등 여러 모듈이 있으니 필요할 때 찾아서 쓰면 된다.</p>
 
 <p><br /></p>
 
@@ -346,24 +346,28 @@
   	<span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s">"에러"</span><span class="p">)</span>
 </code></pre></div>    </div>
   </li>
-  <li>로깅 전에 설정해야 할게 많음 → 툴 사용
-    <ol>
-      <li>configparser
-        <ul>
-          <li>프로그램의 실행 설정을 파일에 저장함</li>
-          <li>섹션, 키, 밸류 값의 형태로 설정된 설정 파일 사용</li>
-          <li>설정파일을 딕트 타입으로 호출 후 사용</li>
-          <li>example.cfg 라는 컨피그 파일이 있으면 이것을 불러와서 설정</li>
-        </ul>
-      </li>
-      <li>argparser (= Command-Line Option)
-        <ul>
-          <li>콘솔창에서 프로그램 실행시 세팅 정보를 저장</li>
-          <li>ex) ls —help 에서 — 붙여서 사용</li>
-          <li>add_argument 로 추가 가능</li>
-        </ul>
+</ul>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">import</span> <span class="nn">argparse</span>
+<p><br /></p>
+
+<h3 id="다양한-설정을-돕는-툴">다양한 설정을 돕는 툴</h3>
+<ol>
+  <li>configparser
+    <ul>
+      <li>프로그램의 실행 설정을 파일에 저장함</li>
+      <li>섹션, 키, 밸류 값의 형태로 설정된 설정 파일 사용</li>
+      <li>설정파일을 딕트 타입으로 호출 후 사용</li>
+      <li>example.cfg 라는 컨피그 파일이 있으면 이것을 불러와서 설정</li>
+    </ul>
+  </li>
+  <li>argparser (= Command-Line Option)
+    <ul>
+      <li>콘솔창에서 프로그램 실행시 세팅 정보를 저장</li>
+      <li>ex) ls —help 에서 — 붙여서 사용</li>
+      <li>add_argument 로 추가 가능</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">import</span> <span class="nn">argparse</span>
 
  <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
  	<span class="n">description</span><span class="o">=</span><span class="s">"Sum two integers."</span><span class="p">)</span>
@@ -372,17 +376,15 @@
  	<span class="s">'-a'</span><span class="p">,</span> <span class="s">"--a_value"</span><span class="p">,</span>
  	<span class="n">dest</span><span class="o">=</span><span class="s">"a"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">"A integers"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
  	<span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</code></pre></div>        </div>
-      </li>
-    </ol>
-
-    <p><br /></p>
-
-    <hr />
-
-    <p><br /></p>
+</code></pre></div>    </div>
   </li>
-</ul>
+</ol>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
 
 <h1 id="python-data-handling">Python Data Handling</h1>
 
@@ -464,44 +466,27 @@
   </li>
   <li>기본 문법 #1
     <ul>
-      <li>문자 클래스 [ ] : [ 와 ] 사이의 문자들과 매치라는 의미
+      <li>문자 클래스 <code class="language-plaintext highlighter-rouge">[ ]</code> : [ 와 ] 사이의 문자들과 매치라는 의미
         <ul>
           <li>[abc] : 해당 글자가 a, b, c 중 하나가 있다.</li>
         </ul>
       </li>
-      <li>’-‘ 를 사용하여 범위를 지정할 수 있음
+      <li><code class="language-plaintext highlighter-rouge">-</code> 를 사용하여 범위를 지정할 수 있음
         <ul>
           <li>[a-zA-Z] : 알파벳 전체</li>
         </ul>
       </li>
       <li>원래 의미 말고 정규식용 의미 지닌 문자들
         <ul>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>. ^ $ * + ? { } [ ] \</td>
-                  <td>( )</td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
+          <li><code class="language-plaintext highlighter-rouge">. ^ $ * + ? { } [ ] \ | ( )</code></li>
         </ul>
       </li>
-      <li>. : 줄바꿈 문자 \n 제외한 모든 문자와 매치</li>
-      <li>
-        <ul>
-          <li>: 앞에 있는 글자를 반복해서 나올 수 있음</li>
-        </ul>
-      </li>
-      <li>
-        <ul>
-          <li>: 앞에 있는 글자를 최소 1회 이상 반복</li>
-        </ul>
-      </li>
+      <li><code class="language-plaintext highlighter-rouge">.</code> : 줄바꿈 문자 \n 제외한 모든 문자와 매치</li>
+      <li><code class="language-plaintext highlighter-rouge">*</code> : 앞에 있는 글자를 반복해서 나올 수 있음</li>
+      <li><code class="language-plaintext highlighter-rouge">+</code> : 앞에 있는 글자를 최소 1회 이상 반복</li>
     </ul>
   </li>
-  <li>(http)(.+)(zip) : 특정 페이지에서 http~.zip 추출하기</li>
+  <li>ex) (http)(.+)(zip) : 문서에서 http 로 시작하고 .zip 으로 끝나는 문장 추출</li>
 </ul>
 
 <p><br /></p>
@@ -509,10 +494,10 @@
 <h3 id="정규식-in-python">정규식 in Python</h3>
 
 <ul>
-  <li>re 모듈을 import 하여 사용 <code class="language-plaintext highlighter-rouge">import re</code></li>
-  <li>함수 : search - 한 개만 찾기, findall - 전체 찾기</li>
+  <li><code class="language-plaintext highlighter-rouge">re</code> 모듈을 import 하여 사용</li>
+  <li>함수 : <code class="language-plaintext highlighter-rouge">search</code> - 한 개만 찾기, <code class="language-plaintext highlighter-rouge">findall</code> - 전체 찾기</li>
   <li>추출된 패턴은 tuple 로 반환</li>
-  <li>([A-Za-z0-9]+***) : 특정 페이지에서 ID만 추출하기 (dldydld***)</li>
+  <li>ex) ([A-Za-z0-9]+***) : 문서에서 ID 추출하기 (dldydld***)</li>
   <li>파이썬 코드</li>
 </ul>
 
@@ -559,7 +544,7 @@
   <li>간결성으로 기계/인간이 모두 이해하기 편함</li>
   <li>데이터 용량이 적고, 코드로 전환이 쉬움</li>
   <li>xml 대체로 많이 사용 → xml 보다 간결하고 용량도 적음</li>
-  <li>dict 처럼 키:밸류 쌍으로 표시</li>
+  <li>dict 처럼 <code class="language-plaintext highlighter-rouge">{키:밸류}</code> 쌍으로 표시</li>
   <li>import json 해서 사용 → load 하면 자동으로 dict 로 받아들임</li>
   <li>read 는 load, write 는 dump</li>
 </ul>
@@ -605,7 +590,7 @@
 <p>1) 강화학습 (RL) 이 쓰이는 분야는 어디가 있나요?</p>
 
 <ul>
-  <li>게임, 싸펑은 RL 로 학습해서 성능이 떨어지는게 아닌가</li>
+  <li>게임 (싸펑은 RL 로 학습해서 성능이 떨어지는게 아닌가 생각하심)</li>
   <li>offline RL</li>
 </ul>
 
@@ -615,19 +600,11 @@
   <li>3 에서 언급</li>
 </ul>
 
-<p>3) 강화학습과 딥러닝 비교시 산업별 장단점은 무엇인가요?</p>
-
-<ul>
-  <li>뒤에서 언급할 예정</li>
-</ul>
-
-<p>4) 강화학습 프로젝트 경험이 있으신가요?</p>
-
 <h3 id="5-ai-에서-특별히-많이-쓰이는-pythonic-코드가-있을까요-str-함수-외에도-궁금합니다">5. AI 에서 특별히 많이 쓰이는 pythonic 코드가 있을까요? Str 함수 외에도 궁금합니다.</h3>
 
 <ul>
-  <li>대박 같은 slang 처럼 일상적으로 쓰임</li>
-  <li>list comprehension, zip, enumerate</li>
+  <li>slang 처럼 일상적으로 쓰임</li>
+  <li>list comprehension, zip, enumerate 등 수업에서 배운 것들</li>
 </ul>
 
 <h3 id="6-데이터-사이언티스트와-머신러닝-엔지니어는-어떻게-다른지-알고-싶습니다">6. 데이터 사이언티스트와 머신러닝 엔지니어는 어떻게 다른지 알고 싶습니다.</h3>
@@ -648,44 +625,51 @@
   </li>
 </ul>
 
-<h3 id="7-수강-관련-질문---뒤에서-말할-것">7. 수강 관련 질문 - 뒤에서 말할 것</h3>
-
-<h3 id="8-교수님이-현재-부스트캠퍼라면-캠프-과정을-따라가는-것-이외에-무엇을-하실지-궁금합니다">8. 교수님이 현재 부스트캠퍼라면 캠프 과정을 따라가는 것 이외에 무엇을 하실지 궁금합니다.</h3>
+<h3 id="7-교수님이-현재-부스트캠퍼라면-캠프-과정을-따라가는-것-이외에-무엇을-하실지-궁금합니다">7. 교수님이 현재 부스트캠퍼라면 캠프 과정을 따라가는 것 이외에 무엇을 하실지 궁금합니다.</h3>
 
 <ul>
   <li>주식 → 세상에 관심을 갖기 위해</li>
 </ul>
 
-<h3 id="9-읽기-좋은-코드는-꼭-간결해야-하나요">9. 읽기 좋은 코드는 꼭 간결해야 하나요?</h3>
+<h3 id="8-읽기-좋은-코드는-꼭-간결해야-하나요">8. 읽기 좋은 코드는 꼭 간결해야 하나요?</h3>
 
 <ul>
   <li>간결하다고 꼭 좋은 코드는 아님</li>
+  <li>좋은 코드 = 좋은 보고서</li>
+  <li>좋은 변수명을 짓는 것부터 시작</li>
 </ul>
 
-<h3 id="10-ai-서비스를-만들기-위해-필요한-엔지니어링-기술을-배우고-싶습니다-빅데이터-처리에-스파크를-쓰는-것처럼-배우면-좋을-기술-스택이-있을까요">10. AI 서비스를 만들기 위해 필요한 엔지니어링 기술을 배우고 싶습니다. 빅데이터 처리에 스파크를 쓰는 것처럼, 배우면 좋을 기술 스택이 있을까요?</h3>
+<h3 id="9-ai-서비스를-만들기-위해-필요한-엔지니어링-기술을-배우고-싶습니다-빅데이터-처리에-스파크를-쓰는-것처럼-배우면-좋을-기술-스택이-있을까요">9. AI 서비스를 만들기 위해 필요한 엔지니어링 기술을 배우고 싶습니다. 빅데이터 처리에 스파크를 쓰는 것처럼, 배우면 좋을 기술 스택이 있을까요?</h3>
 
 <ul>
   <li>스파크도 쓸 줄 알아야 하고, 하둡, 에어 플로우 등 다 관심깊게 보는게 좋다.</li>
 </ul>
 
-<h3 id="12-미래에-automl-이-발전한다면-모델링도-automl-이-해결해줄거라-예상하나요">12. 미래에 AutoML 이 발전한다면 모델링도 AutoML 이 해결해줄거라 예상하나요?</h3>
+<h3 id="10-미래에-automl-이-발전한다면-모델링도-automl-이-해결해줄거라-예상하나요">10. 미래에 AutoML 이 발전한다면 모델링도 AutoML 이 해결해줄거라 예상하나요?</h3>
 
 <ul>
   <li>딱히 그렇게 안 봄, 전체 파이프라인을 연결해주는 능력 + 서비스 만들어내는 능력은 사람의 중요한 역량</li>
-  <li>엔지니어라면 파이프라인쪽(앞단) 역량 중요</li>
+  <li>필요한 능력
+    <ul>
+      <li>전체 파이프라인을 구성하고 연결하는 능력</li>
+      <li>서비스를 만들어내는 능력</li>
+      <li>데이터의 처음부터 끝까지를 자동화 시키는 능력</li>
+      <li>데이터를 어떻게 모을 것인지</li>
+    </ul>
+  </li>
 </ul>
 
-<h3 id="13-ai를-공부하고-관련-직종에-취직하기-위해서는-아무래도-대학원-석사과정을-밟는-것이-거의-필수적인가요">13. AI를 공부하고 관련 직종에 취직하기 위해서는 아무래도 대학원 석사과정을 밟는 것이 거의 필수적인가요??</h3>
+<h3 id="11-ai를-공부하고-관련-직종에-취직하기-위해서는-아무래도-대학원-석사과정을-밟는-것이-거의-필수적인가요">11. AI를 공부하고 관련 직종에 취직하기 위해서는 아무래도 대학원 석사과정을 밟는 것이 거의 필수적인가요??</h3>
 
 <ul>
   <li>필수는 아닌데 확률을 매우 높이기 때문에 추천함</li>
-  <li>박사는 별로 권장안함, 석사는 괜찮다~</li>
+  <li>박사는 별로 권장안함, 석사는 추천!</li>
   <li>AI 엔지니어 할거면 석사 정도는 돼야한다 생각</li>
-  <li>백엔드(웹개발) 역량은 교양처럼 쓰인다~</li>
+  <li>백엔드(웹개발) 역량은 기본 소양으로 쓰임</li>
   <li>모델을 개발할 때는 파이썬 쓰지만, 실제 서비스 할 때는 C 나 자바 계열 많이 씀</li>
 </ul>
 
-<h3 id="14-파이프라인-짜는-능력은-어떻게-키울-수-있나요">14. 파이프라인 짜는 능력은 어떻게 키울 수 있나요?</h3>
+<h3 id="12-파이프라인-짜는-능력은-어떻게-키울-수-있나요">12. 파이프라인 짜는 능력은 어떻게 키울 수 있나요?</h3>
 
 <ul>
   <li>프로젝트를 통해서만 키울 수 있다.</li>
@@ -710,6 +694,7 @@
   <li>서폿 : 팀원에 대한 걱정이 많았는데 좋아서 다행이고 감사하다. 코드스쿼드랑 부캠 동시에 합격해서 선택해야 했는데 여러가지 + 조원들 보고 부캠 선택했다. 강의적으로도 파이썬에 많은 도움이 되고 있다. 파이썬 코딩 도장 책 추천한다.</li>
   <li>MJ : 조원들 때문에 피어세션이 기다려지고 힘이 난다. 펭귄님 리딩 덕에 코드 리뷰 했던 것이 많은 도움이 됐다.</li>
   <li>샐리 : 펭귄님이 첫 틀을 잘 잡아줘서 감사하고 피어세션 이 수업보다 재밌다. 파이썬 안다고 생각했는데 심화된 내용 들으면서 정리할 수 있어서 좋았다. 앞으로가 기대된다.</li>
+  <li>히스 : 모르는 건 대충 짚고 넘어가는 경우가 많았는데 모르는 것을 계속 찾아보며 공부하게 되었다. 앞으로도 잘 헤쳐나가겠다!</li>
 </ul>
 
 <p><br /></p>
@@ -745,7 +730,11 @@
   <li>
     <p>서폿님 코드 : 딕트 밸류 반대로 만드는법</p>
 
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">r_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">o_dict</span><span class="p">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">o_dict</span><span class="p">.</span><span class="n">keys</span><span class="p">()))</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1"># 내 방법
+</span>  <span class="n">r_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">reversed</span><span class="p">,</span> <span class="n">o_dict</span><span class="p">.</span><span class="n">items</span><span class="p">()))</span>
+
+  <span class="c1"># 서폿님 방법
+</span>  <span class="n">r_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">o_dict</span><span class="p">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">o_dict</span><span class="p">.</span><span class="n">keys</span><span class="p">()))</span>
 </code></pre></div>    </div>
   </li>
 </ul>
@@ -762,14 +751,15 @@
 
 <h2 id="환기">환기</h2>
 
-<p>오늘 피어 세션에서 펭귄님이 각자 자유롭게 세미나 하는 시간을 가져보자는 의견을 내주셨다. <code class="language-plaintext highlighter-rouge">우아한 테크 톡</code> 을 보면서 저런거 해보면 재밌겠다 싶었기에 펭귄님의 제안이 신선했다. 멋지다 생각만 하고 실천까지 생각하지 못하던 것들을 직접 할 수 있다니 :)</p>
+<p>오늘 피어 세션에서 펭귄님이 각자 자유롭게 세미나 하는 시간을 가져보자는 의견을 내주셨다. <code class="language-plaintext highlighter-rouge">우아한 테크 톡</code> 을 보면서 저런거 해보면 재밌겠다 싶었기에 펭귄님의 제안이 신선했다. 멋지다 생각만 하고 실천까지 생각도 못했었는데 직접 할 수 있다니 :)</p>
 
 <p>혼자 였으면 고일 뻔한 물이 다른 사람들로 인해 환기되고 있다. 부캠이 끝나면 동료들을 통해 나는 어떻게 성장했을지 설레고 궁금하다.<br />
 <br /></p>
 
 <h2 id="완전한-이해는-어려워">완전한 이해는 어려워</h2>
 
-<p>피어 세션을 하면서 MJ님이 리스트가 아이터레이터인데 왜 또 iter 라는 내장함수가 있냐는 질문을 했다. 다행히 내가 공부했던 부분이기에 (원래였다면 안했겠지? 대견스) 최대한 아는 선에서 바른 답을 알려드리려 노력했다. 이렇듯 모르는 부분에 대해 끝까지 공부하는 습관이 도움이 되고 있다. 하지만 <code class="language-plaintext highlighter-rouge">mock</code> 에 대한 개념이 어려워서 며칠째 어떻게 정리해서 블로깅할지 머리가 아프다. 솔직히 안올리고 싶은 마음이 굴뚝스,, 그치만 확실한 이해가 도움이 됐음을 상기하며 주말 내에 꼭 이해해서 포기하지 않고 글을 올려야겠다.</p>
+<p>피어 세션을 하면서 MJ님이 리스트가 아이터레이터인데 왜 또 iter 라는 내장함수가 있냐는 질문을 했다. 다행히 내가 공부했던 부분이기에 (원래였다면 안했겠지? 대견스) 최대한 아는 선에서 바른 답 <code class="language-plaintext highlighter-rouge">리스트는 iterable 이고 iterable 과 iterator 의 차이에 대해</code> 을 알려드리려 노력했다. 이렇듯 모르는 부분에 대해 끝까지 공부하는 습관이 도움이 되고 있다.<br />
+그러나 <code class="language-plaintext highlighter-rouge">mock</code> 에 대한 개념이 어려워서 며칠째 어떻게 정리해서 블로깅할지 머리가 아프다. 솔직히 안올리고 싶은 마음이 굴뚝스,, 그치만 확실한 이해가 도움이 됐음을 상기하며 주말 내에 꼭 이해해서 포기하지 않고 글을 올려야겠다.</p>
 
   </section>
 </div>
