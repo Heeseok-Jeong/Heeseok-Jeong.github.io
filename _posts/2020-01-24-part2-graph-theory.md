@@ -174,10 +174,10 @@ def union_parent(parent, a, b):
 	parent_a = find_parent(parent, a)
 	parent_b = find_parent(parent, b)
 	
-	if a < b:
-		parent[b] = a
+	if p_a < p_b:
+		parent[p_b] = p_a
 	else:
-		parent[a] = b
+		parent[p_a] = p_b
 
 # 노드의 개수와 간선의 개수 입력받기
 v, e = map(int, input().split())
