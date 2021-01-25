@@ -5,6 +5,7 @@ subtitle : 특정 지점까지 가장 빠르게 도달하는 방법을 찾는 �
 tags : [Problem Solving]
 author : Heeseok Jeong
 comments : True
+use_math: True
 sitemap :
   changefreq : daily
   priority : 1.0

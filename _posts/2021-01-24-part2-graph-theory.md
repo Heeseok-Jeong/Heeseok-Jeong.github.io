@@ -5,6 +5,7 @@ subtitle : 코딩 테스트에서 자주 등장하는 기타 그래프 이론들
 tags : [Problem Solving]
 author : Heeseok Jeong
 comments : True
+use_math: True
 sitemap :
   changefreq : daily
   priority : 1.0

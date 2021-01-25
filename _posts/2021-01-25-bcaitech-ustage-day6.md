@@ -5,6 +5,7 @@ subtitle : 파이썬 Numpy 와 벡터, 행렬
 tags : [BoostCamp AI Tech]
 author : Heeseok Jeong
 comments : True
+use_math: True
 sitemap :
   changefreq : daily
   priority : 1.0
@@ -28,7 +29,7 @@ sitemap :
 
 # Numpy
 
-- Numerical Python, 파이썬의 고성능 과학 계한용 패키지
+- Numerical Python, 파이썬의 고성능 과학 계산용 패키지
 - 왜 사용하는가?
     - 행렬과 매트릭스를 코드로 표현하는 것을 지원
     - 다양한 매트릭스 계산을 지원
@@ -46,7 +47,7 @@ sitemap :
     > conda install numpy
     3. 쥬피터 실행
     > jupyter notebook
-    4. `import numpy as np`
+    4. numpy 임포트 `import numpy as np`
 
 <br>
 
@@ -72,10 +73,10 @@ sitemap :
     - 두 개의 ndarray 가 같은 값을 지녀도 두 원소에 대해 `a[0] is b[0]` 를 수행하면 False 가 나옴 (리스트에서는 True)
 - shape : ndarray 의 dimension 구성을 tuple 로 반환
     - array 의 RANK 에 따라서 불리는 이름
-        - rank 0 | 7 : scalar
-        - rank 1 | [10, 10] : vector ⇒ (2,) ⇒ col
-        - rank 2 | [[1, 2], [3, 4]] : matrix ⇒ (2, 2) ⇒ row, col
-        - rank 3 | [[[1, 2], [3, 4]], [[5, 6], [7, 8]]] : 3-tensor ⇒ (2, 2, 2) ⇒ depth, row, col
+        - rank 0, ex) 7 : scalar
+        - rank 1, ex) [10, 10] : vector ⇒ (2,) ⇒ col
+        - rank 2, ex) [[1, 2], [3, 4]] : matrix ⇒ (2, 2) ⇒ row, col
+        - rank 3, ex) [[[1, 2], [3, 4]], [[5, 6], [7, 8]]] : 3-tensor ⇒ (2, 2, 2) ⇒ depth, row, col
         - rank n : n-tensor
     - ndim : 차원 개수
     - size : 데이터 개수
@@ -230,7 +231,7 @@ np.diag(b)
 ### random sampling
 
 - 데이터 분포에 따른 샘플링으로 어레이 생성
-- uniform (균등분포), normal (랜덤분포), exponential (지수함수)
+- uniform (균등분포), normal (랜덤분포), exponential (지수분포)
 
 ```python
 np.random.normal(0, 1, 10)
@@ -269,7 +270,7 @@ test_array
 test_array.sum(axis=1)
 # array([10, 26, 42])
 
-test_array.sum(ax is=0)
+test_array.sum(axis=0)
 # array([15, 18, 21, 24])
 ```
 
@@ -482,8 +483,6 @@ a[b]
 - 벡터의 노름은 원점에서부터의 거리, 임의의 차원 d 에 대해 성립
 - 여러 노름 공식이 있지만 두 가지 소개
 
-(Q. 노름이 의미하는게 뭘까? ⇒ 벡터의 길이)
-
 $L_1$ 노름은 각 성분의 변화량의 절대값을 모두 더함
 
 ```python
@@ -513,7 +512,7 @@ def l2_norm(x):
 
 - 두 점 사이의 거리 구하는 것과 동일, L1, L2 노름을 이용해 계산할 수 있음
 - 벡터의 뺄셈 이용!
-- ||x - y||
+- `||x - y||`
 
 ### 두 벡터 사의 각도 구하기
 
@@ -531,9 +530,9 @@ def angle(x, y):
 ### 내적은 어떻게 해석할까?
 
 - 내적은 정사영(orthogonal projection) 된 벡터의 길이와 관련 있다.
-- Proj(x) 의 길이는 코사인법칙에 의해 $||x||cos\theta$ 가 된다.
-- 내적은 정사영의 길이를 벡터 y 의 길이 ||y|| 만큼 조정한 값이다.
-- 내적은 두 벡터의 유사도를 측정하는데 사용 가능 (Q. 유사도는 뭐고 어떻게 측정하는가?)
+- Proj(x) 의 길이는 코사인법칙에 의해 \|\|x\|\|cosθ 가 된다.
+- 내적은 정사영의 길이를 벡터 y 의 길이 \|\|y\|\| 만큼 조정한 값이다.
+- 내적은 두 벡터의 유사도를 측정하는데 사용 가능 
 
 <br>
 
@@ -570,14 +569,14 @@ def angle(x, y):
 ### 행렬 곱셈
 
 - maxtrix multiplication : i 번째 행벡터와 j 번째 열벡터 사이의 내적을 성분으로 가지는 행렬을 계산
-- $XY = (\sum\limits_{k}{x_\mathit{ik}y_\mathit{kj}})$
+- $XY = (\sum_k{x_\mathit{ik}y_\mathit{kj}})$
 
 ### 행렬의 내적
 
-- 일반 수학에서는 $X^TY$ 이지만, numpy 의 `np.inner` 는 행벡터 기준이므로 $XY^T$ ****(중요)
-- $XY^T = (\sum\limits_{k}{x_\mathit{ik}y_\mathit{jk}})$
+- 일반 수학에서는 $X^TY$ 이지만, numpy 의 `np.inner` 는 행벡터 기준이므로 $XY^T$ (중요)
+- $XY^T = (\sum_k{x_\mathit{ik}y_\mathit{jk}})$
 
-⇒ *행렬곱에서는 X 의 열의 개수와 Y 의 행의 개수가 같아야하고, 행렬의 내적에서는 X 의 열의 개수와 Y 의 열의 개수가 같아야 함! (내적에서 교수님은 X 의 행의 개수와 Y 의 행의 개수가 같아야된다고 했는데 둘 다 열의 개수 아닌가?)
+⇒ *행렬곱에서는 X 의 열의 개수와 Y 의 행의 개수가 같아야하고, 행렬의 내적에서는 X 의 열의 개수 (행벡터 크기) 와 Y 의 열의 개수가 같아야 함! 
 
 ### 행렬의 이해 (2)
 
@@ -608,7 +607,6 @@ def angle(x, y):
 - 응용 1 : 변수 개수와 식의 개수가 같지 않은 연립방정식 풀기
 ⇒ Ax = b 에서 양 변의 앞에 $A^+$ 곱하기
 - 응용 2 : 선형회귀분석에서 데이터가 변수 개수보다 많거나 같을 때 사용 (행이 더 많기 때문에 방정식을 푸는 것은 불가능 → L2 norm 을 최소하하는 웨이트 찾기 가능), 양 변 앞에 $X^T$ 곱함
-    (Q. 어떻게 L2노름을 최소화하는지 모르겠음)
     - `sklearn` 의 `LinearRegression` 과 같은 결과를 가져올 수 있음
 
     ```python
@@ -620,7 +618,7 @@ def angle(x, y):
 
     # Moore-Penrose 역행렬
     X_ = np.array([np.append(x, [1]) for x in X]) # y 절편 (1) (intercept) 항을 직접 추가해야함
-    beta = np.linalg.pinv(X_) @ y # @ 가 행렬곱 표시인듯
+    beta = np.linalg.pinv(X_) @ y # @ 는 행렬곱
     y_test = np.append(x, [1]) @ beta
     ```
 
@@ -663,4 +661,4 @@ def angle(x, y):
 
 ## 손으로 따라하기
 
-강의를 보면 다양한 예제가 나오는데 하나하나 따라하기 시간이 오래 걸린다. 하지만 아무리 시간이 걸려도 익숙해지려면 직접 손으로 따라하는게 가장 학습 효과가 좋다는 생각이 들었다. 다만, 능숙하게 다를 수 있는 부분은 스킵하고 익숙지 않은 부분은 반드시 따라해야겠다.
+강의를 보면 다양한 예제가 나오는데 하나하나 따라하다보면 시간이 오래 걸린다. 하지만 오늘 피어 세션에서 노트 정리한 내용들을 같이 보니 하나하나 따라하는 조원들이 많았고 시간이 걸려도 익숙해지려면 직접 손으로 따라하는게 맞구나라는 생각이 들었다. 능숙하게 다를 수 있는 부분은 스킵하되 익숙지 않은 부분은 꼭 따라해야지.
