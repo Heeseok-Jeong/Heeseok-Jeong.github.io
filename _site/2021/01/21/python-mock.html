@@ -185,12 +185,13 @@
   <p>test_module.py</p>
 </blockquote>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">from</span> <span class="nn">utiltest.mock</span> <span class="kn">import</span> <span class="n">patch</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">import</span> <span class="nn">unittest</span>
+  <span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span>
   <span class="kn">import</span> <span class="nn">module</span>
 
   <span class="k">class</span> <span class="nc">TestModule</span><span class="p">(</span><span class="n">unittest</span><span class="p">.</span><span class="n">TestCase</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">test_main</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-      <span class="c1"># 입력은 반드시 영어 소문자만 들어옴을 보장
+      <span class="c1"># 입력은 반드시 영어 소문자나 0만 들어옴을 보장
 </span>      <span class="n">input_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 
       <span class="c1"># with 를 사용한 mock 객체 생성

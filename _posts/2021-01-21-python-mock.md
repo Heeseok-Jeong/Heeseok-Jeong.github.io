@@ -98,12 +98,13 @@ sitemap :
 > test_module.py
 
 ```python
-  from utiltest.mock import patch
+  import unittest
+  from unittest.mock import patch
   import module
 
   class TestModule(unittest.TestCase):
     def test_main(self):
-      # 입력은 반드시 영어 소문자만 들어옴을 보장
+      # 입력은 반드시 영어 소문자나 0만 들어옴을 보장
       input_list = ['a', 'd', 0]
 
       # with 를 사용한 mock 객체 생성
