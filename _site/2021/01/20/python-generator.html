@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Python Generator" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="Python" />
+  <meta name="description" content="Generator, Iterator, Iterable" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Python Generator" />
+  <meta property="og:description" content="Generator, Iterator, Iterable" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2021/01/20/python-generator.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Python Generator" />
+  <meta name="twitter:description" content="Generator, Iterator, Iterable" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Python Generator</title>
+</head>
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Python Generator</h1>
+    <p class="subtitle">Generator, Iterator, Iterable</p>
+    <p class="meta">
+      January 20, 2021
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+<p><br /></p>
+
+<ul>
+  <li><a href="#효율적인-메모리-공간">효율적인 메모리 공간</a></li>
+  <li><a href="#결론">결론</a></li>
+</ul>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<h1 id="효율적인-메모리-공간">효율적인 메모리 공간</h1>
+
+<p><br /></p>
+
+<p>리스트에 1 부터 100 까지 값을 넣으면 항상 최대 크기로 메모리를 잡아먹기 때문에 비효율적이다. 작은 양의 데이터를 다룰 때는 큰 문제가 되지 않지만 많은 양의 데이터를 다룰 때 이는 문제가 된다. 그렇다면 효율적으로 데이터를 메모리에 할당하고 사용할 수 있는 방법은 없을까?</p>
+
+<p><br /></p>
+
+<h2 id="정답은-generator">정답은 Generator</h2>
+
+<p>제너레이터는 <code class="language-plaintext highlighter-rouge">Iterator</code> 를 편하게 생성해주는 함수이다. <code class="language-plaintext highlighter-rouge">Iterator</code> 는 메모리에 모든 데이터를 담고 있지 않고 호출될 때만 하나씩 데이터를 생성해주기 때문에 효율적으로 메모리를 사용할 수 있다.</p>
+
+<p><br /></p>
+
+<p>제너레이터로 <code class="language-plaintext highlighter-rouge">Iterator</code> 를 만드는 데에는 두가지 방법이 있다.<br />
+<br /></p>
+
+<dl>
+  <dt>(1) <code class="language-plaintext highlighter-rouge">yield</code> 를 사용하는 제너레이터 함수</dt>
+  <dd>함수 안에서 <code class="language-plaintext highlighter-rouge">yield</code> 로 값을 넘겨주면 메모리만 기억해놓고 실제 사용할 때 값을 할당한다.</dd>
+</dl>
+
+<p><br /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">generate_range</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">i</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">generate_range</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1"># 0
+# 1
+# 2
+</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<dl>
+  <dt>(2) generator comprehension (= expression)</dt>
+  <dd>리스트 컴프리헨션과 비슷하지만 [ ] 가 아닌 ( ) 로 표현하면 제너레이터가 된다.<br />
+-&gt; <code class="language-plaintext highlighter-rouge">(i for i in range(v))</code></dd>
+</dl>
+
+<p><br /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">v</span><span class="p">)):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1"># 0
+# 1
+# 2
+</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h2 id="iterator-와-iterable">Iterator 와 Iterable</h2>
+<p><code class="language-plaintext highlighter-rouge">Iterator</code> 와 <code class="language-plaintext highlighter-rouge">Iterable</code> 은 이름은 비슷하지만 다르다. <br />
+<br /></p>
+
+<p>먼저 <code class="language-plaintext highlighter-rouge">Iterable</code> 은 seqence 형태로 반복적인 원소를 지닌 데이터 구조를 말한다. 리스트, 셋, 딕트 등이 포함된다. <br />
+<br /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Iterator</code> 는 <code class="language-plaintext highlighter-rouge">Iterable</code> 객체를 받아서 next 함수를 통해 원소를 하나씩 살펴본다. 단, 모든 원소를 다 돌면 더이상 볼 메모리가 없기 때문에 <code class="language-plaintext highlighter-rouge">StopIteration</code> exception 을 호출하고, 만약 다시 이미 봤던 원소 조회를 하고 싶다면 새로운 <code class="language-plaintext highlighter-rouge">Iterator</code> 객체를 생성해야한다. 왜냐하면 메모리를 하나씩 참조하면서 이미 본 것은 삭제해버리기 때문이다.</p>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<h1 id="결론">결론</h1>
+
+<p><br /></p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">Generator</code> 는 <code class="language-plaintext highlighter-rouge">Iterator</code> 를 <code class="language-plaintext highlighter-rouge">yield</code> 함수나 <code class="language-plaintext highlighter-rouge">generator comprehension</code> 을 통해 생성해주는 함수이고 <code class="language-plaintext highlighter-rouge">Iterator</code> 는 사용될 때에만 메모리를 하나씩 참조하여 일반적인 자료 구조를 사용하는 것보다 효율적으로 메모리를 관리할 수 있다.</p>
+</blockquote>
+
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>

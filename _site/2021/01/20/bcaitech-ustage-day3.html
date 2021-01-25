@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Ustage Day 3" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="BoostCamp AI Tech" />
+  <meta name="description" content="파이썬 자료구조와 파이써닉 코딩" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Ustage Day 3" />
+  <meta property="og:description" content="파이썬 자료구조와 파이써닉 코딩" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2021/01/20/bcaitech-ustage-day3.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Ustage Day 3" />
+  <meta name="twitter:description" content="파이썬 자료구조와 파이써닉 코딩" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Ustage Day 3</title>
+</head>
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Ustage Day 3</h1>
+    <p class="subtitle">파이썬 자료구조와 파이써닉 코딩</p>
+    <p class="meta">
+      January 20, 2021
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+
+<ul>
+  <li><a href="#python-data-structure">Python Data Structure</a></li>
+  <li><a href="#pythonic-code">Pythonic Code</a></li>
+  <li><a href="#피어-세션">피어 세션</a></li>
+  <li><a href="#느낀점">느낀점</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="python-data-structure">Python Data Structure</h1>
+
+<h2 id="stack">Stack</h2>
+
+<ul>
+  <li>나중에 넣은 데이터를 먼저 반환하도록 설계된 메모리 구조 (LIFO, Last In First Out)</li>
+  <li>데이터 입력을 push, 출력을 pop 이라 함</li>
+  <li>list 로 스택 가능
+    <ul>
+      <li>list.append()</li>
+      <li>list.pop() : 특이한게 리턴 (나오는 값) 이 있으면서도 리스트가 변함</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="queue">Queue</h2>
+
+<ul>
+  <li>먼저 넣은 데이터를 먼저 반환하도록 설계된 메모리 구조 (FIFO, First In First Out)</li>
+  <li>스택과 반대되는 개념</li>
+  <li>리스트를 사용하여 큐 구조 가능
+    <ul>
+      <li>list.append()</li>
+      <li>list.pop(0) : 처음 원소 빠짐, O(N) 으로 비효율적</li>
+    </ul>
+  </li>
+  <li>collections.deque 로 queue 사용하도록 하자
+    <ul>
+      <li>deque.append()</li>
+      <li>deque.popleft()</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="tuple">Tuple</h2>
+
+<ul>
+  <li>값의 변경이 불가능한 리스트</li>
+  <li>선언시 [] 가 아닌 () 를 사용</li>
+  <li>리스트의 연산, 인덱싱, 슬라이싱 등을 동일하게 사용</li>
+  <li>왜 쓸까?
+    <ul>
+      <li>프로그램을 작동하는 동안 변경되지 않는 데이터 저장</li>
+      <li>함수의 리턴값 등 사용자의 실수에 의한 에러를 사전에 방지</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="set">Set</h2>
+
+<ul>
+  <li>값을 순서없이 저장, 중복 허용하지 않는 자료형</li>
+  <li>set([1, 2]) 로 선언</li>
+  <li>내장 함수
+    <ul>
+      <li>add : 한 원소 추가</li>
+      <li>remove : 한 원소 삭제</li>
+      <li>update : 한 번에 원소들 추가</li>
+      <li>s1.union(s2) or s1 (shift) s2 : 합집합</li>
+      <li>s1.intersection(s2) or s1 &amp; s2 : 교집합</li>
+      <li>s1.difference(s2) or s1 - s2 : 차집합</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="dict">Dict</h2>
+
+<ul>
+  <li>데이터를 키와 밸류로 함께 저장</li>
+  <li>키는 데이터 고유 값, Identifier !</li>
+  <li>dict() or {} 로 선언</li>
+  <li>{key1 : value1, key2 : [value2, value3]}</li>
+  <li>내장 함수
+    <ul>
+      <li>items : tuple 형태로 키 밸류가 나옴, 반복문에서 언패킹 k, v 해서 많이 사용</li>
+      <li>keys : key 값들만 묶여서 나옴</li>
+      <li>values : values 값들만 묶여서 나옴</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="실습--command-analyzer">실습 : Command Analyzer</h3>
+
+<ul>
+  <li>커맨드 명령어 분석</li>
+</ul>
+
+<h2 id="collections">Collections</h2>
+
+<ul>
+  <li>List, Tuple, Dict 에 대한 파이썬 빌트인 확장 자료 구조 (모듈)</li>
+  <li>편의성, 실행 효율 제공</li>
+  <li>목록
+    <ul>
+      <li>deque</li>
+      <li>Counter</li>
+      <li>OrderedDict</li>
+      <li>defaultdict</li>
+      <li>namedtuple</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="deque">deque</h3>
+
+<ul>
+  <li>스택과 큐를 동시에 지원하는 모듈</li>
+  <li>리스트에 비해 효율적인 자료 저장 방식 적용</li>
+  <li>링크드 리스트 특성 지원</li>
+  <li>기존 리스트 함수 모두 지원</li>
+</ul>
+
+<h3 id="defaultdict">defaultdict</h3>
+
+<ul>
+  <li>
+    <p>일반 딕트는 키값이 생성되지 않으면 에러가 나는데, 디폴트 딕트는 키값 없으면 디폴트 값을 넣어줌</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+  <span class="n">d</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span> <span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">d</span><span class="p">[</span><span class="s">"aa"</span><span class="p">]</span> <span class="c1"># 0
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>텍스트에서 데이터 마이닝할 때 딕트나 디폴트 딕트 이용하면 편리함</p>
+  </li>
+</ul>
+
+<h3 id="counter">Counter</h3>
+
+<ul>
+  <li>sequence type 의 데이터 엘리멘트 개수를 세주는 모듈</li>
+  <li>set 의 연산 지원 (합, 교, 차집합)</li>
+</ul>
+
+<h3 id="namedtuple">namedtuple</h3>
+
+<ul>
+  <li>tuple 형태로 데이터 구조체를 저장하는 방법</li>
+  <li>
+    <p>저장되는 데이터의 variable 을 사전에 지정해서 저장</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">Point</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">'Point'</span><span class="p">,</span> <span class="p">[</span><span class="s">'x'</span><span class="p">,</span> <span class="s">'y'</span><span class="p">])</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+  <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># (11, 22)
+</span>  <span class="n">p</span> <span class="c1"># (Point(x=11, y=22)
+</span>  <span class="n">p</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">p</span><span class="p">.</span><span class="n">y</span> <span class="c1"># 33
+</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="pythonic-code">Pythonic Code</h1>
+
+<ul>
+  <li>파이썬 스타일의 코딩법</li>
+  <li>파이썬 특유의 문법을 활용하여 효율적으로 코드를 표현함</li>
+  <li>이제는 많은 언어들이 서로의 장점을 채용, 고급 코드 작성할 때 더 많이 필요해짐</li>
+  <li>컴퓨터에게 시간이 더 들어도 사람의 시간은 덜 들어서 좋음</li>
+  <li>왜 쓰는가?
+    <ul>
+      <li>다른 사람 코드에 대한 이해도 (많은 개발자들이 파이썬 스타일로 코딩함)</li>
+      <li>효율성 (속도도 빠르고 익숙해지면 코드도 짧아짐)</li>
+      <li>간지 (잘 짜는 거처럼 보임)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="split--join">split &amp; join</h2>
+
+<ul>
+  <li>split
+    <ul>
+      <li>string type 의 값을 기준값으로 나눠서 list 형태로 변환</li>
+    </ul>
+  </li>
+  <li>join
+    <ul>
+      <li>스트링 리스트를 기준값으로 붙여서 스트링으로 변환</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="list-comprehension">list comprehension</h2>
+
+<ul>
+  <li>기존 리스트를 사용하여 간단히 다른 리스트를 만드는 기법 (포괄적인 리스트, 포함되는 리스트라는 의미)</li>
+  <li>파이썬에서 가장 많이 사용되는 기법 중 하나</li>
+  <li>일반적으로 for + append 보다 속도가 빠름</li>
+  <li>Nested For loop
+    <ul>
+      <li>a = [i*j for i in range(1, 3) for j in range(10, 30, 10)] # [10, 20, 20, 40]</li>
+    </ul>
+  </li>
+  <li>Filter (조건)
+    <ul>
+      <li>a = [i for i in range(10) if i % 2 == 0] # 0~9 중 짝수만 a 에 넣기</li>
+    </ul>
+  </li>
+  <li>2차원 for loop
+    <ul>
+      <li>a = [[i+j for i in range(5) if i % 2 == 0] for j in range(5) if i % 2 == 1]</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="pprint">pprint</h3>
+
+<ul>
+  <li>이쁘게 출력</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pprint</span>
+<span class="n">pprint</span><span class="p">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="enumerate--zip">enumerate &amp; zip</h2>
+
+<ul>
+  <li>
+    <p>enumerate : 리스트의 엘리먼트를 추출할 때 번호를 붙여서 추출</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="s">"ABC"</span><span class="p">)</span>
+  	<span class="k">print</span><span class="p">(</span><span class="s">f"</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s"> : </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s">"</span><span class="p">)</span> 
+  <span class="c1"># A : 0
+</span>  <span class="c1"># B : 1
+</span>  <span class="c1"># C : 1
+</span></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>zip : 두 개의 리스트 값을 병렬적으로 추출 (집은 제너레이터라 리스트로 감싸줘야함)</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s">"a"</span><span class="p">,</span> <span class="s">"b"</span><span class="p">,</span> <span class="s">"c"</span><span class="p">]</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="s">"A"</span><span class="p">,</span> <span class="s">"B"</span><span class="p">,</span> <span class="s">"C"</span><span class="p">]</span>
+
+  <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)]</span>
+  <span class="c1"># [("a", "A"), ("b", "B"), ("c", "C")]
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="lambda--map--reduce">lambda &amp; map &amp; reduce</h2>
+
+<ul>
+  <li>lambda : 함수 이름 없이, 함수처럼 쓸 수 있는 익명함수 (사실 파이썬3 부터 권장안함, 하지만 많이쓰임)
+    <ul>
+      <li>f = lambda x, y: x + y</li>
+      <li>어려운 문법, 테스트도 어려움, 문서화 docstring 지원 미비 등 문제가 있다.</li>
+    </ul>
+  </li>
+  <li>map : 두 개 이상의 리스트에도 적용 가능, if filter 도 사용가능 (최근에는 리스트 컴프리헨션으로 쓰는게 낫다 말하지만 많이 씀)
+    <ul>
+      <li>list(map(함수, 리스트1, 리스트2..) : 원소들에 대해 함수 적용</li>
+    </ul>
+  </li>
+  <li>
+    <p>reduce : 맵과 달리 리스트에 똑같은 함수를 적용해서 통합 (직관성이 떨어져서 평소엔 많이 안쓰임, 대용량 데이터 다룰 때 씀)</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
+  <span class="k">print</span><span class="p">(</span><span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]))</span> <span class="c1"># 15
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="iterable-object">Iterable Object</h2>
+
+<ul>
+  <li>Sequence형 자료형에서 데이터를 순서대로 추출하는 object</li>
+  <li>내부적으로 iter 와 next 함수로 구현됨
+    <ul>
+      <li>iter 는 메모리 구조를 가지고 옴</li>
+      <li>next는 메모리를 참고해서 값을 가져옴, 그리고 메모리 다음으로 옮김</li>
+    </ul>
+  </li>
+  <li>리스트 객체는 한 뭉치의 메모리가 있고 각각 주소에서 자기 값에 해당하는 주소를 바라보는 형태</li>
+</ul>
+
+<h2 id="generator">Generator</h2>
+
+<ul>
+  <li>효율적인 메모리 사용, 일반적으로 제너레이터 권장</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">def</span> <span class="nf">general_list</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+		<span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">result</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">general_list</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">sys</span><span class="p">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># 520 (Bytes)
+</span>
+<span class="k">def</span> <span class="nf">generator_list</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+		<span class="k">yield</span> <span class="n">i</span> <span class="c1"># 호출할 때 데이터를 출력해줌
+</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">generator_list</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="c1"># 평소엔 메모리 주소값만 가지고 있다가 호출될 때마다 던져줌, 효율적
+</span><span class="n">sys</span><span class="p">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="c1"># 112 (Bytes)
+</span></code></pre></div></div>
+
+<ul>
+  <li>generator comprehension (= generator expression)
+    <ul class="task-list">
+      <li>리스트 컴프리헨션과 유사한 형태로 제너레이터 형태의 리스트 생성</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />대신 ( ) 사용</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">gen_ex</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">))</span>
+  <span class="nb">type</span><span class="p">(</span><span class="n">gen_ex</span><span class="p">)</span> <span class="c1"># generator, 주소만 있고 메모리 할당은 안함
+</span>  <span class="nb">list</span><span class="p">(</span><span class="n">gen_ex</span><span class="p">)</span> <span class="c1"># 메모리 생성
+</span></code></pre></div>    </div>
+  </li>
+  <li>왜 쓸까? 일반적인 iterator 보다 훨씬 적은 메모리 사용</li>
+  <li>언제 쓸까?
+    <ul>
+      <li>리스트 타입의 데이터를 반환해주는 함수는 generator로 만들어라 (yield)
+        <ul>
+          <li>읽기 쉬운 장점, 중간 과정에서 loop 이 중단될 수 있을 때</li>
+        </ul>
+      </li>
+      <li>큰 데이터 처리할때 generator expression 고려할 것</li>
+      <li>파일 데이터 처리할 때도 generator 쓰자</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="function-passing-arguments">Function passing arguments</h2>
+
+<ul>
+  <li>Keyword arguments
+    <ul>
+      <li>함수에 입력되는 파라미터의 변수명을 사용, 아규먼트를 넘김</li>
+      <li>func(x = 10)</li>
+    </ul>
+  </li>
+  <li>Default arguments
+    <ul>
+      <li>파라미터의 기본 값 사용, 넣어주면 넣은 값 사용</li>
+      <li>def func(x = 1):</li>
+    </ul>
+  </li>
+  <li>Variable-length asterisk (가변길이 에스터리스크*)
+    <ul>
+      <li>
+        <p>함수의 파라미터가 정해지지 않음 (다항 방정식 등)</p>
+
+        <p>→ Asterisk(*) 를 사용하여 개수가 정해지지 않은 변수를 함수의 파라미터로 사용</p>
+      </li>
+      <li>
+        <p>입력된 값은 tuple type 으로 사용 가능</p>
+      </li>
+    </ul>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">def</span> <span class="nf">asterist_test</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+  	<span class="k">return</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="nb">sum</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+  <span class="k">print</span><span class="p">(</span><span class="n">asterisk_test</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># 15K
+</span></code></pre></div>    </div>
+  </li>
+  <li>Keyword variable-length (키워드 가변인자)
+    <ul>
+      <li>파라미터 이름을 따로 지정하지 않고 입력</li>
+      <li>Astserisk 2개 사용</li>
+      <li>입력된 값은 dict_type으로 사용</li>
+      <li>가변인자는 오직 한 개만 기존 가변인자 다음에 사용</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">def</span> <span class="nf">kwargs_test</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+  	<span class="k">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+  	<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
+
+  <span class="n">kwargs_test</span><span class="p">(</span><span class="n">first</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">third</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+  <span class="c1"># {'first' : 3, 'second' : 4, 'third' : 5}
+</span>  <span class="c1"># &lt;class 'dict'&gt;
+</span>
+  <span class="k">def</span> <span class="nf">kwargs_test_2</span><span class="p">(</span><span class="n">one</span><span class="p">,</span> <span class="n">two</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+  	<span class="k">print</span><span class="p">(</span><span class="n">one</span> <span class="o">+</span> <span class="n">two</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+
+  <span class="n">kwargs_test_2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">first</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">second</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">third</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+  <span class="c1"># one = 10, two = 30, args = (3, 5, 6, 7), kwargs = {'first' : 3, 'second' : 4, 'third' : 5}
+</span>  <span class="c1"># 가변인자 순서 지켜줘야 함
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="asterisk-의-또다른-기능---unpacking-a-container">asterisk 의 또다른 기능 - unpacking a container</h2>
+
+<ul>
+  <li>tuple, dict 등 자료형에 들어가 있는 값을 언패킹</li>
+  <li>
+    <p>함수의 입력값, zip 등에 유용하게 사용가능</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">def</span> <span class="nf">ast1</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+  	<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+  	<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+
+  <span class="n">test</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+  <span class="n">ast1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">test</span><span class="p">)</span> <span class="c1"># 입력할 때 별표치면 풀려서(언패킹) 들어감
+</span>  <span class="c1"># 1 (2, 3, 4, 5)
+</span>  <span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">tuple</span><span class="s">'&gt;
+
+  def ast2(a, args):
+
+</span></code></pre></div>    </div>
+  </li>
+  <li>함수 입력할 때 변수에 * 를 붙이면 풀려서 들어간다.</li>
+  <li>
+    <ul>
+      <li>두 개 쓰면 dict key = value 됨</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="피어-세션">피어 세션</h1>
+
+<ol>
+  <li>
+    <dl>
+      <dt>Generator 의 yield 는 어떻게 메모리를 할당하고 어떤 방식으로 동작하는가?</dt>
+      <dd>아직 답을 못찾아서 따로 블로깅 예정!</dd>
+    </dl>
+  </li>
+  <li>
+    <dl>
+      <dt>이론에서는 메모리 공간에 관해 배우는데 일상적으로 메모리 (공간) 를 고려하는 일이 많지 않아보이는데 어떤 상황에서 고려해야할까</dt>
+      <dd>IoT 나 임베디드 컴퓨팅 같이 하드웨어가 작을 때!</dd>
+    </dl>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="느낀점">느낀점</h1>
+
+<h2 id="파이써닉한-코딩">파이써닉한 코딩</h2>
+
+<p>리스트 컴프리헨션부터 애스터리스크 인자까지 다양한 파이썬만의 코딩 스타일을 배울 수 있었다. 기존에 딥러닝 모델 적용과 코딩테스트를 하면서 리스트 컴프리헨션 정도는 눈치껏 배웠었다. 하지만 zip 이나 map 이 파이써닉 한 것인지 몰랐고, 애스터리스크 문법은 처음 배우는 것이라 유익했다.</p>
+
+<h2 id="스타일-변화">스타일 변화</h2>
+
+<p>기존에 하던 습관을 바꾸기란 참 쉽지 않다. 조원들을 보면서 마크다운을 더 잘 써가며 블로깅 해야할 필요성과 모르는 부분에 있어서 대충 알지 않고 끝까지 파고들어 알아내는 습관을 기르고 싶다는 생각이 들었다. 또 파이써닉 코딩 스타일을 보면서 더 멋지게 코딩해야함을 배웠다. 사실 기존 습관이 익숙하다는 것은 귀찮음에 기반한 핑계임을 안다. 습관 바꾸기 쉽지 않겠지만 더 발전하기 위해 변화를 주리라.</p>
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>

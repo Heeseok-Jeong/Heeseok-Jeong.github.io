@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Python 동시 비교의 함정" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="Python" />
+  <meta name="description" content="print(4 != 0 not in [0, 1, 2, 3]) => False" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Python 동시 비교의 함정" />
+  <meta property="og:description" content="print(4 != 0 not in [0, 1, 2, 3]) => False" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2021/01/23/python-concurrent-comparision.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Python 동시 비교의 함정" />
+  <meta name="twitter:description" content="print(4 != 0 not in [0, 1, 2, 3]) => False" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Python 동시 비교의 함정</title>
+</head>
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Python 동시 비교의 함정</h1>
+    <p class="subtitle">print(4 != 0 not in [0, 1, 2, 3]) => False</p>
+    <p class="meta">
+      January 23, 2021
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+
+<p><br /></p>
+
+<ul>
+  <li><a href="#편리한-동시-비교">편리한 동시 비교</a></li>
+  <li><a href="#동시-비교의-함정">동시 비교의 함정</a></li>
+  <li><a href="#결론">결론</a></li>
+</ul>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<h1 id="편리한-동시-비교">편리한 동시 비교</h1>
+<p>(* 정확한 용어를 몰라 동시 비교라고 썼습니다)</p>
+
+<p><br /></p>
+
+<p>C 와 같은 많은 언어와 다르게 파이썬은 동시 비교를 지원한다. 예를 들어 <code class="language-plaintext highlighter-rouge">a &lt; b and b &lt; c</code> 연산을 간단하게<br />
+<code class="language-plaintext highlighter-rouge">a &lt; b &lt; c</code> 이렇게 작성할 수 있는 것이다.<br />
+<br /></p>
+
+<p>내부적으로 동시비교 연산은 <code class="language-plaintext highlighter-rouge">피연산자1 연산자1 피연산자2 연산자2 피연산자3</code> 가 있으면, <br />
+<code class="language-plaintext highlighter-rouge">피연산자1 연산자1 피연산자2 and 피연산자2 연산자2 피연산자3</code> 으로 변환된다. 
+<br /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"We are"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Same"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<h1 id="동시-비교의-함정">동시 비교의 함정</h1>
+
+<p><br /></p>
+
+<p>이렇게 편리해보이기만한 동시 비교는 쉽게 프로그래머로 하여금 함정에 빠지게 한다.</p>
+
+<ol>
+  <li>4 != 0 not in [1, 2, 3]
+ =&gt; True</li>
+  <li>(4 != 0) not in [1, 2, 3]
+ =&gt; False</li>
+  <li>4 != 0 not in [0, 1, 2, 3]
+ =&gt; False</li>
+  <li>(4 != 0) not in [0, 1, 2, 3]
+ =&gt; False</li>
+</ol>
+
+<p><br /></p>
+
+<p>이 문제를 쉽게 맞췄다면 동시 비교 개념을 잘 이해하고 있는 것이다. 하지만 잘 모르겠다면 다시 기본 원리를 생각해보자.<br />
+1 번과 3 번은 <code class="language-plaintext highlighter-rouge">피연산자1 연산자1 피연산자2 연산자2 피연산자3</code> 꼴이므로 <code class="language-plaintext highlighter-rouge">피연산자1 연산자1 피연산자2 and 피연산자2 연산자2 피연산자3</code>
+식으로 치환된다.<br />
+반면, 2 번과 4 번은 괄호로 인해 괄호를 먼저 수행하고 나면 <code class="language-plaintext highlighter-rouge">피연산자1 연산자1 피연산자2</code> 의 형태가 된다.</p>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<h1 id="결론">결론</h1>
+
+<p><br /></p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">피연산자1 연산자1 피연산자2 연산자2 피연산자3</code> 연산은 `피연산자1 연산자1 피연산자2 and 피연산자2 연산자2 피연산자3’
+연산이다.</p>
+</blockquote>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<h1 id="참조">참조</h1>
+<p><br /></p>
+
+<ul>
+  <li><a href="https://docs.python.org/3/reference/expressions.html#comparisons">6.10 Comparisons</a></li>
+</ul>
+
+<p><br /></p>
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>
