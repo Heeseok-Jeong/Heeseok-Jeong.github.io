@@ -102,27 +102,6 @@ while (norm(grad) > eps):
 	grad = gradient(var)
 ```
 
-- 예시
-
-```python
-import numpy as np
-
-X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
-y = np.dot(X, np.array([1, 2])) + 3
-lr = 0.01
-
-beta_gd = [10.1, 15.1, -5] # [1, 2, 3] 이 정답
-X_ = np.array([np.append(x, [1]) for x in X]) # intercept 항 추가
-
-for t in range(5000):
-    error = y - X_ @ beta_gd
-    # error = error / np.linalg.norm(error)
-    grad = - np.transpose(X_) @ error
-    beta_gd = beta_gd - lr * grad
-    
-print(beta_gd)
-```
-
 
 <br>
 
@@ -167,18 +146,39 @@ for t in range(T):
 	beta = beta - lr * grad
 ```
 
+- 예시
+
+```python
+import numpy as np
+
+X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
+y = np.dot(X, np.array([1, 2])) + 3
+lr = 0.01
+
+beta_gd = [10.1, 15.1, -5] # [1, 2, 3] 이 정답
+X_ = np.array([np.append(x, [1]) for x in X]) # intercept 항 추가
+
+for t in range(5000):
+    error = y - X_ @ beta_gd
+    # error = error / np.linalg.norm(error)
+    grad = - np.transpose(X_) @ error
+    beta_gd = beta_gd - lr * grad
+    
+print(beta_gd)
+```
+
 - lr 을 잘 맞춰줘야 함, 너무 작으면 수렴 못하고, 너무 크면 부호가 바껴버림
 
 ### 경사하강법은 만능일까?
 
 - 이론적으로 미분가능한 볼록 (convex) 함수에 대해서는 적절한 학습률과 학습횟수를 선택했을 때 수렴이 보장됨
-- 특히 선형회귀의 경우 목적식이 회귀계수 $**\beta$ 에 대해 볼록함수** 이기 때문에 수렴 보장
-- 하지만 비선형회귀 문제의 경우 목적식이 볼록하지 않을 수 있으므로 (non-convex ) 수렴이 항상 보장되지 않음
+- 특히 선형회귀의 경우 목적식이 회귀계수 $\beta$ 에 대해 볼록함수 이기 때문에 수렴 보장
+- 하지만 **비선형회귀** 문제의 경우 목적식이 볼록하지 않을 수 있으므로 (non-convex ) 수렴이 항상 보장되지 않음
 
 ## 확률적 경사하강법
 
 - SGD (Stochastic Gradient Descent) 는 모든 데이터를 사용해서 업데이트 하는게 아니라 데이터를 한 개 또는 일부만 활용하여 경사하강법 써서 업데이트
-- non-convex ahrwjrtlrdms SGD 를 통해 최적화할 수 있음
+- non-convex 목적식은 SGD 를 통해 최적화할 수 있음
 - 미니 배치 방식으로 사용
 
     ![ustage_day7_3]({{ site.baseurl }}/assets/img/ustage_day7/ustage_day7_3.png)

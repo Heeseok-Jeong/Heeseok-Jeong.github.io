@@ -212,28 +212,6 @@
 	<span class="n">grad</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 </code></pre></div></div>
 
-<ul>
-  <li>예시</li>
-</ul>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span> <span class="o">+</span> <span class="mi">3</span>
-<span class="n">lr</span> <span class="o">=</span> <span class="mf">0.01</span>
-
-<span class="n">beta_gd</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10.1</span><span class="p">,</span> <span class="mf">15.1</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># [1, 2, 3] 이 정답
-</span><span class="n">X_</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span> <span class="c1"># intercept 항 추가
-</span>
-<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">):</span>
-    <span class="n">error</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">X_</span> <span class="o">@</span> <span class="n">beta_gd</span>
-    <span class="c1"># error = error / np.linalg.norm(error)
-</span>    <span class="n">grad</span> <span class="o">=</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">X_</span><span class="p">)</span> <span class="o">@</span> <span class="n">error</span>
-    <span class="n">beta_gd</span> <span class="o">=</span> <span class="n">beta_gd</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
-    
-<span class="k">print</span><span class="p">(</span><span class="n">beta_gd</span><span class="p">)</span>
-</code></pre></div></div>
-
 <p><br /></p>
 
 <hr />
@@ -283,6 +261,28 @@
 </code></pre></div></div>
 
 <ul>
+  <li>예시</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+<span class="n">beta_gd</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10.1</span><span class="p">,</span> <span class="mf">15.1</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># [1, 2, 3] 이 정답
+</span><span class="n">X_</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span> <span class="c1"># intercept 항 추가
+</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">):</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">X_</span> <span class="o">@</span> <span class="n">beta_gd</span>
+    <span class="c1"># error = error / np.linalg.norm(error)
+</span>    <span class="n">grad</span> <span class="o">=</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">X_</span><span class="p">)</span> <span class="o">@</span> <span class="n">error</span>
+    <span class="n">beta_gd</span> <span class="o">=</span> <span class="n">beta_gd</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
+    
+<span class="k">print</span><span class="p">(</span><span class="n">beta_gd</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
   <li>lr 을 잘 맞춰줘야 함, 너무 작으면 수렴 못하고, 너무 크면 부호가 바껴버림</li>
 </ul>
 
@@ -290,15 +290,15 @@
 
 <ul>
   <li>이론적으로 미분가능한 볼록 (convex) 함수에 대해서는 적절한 학습률과 학습횟수를 선택했을 때 수렴이 보장됨</li>
-  <li>특히 선형회귀의 경우 목적식이 회귀계수 $<strong>\beta$ 에 대해 볼록함수</strong> 이기 때문에 수렴 보장</li>
-  <li>하지만 비선형회귀 문제의 경우 목적식이 볼록하지 않을 수 있으므로 (non-convex ) 수렴이 항상 보장되지 않음</li>
+  <li>특히 선형회귀의 경우 목적식이 회귀계수 $\beta$ 에 대해 볼록함수 이기 때문에 수렴 보장</li>
+  <li>하지만 <strong>비선형회귀</strong> 문제의 경우 목적식이 볼록하지 않을 수 있으므로 (non-convex ) 수렴이 항상 보장되지 않음</li>
 </ul>
 
 <h2 id="확률적-경사하강법">확률적 경사하강법</h2>
 
 <ul>
   <li>SGD (Stochastic Gradient Descent) 는 모든 데이터를 사용해서 업데이트 하는게 아니라 데이터를 한 개 또는 일부만 활용하여 경사하강법 써서 업데이트</li>
-  <li>non-convex ahrwjrtlrdms SGD 를 통해 최적화할 수 있음</li>
+  <li>non-convex 목적식은 SGD 를 통해 최적화할 수 있음</li>
   <li>
     <p>미니 배치 방식으로 사용</p>
 
