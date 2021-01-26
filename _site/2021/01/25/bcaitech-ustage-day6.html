@@ -820,12 +820,13 @@
   <li>무어-펜로즈 역행렬 (유사역행렬) 은 행과 열의 숫자가 달라도 역행렬 구할 수 있음</li>
   <li>$A^+$ 로 표현</li>
   <li>행의 개수가 열의 개수보다 많은 경우 $A^+ = (A^TA)^\mathit{-1}A^T$</li>
-  <li>열의 개수가 행의 개수보다 많은 경운 $A^+ = A^T(A^TA)^\mathit{-1}$</li>
+  <li>열의 개수가 행의 개수보다 많은 경운 $A^+ = A^T(AA^T)^\mathit{-1}$</li>
   <li>$A^+A = I$ 성립</li>
   <li><code class="language-plaintext highlighter-rouge">np.linalg.pinv(Y)</code></li>
   <li>조심할 점
     <ul>
-      <li>행이 열보다 많은 경우, 반드시 $A^+A = I$ 해야만 항등 행렬 나옴</li>
+      <li>행이 열보다 많은 경우, $A^+A = I$ 만 성립</li>
+      <li>열이 행보다 많은 경우, $AA^+ = I$ 만 성립</li>
     </ul>
   </li>
   <li>응용 1 : 변수 개수와 식의 개수가 같지 않은 연립방정식 풀기

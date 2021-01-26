@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Ustage Day 7" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="BoostCamp AI Tech" />
+  <meta name="description" content="행렬의 미분과 경사하강법|SGD" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Ustage Day 7" />
+  <meta property="og:description" content="행렬의 미분과 경사하강법|SGD" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2021/01/26/bcaitech-ustage-day7.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Ustage Day 7" />
+  <meta name="twitter:description" content="행렬의 미분과 경사하강법|SGD" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Ustage Day 7</title>
+</head>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        TeX: {
+          equationNumbers: {
+            autoNumber: "AMS"
+          }
+        },
+        tex2jax: {
+        inlineMath: [ ['$', '$'] ],
+        displayMath: [ ['$$', '$$'] ],
+        processEscapes: true,
+      }
+    });
+    MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Ustage Day 7</h1>
+    <p class="subtitle">행렬의 미분과 경사하강법|SGD</p>
+    <p class="meta">
+      January 26, 2021
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+
+<p><br /></p>
+
+<ul>
+  <li><a href="#경사하강법-순한맛-">경사하강법(순한맛)</a></li>
+  <li><a href="#경사하강법-매운맛-">경사하강법(매운맛)</a></li>
+  <li><a href="#피어-세션">피어 세션</a></li>
+  <li><a href="#today-i-felt">Today I Felt</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="경사하강법순한맛">경사하강법(순한맛)</h1>
+
+<p><br /></p>
+
+<h2 id="미분">미분</h2>
+
+<ul>
+  <li><strong>변수의 움직임에 따른 함수값의 변화를 측정하기 위한 도구</strong>로 최적화에서 가장 많이 사용</li>
+  <li>변화율의 극한</li>
+  <li>$f^{‘}(x) = \lim_\mathit{h\rightarrow0}\frac{f(x+h)-f(x)}{h}$</li>
+  <li>파이썬에서 <code class="language-plaintext highlighter-rouge">sympy</code> 모듈의 <code class="language-plaintext highlighter-rouge">sympy.diff</code> 를 사용해 미분 계산 가능</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="n">sym</span>
+<span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span> <span class="c1"># 라틴-그리스 문자 중 x 사용 
+</span>
+<span class="n">sym</span><span class="p">.</span><span class="n">diff</span><span class="p">(</span><span class="n">sym</span><span class="p">.</span><span class="n">poly</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span> <span class="c1"># 첫 인자 : 수식, 두번째 인자 : 미분 대상
+</span>
+<span class="c1"># Poly(2𝑥+2,𝑥,𝑑𝑜𝑚𝑎𝑖𝑛=ℤ)
+</span></code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sympy</code> 는 파이썬에서 제공하는 기호 처리 모듈이다. <code class="language-plaintext highlighter-rouge">LaTeX</code> 수식을 지원하기 때문에 여러 수식이나 문자에 대해 처리해준다. 또한 <code class="language-plaintext highlighter-rouge">sympy</code> 로 함수를 얻고 <code class="language-plaintext highlighter-rouge">numpy</code> 로 처리하는 식으로 함께 사용한다.</li>
+  <li>미분을 그림으로 보자면, f 함수의 그래프의 어떤 점 (벡터) 에서 접선의 기울기이다.</li>
+  <li>미분을 어디에 쓸까?
+    <ul>
+      <li>함수에 주어진 점 (x, f(x)) 에서 접선의 기울기를 구함</li>
+      <li>한 점에서 접선의 기울기를 알면 어느 방향으로 점을 움직여야 함수값이 증가하는지 or 감소하는지 알 수 있다. (차원이 많을 때 특히 유용)
+        <ul>
+          <li>함수값을 증가시키고 싶으면, 기존 함수값에 미분값을 더한다. (Gradient-ascent, 경사상승법, 극대값의 위치를 구할 때 사용)</li>
+          <li>함수값을 감소시키고 싶으면, 기존 함수값에 미분값을 뺀다. (Gradient-descent, 경사하강법, 극소값의 위치를 구할 때 사용)</li>
+          <li>극 값에 도달하면 움직임을 멈춤 (최적화 완료)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="경사하강법">경사하강법</h3>
+
+<ul>
+  <li>변수 1 개일 때</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># gradient : 미분 계산 함수
+# init : 시작점, lr : 학습률, eps : 알고리즘 종료조건
+</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">init</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+<span class="k">while</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">eps</span><span class="p">):</span>
+	<span class="n">var</span> <span class="o">=</span> <span class="n">var</span> <span class="o">-</span> <span class="p">(</span><span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span><span class="p">)</span>
+	<span class="n">grad</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>변수가 벡터라면? (변수가 여러개)
+    <ul>
+      <li>벡터가 입력인 다변수 함수의 경우 편미분 사용</li>
+      <li>편미분
+        <ul>
+          <li>단위 벡터를 이용해서 특정 벡터 원소만 변화율을 구함</li>
+          <li>특정 변수만 변수 취급하고 나머지는 상수 취급하여 미분</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="n">sym</span>
+  <span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+
+  <span class="n">sym</span><span class="p">.</span><span class="n">diff</span><span class="p">(</span><span class="n">sym</span><span class="p">.</span><span class="n">poly</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">sym</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+  <span class="c1"># 2𝑥+2𝑦−sin(𝑥+2𝑦)
+</span></code></pre></div>    </div>
+  </li>
+  <li>각 변수별로 편미분을 계산한 그레디언트 (gradient) 벡터를 이용하여 경사하강/상승법에 사용할 수 있음
+    <ul>
+      <li>그레디언트 벡터 (역삼각형 기호 : nabla, 편미분 기호 : partial)
+        <ul>
+          <li>$\nabla f = (\partial_\mathit{x1}f, \partial_\mathit{x2}f, …, \partial_\mathit{xd}f)$</li>
+        </ul>
+      </li>
+      <li>그레디언트 벡터에 마이너스를 붙인 그래프를 보면 밑으로 움푹패인 모양이 나옴 → 임의의 점에서 극소점으로 향하는 방향을 알 수 있게됨</li>
+    </ul>
+  </li>
+  <li>그레디언트 벡터를 사용한 경사하강법 알고리즘</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 위에 있는 변수 하나에 대한 경사하강법과 거의 같음, 그레디언트 벡터는 절대값을 씌울 수 없기 때문에 norm (크기) 를 구함
+# gradient : 그레디언트 벡터를 계산하는 함수
+# init : 시작점, lr : 학습률, eps : 알고리즘 종료조건
+</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">init</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">eps</span><span class="p">):</span>
+	<span class="n">var</span> <span class="o">=</span> <span class="n">var</span> <span class="o">-</span> <span class="p">(</span><span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span><span class="p">)</span>
+	<span class="n">grad</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="경사하강법매운맛">경사하강법(매운맛)</h1>
+
+<p><br /></p>
+
+<h2 id="선형회귀분석-복습">선형회귀분석 복습</h2>
+
+<ul>
+  <li>n 개의 변수 데이터에 대해 이를 가장 잘 표현하는 선을 찾는 방법</li>
+  <li>데이터가 차원보다 많기 때문에 무어-펜로즈 역행렬을 이용해야함</li>
+  <li>y_hat (주어진 y 와 가장 비슷한 선형)</li>
+  <li>이번 시간에는 무어-펜로즈 역행렬 이용하지 않고 경사하강법을 이용해서 적절한 선형모델을 찾을 것! (이 방법이 기계학습에서 더 일반적)</li>
+</ul>
+
+<h2 id="경사하강법으로-선형회귀-계수-구하기">경사하강법으로 선형회귀 계수 구하기</h2>
+
+<ul>
+  <li>선형회귀 목적식 : $|y - X\beta |_2$
+($|$ : 벡터의 크기 (노름), 옆에 밑숫자 : L-1or2 노름)</li>
+  <li>목적식에 대한 그레디언트 벡터를 구해야함, 목적식을 최소화하는 $\beta$ 를 찾기 위해</li>
+  <li>
+    <p>기존 L2 노름과 다른 점은 n 개의 데이터로 계산하기 때문에 평균값을 구해주기 위해 제곱 시그마에 n 을 나눔</p>
+
+    <p><img src="/assets/img/ustage_day7/ustage_day7_1.png" alt="ustage_day7_1" /></p>
+  </li>
+  <li>t+1 번째 $\beta$ 는 t 번째 $\beta$ - lr * t 번째 그레디언트 벡터 이다.</li>
+  <li>
+    <p>그레디언트 벡터 구할 때, 제곱을 이용하면 더 편리함</p>
+
+    <p><img src="/assets/img/ustage_day7/ustage_day7_2.png" alt="ustage_day7_2" /></p>
+  </li>
+  <li>경사하강법 기반 선형회귀 알고리즘</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># norm : L2-노름을 계산하는 함수
+# lr : 학습률, T : 학습횟수, beta : 예측값
+</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+	<span class="n">error</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">X</span> <span class="o">@</span> <span class="n">beta</span>
+	<span class="n">grad</span> <span class="o">=</span> <span class="o">-</span> <span class="n">transpose</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">@</span> <span class="n">error</span>
+	<span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
+</code></pre></div></div>
+
+<ul>
+  <li>lr 을 잘 맞춰줘야 함, 너무 작으면 수렴 못하고, 너무 크면 부호가 바껴버림</li>
+</ul>
+
+<h3 id="경사하강법은-만능일까">경사하강법은 만능일까?</h3>
+
+<ul>
+  <li>이론적으로 미분가능한 볼록 (convex) 함수에 대해서는 적절한 학습률과 학습횟수를 선택했을 때 수렴이 보장됨</li>
+  <li>특히 선형회귀의 경우 목적식이 회귀계수 $<strong>\beta$ 에 대해 볼록함수</strong> 이기 때문에 수렴 보장</li>
+  <li>하지만 비선형회귀 문제의 경우 목적식이 볼록하지 않을 수 있으므로 (non-convex ) 수렴이 항상 보장되지 않음</li>
+</ul>
+
+<h2 id="확률적-경사하강법">확률적 경사하강법</h2>
+
+<ul>
+  <li>SGD (Stochastic Gradient Descent) 는 모든 데이터를 사용해서 업데이트 하는게 아니라 데이터를 한 개 또는 일부만 활용하여 경사하강법 써서 업데이트</li>
+  <li>non-convex ahrwjrtlrdms SGD 를 통해 최적화할 수 있음</li>
+  <li>
+    <p>미니 배치 방식으로 사용</p>
+
+    <p><img src="/assets/img/ustage_day7/ustage_day7_3.png" alt="ustage_day7_3" /></p>
+  </li>
+  <li>
+    <p>데이터를 전체가 아닌 일부로 파라미터를 업데이트하기 때문에 연산자원을 좀 더 효율적으로 활용하는데 도움이 됨</p>
+
+    <p><img src="/assets/img/ustage_day7/ustage_day7_4.png" alt="ustage_day7_4" /></p>
+  </li>
+  <li>원리 : 미니배치 연산
+    <ul>
+      <li>미니배치로 그레디언트 벡터를 계산, 미니배치는 확률적으로 선택하므로 목적식 모양이 바뀜</li>
+      <li>넌컨벡스 함수에서 전체 데이터를 사용하는 경사하강법을 사용했을 때 극소점을 발견못하고 갇혀버리는 반면, 미니배치를 사용하면 여러개의 저점을 찾아내기 때문에 극소점을 발견할 수 있음</li>
+      <li>
+        <p>경사하강법은 직선처럼 내려가지만, SGD 는 지그재그하면서 찾아다님</p>
+
+        <p><img src="/assets/img/ustage_day7/ustage_day7_5.png" alt="ustage_day7_5" /></p>
+      </li>
+    </ul>
+  </li>
+  <li>경사하강법보다 SGD 가 더 머신러닝에 적합함</li>
+  <li>미니배치 사이즈도 잘 맞춰야함, 너무 느려질 수 있기 때문</li>
+  <li>하드웨어적으로도 SGD 를 써야함, 이미지 데이터 2^37 짜리를 한 번에 돌리는건 메모리가 감당 못하기 때문에 미니배치로 쪼개서 해야함 ⇒ 빠르면서 하드웨어 한계 극복(병렬 연산) 가능</li>
+</ul>
+
+<h3 id="교수님-말씀">교수님 말씀</h3>
+
+<ul>
+  <li>경사하강법 알고리즘 수식 정확히 이해하기</li>
+  <li>확률적 경사하강법 충분히 이해하기</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="피어-세션">피어 세션</h1>
+
+<p><br /></p>
+
+<h2 id="수업-관련-질문">수업 관련 질문</h2>
+
+<ol>
+  <li>경사하강법 선형회귀를 코드로 구현할 때 X 행렬에 인터셉트행으로 왜 1 을 추가할까요?</li>
+  <li>SGD 에서 1 에포크는 전체 데이터중 일부를 추출하여 돌리는 것일까요? 아니면 전체 데이터를 랜덤하게 나눠서 다 돌리는걸까요?</li>
+</ol>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="today-i-felt">Today I Felt</h1>
+
+<p><br /></p>
+
+<h2 id="모르면-처음부터">모르면 처음부터</h2>
+
+<p>어제 배운 선형대수의 벡터, 행렬의 내적과 역행렬을 제대로 이해하지 못해 오늘 수업의 개념까지 꼬여버렸다. 멘붕이지만 다시 어제 내용을 처음부터 이해하면서 개념을 익혀야겠다. 포기하지 말자.</p>
+
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>
