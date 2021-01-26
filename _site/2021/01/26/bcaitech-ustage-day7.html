@@ -184,13 +184,13 @@
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="n">sym</span>
   <span class="kn">from</span> <span class="nn">sympy.abc</span> <span class="kn">import</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
 
-  <span class="n">sym</span><span class="p">.</span><span class="n">diff</span><span class="p">(</span><span class="n">sym</span><span class="p">.</span><span class="n">poly</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">sym</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+  <span class="n">sym</span><span class="p">.</span><span class="n">diff</span><span class="p">(</span><span class="n">sym</span><span class="p">.</span><span class="n">poly</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">sym</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
   <span class="c1"># 2𝑥+2𝑦−sin(𝑥+2𝑦)
 </span></code></pre></div>    </div>
   </li>
   <li>각 변수별로 편미분을 계산한 그레디언트 (gradient) 벡터를 이용하여 경사하강/상승법에 사용할 수 있음
     <ul>
-      <li>그레디언트 벡터 (역삼각형 기호 : nabla, 편미분 기호 : partial)
+      <li>그레디언트 벡터 (역삼각형 기호 : nabla, 편미분 기호 : round d)
         <ul>
           <li>$\nabla f = (\partial_\mathit{x1}f, \partial_\mathit{x2}f, …, \partial_\mathit{xd}f)$</li>
         </ul>
@@ -210,6 +210,28 @@
 <span class="k">while</span> <span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">eps</span><span class="p">):</span>
 	<span class="n">var</span> <span class="o">=</span> <span class="n">var</span> <span class="o">-</span> <span class="p">(</span><span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span><span class="p">)</span>
 	<span class="n">grad</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>예시</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span> <span class="o">+</span> <span class="mi">3</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+<span class="n">beta_gd</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10.1</span><span class="p">,</span> <span class="mf">15.1</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># [1, 2, 3] 이 정답
+</span><span class="n">X_</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">])</span> <span class="c1"># intercept 항 추가
+</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5000</span><span class="p">):</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">X_</span> <span class="o">@</span> <span class="n">beta_gd</span>
+    <span class="c1"># error = error / np.linalg.norm(error)
+</span>    <span class="n">grad</span> <span class="o">=</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">X_</span><span class="p">)</span> <span class="o">@</span> <span class="n">error</span>
+    <span class="n">beta_gd</span> <span class="o">=</span> <span class="n">beta_gd</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">grad</span>
+    
+<span class="k">print</span><span class="p">(</span><span class="n">beta_gd</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><br /></p>

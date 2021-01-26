@@ -80,12 +80,12 @@ while (abs(grad) > eps):
     import sympy as sym
     from sympy.abc import x, y
 
-    sym.diff(sym.poly(x**2 + 2*x*y + 3 + sym.cos(x + 2*y), x)
+    sym.diff(sym.poly(x**2 + 2*x*y + 3) + sym.cos(x + 2*y), x)
     # 2𝑥+2𝑦−sin(𝑥+2𝑦)
     ```
 
 - 각 변수별로 편미분을 계산한 그레디언트 (gradient) 벡터를 이용하여 경사하강/상승법에 사용할 수 있음
-    - 그레디언트 벡터 (역삼각형 기호 : nabla, 편미분 기호 : partial)
+    - 그레디언트 벡터 (역삼각형 기호 : nabla, 편미분 기호 : round d)
         - $\nabla f = (\partial_\mathit{x1}f, \partial_\mathit{x2}f, ..., \partial_\mathit{xd}f)$
     - 그레디언트 벡터에 마이너스를 붙인 그래프를 보면 밑으로 움푹패인 모양이 나옴 → 임의의 점에서 극소점으로 향하는 방향을 알 수 있게됨
 - 그레디언트 벡터를 사용한 경사하강법 알고리즘
@@ -101,6 +101,28 @@ while (norm(grad) > eps):
 	var = var - (lr * grad)
 	grad = gradient(var)
 ```
+
+- 예시
+
+```python
+import numpy as np
+
+X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
+y = np.dot(X, np.array([1, 2])) + 3
+lr = 0.01
+
+beta_gd = [10.1, 15.1, -5] # [1, 2, 3] 이 정답
+X_ = np.array([np.append(x, [1]) for x in X]) # intercept 항 추가
+
+for t in range(5000):
+    error = y - X_ @ beta_gd
+    # error = error / np.linalg.norm(error)
+    grad = - np.transpose(X_) @ error
+    beta_gd = beta_gd - lr * grad
+    
+print(beta_gd)
+```
+
 
 <br>
 
