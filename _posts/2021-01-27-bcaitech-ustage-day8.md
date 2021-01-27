@@ -140,19 +140,19 @@ dtype: float64
     '''
     ```
 
-- 자세한 코드는 [DataFrame]([https://github.com/BoostcampAITech/lecture-note-python-basics-for-ai/blob/main/codes/pandas/%231/4_pandas_dataframe.ipynb](https://github.com/BoostcampAITech/lecture-note-python-basics-for-ai/blob/main/codes/pandas/%231/4_pandas_dataframe.ipynb)) 에 있습니다.
+- 자세한 코드는 [DataFrame](https://github.com/BoostcampAITech/lecture-note-python-basics-for-ai/blob/main/codes/pandas/%231/4_pandas_dataframe.ipynb) 에 있습니다.
 - boolean index 로 값 설정 가능
 
 ```python
 df.debt = df.age > 40
 df
 '''
-first_name	last_name	age	city
-0	Jason	Miller	42	San Francisco
-1	Molly	Jacobson	52	Baltimore
-2	Tina	Ali	36	Miami
-3	Jake	Milner	24	Douglas
-4	Amy	Cooze	73	Boston
+first_name	last_name	age	city	debt
+0	Jason	Miller	42	San Francisco	True
+1	Molly	Jacobson	52	Baltimore	True
+2	Tina	Ali	36	Miami	False
+3	Jake	Milner	24	Douglas	False
+4	Amy	Cooze	73	Boston	True
 '''
 ```
 
