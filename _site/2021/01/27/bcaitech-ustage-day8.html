@@ -146,7 +146,7 @@
   <li>결과</li>
 </ul>
 
-<p><img src="/assets/img/ustage_day8/ustage_day8_1.png" alt="ustage_day8_1" /></p>
+<p><img src="/assets/img/ustage_day8/ustage_day8_0.png" alt="ustage_day8_0" /></p>
 
 <h2 id="기본-사용">기본 사용</h2>
 
@@ -281,12 +281,12 @@ first_name	last_name	age	city	debt
     </ul>
   </li>
   <li>fancy index, boolean index 가능</li>
-  <li>인덱스값 설정, df.index = df[“account”]</li>
+  <li>인덱스값 설정, df.account = df[“account”]</li>
   <li>데이터 뽑는 방식 (중요)
     <ol>
       <li>
         <dl>
-          <dt>df[[“name”, “street][:2] # 컬럼과 인덱스 네임</dt>
+          <dt>df[“name”, “street][:2] # 컬럼과 인덱스 네임</dt>
           <dd>해당 시리즈의 인스턴스 2개 가져옴</dd>
         </dl>
       </li>
@@ -304,11 +304,6 @@ first_name	last_name	age	city	debt
       </li>
     </ol>
   </li>
-</ul>
-
-<p>→ 셋 다 같은 결과</p>
-
-<ul>
   <li>reset_index() : 인덱스 값 초기화 (0, 1, 2 …), 원본 안바뀜
     <ul>
       <li>프로퍼티로 inplace=Ture 하면 원본에 적용</li>
@@ -493,6 +488,13 @@ dtype: float64
 
 <span class="c1"># 내장 함수 사용
 </span><span class="n">df_info</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="s">'''
+earn      32446.292622
+height       66.592640
+age          45.328499
+dtype: float64
+'''</span>
 </code></pre></div></div>
 
 <h2 id="pandas-built-in-function">pandas built-in function</h2>
@@ -542,7 +544,7 @@ dtype: float64
 <h3 id="여러개-컬럼-다룰-때">여러개 컬럼 다룰 때</h3>
 
 <ul>
-  <li>컬럼에 대한 리스틀 만들어서 수행</li>
+  <li>컬럼에 대한 리스트를 만들어서 수행</li>
 </ul>
 
 <h3 id="한-번에-볼-수-있는-양-조절">한 번에 볼 수 있는 양 조절</h3>
@@ -584,7 +586,7 @@ dtype: float64
   </li>
 </ul>
 
-<p><a href=""></a></p>
+<p><img src="/assets/img/ustage_day8/ustage_day8_1.png" alt="ustage_day8_1" /></p>
 
 <h2 id="softmax">Softmax</h2>
 
@@ -625,16 +627,16 @@ dtype: float64
 <p><img src="/assets/img/ustage_day8/ustage_day8_2.png" alt="ustage_day8_2" /></p>
 
 <ul>
-  <li>2-layer 신경망 : x → z 에서 W1, 활성함수(시그마)(z) → o 에서 W2 사용</li>
   <li>
-    <p>위 구조를 반복적으로 사용하면 multi-layer perceptron, MLP 신경망이 됨</p>
+    <p>2-layer 신경망 : x → z 에서 W1, 활성함수(시그마)(z) → o 에서 W2 사용</p>
 
     <p><img src="/assets/img/ustage_day8/ustage_day8_3.png" alt="ustage_day8_3" /></p>
   </li>
+  <li>위 구조를 반복적으로 사용하면 multi-layer perceptron, MLP 신경망이 됨</li>
   <li>위 작업은 Forward propagation!</li>
   <li>왜 층을 여러개 쌓나요?
     <ul>
-      <li>층이 깊을수록 목적함수를 근사하는데 필요한 뉴련(노드) 의 숫자가 훨씬 빨리 줄어들어 더 효율적인 학습 가능 → 층이 얇으면 넓은 신경망이 돼야함</li>
+      <li>층이 깊을수록 목적함수를 근사하는데 필요한 뉴런(노드) 의 숫자가 훨씬 빨리 줄어들어 더 효율적인 학습 가능 → 층이 얇으면 넓은 신경망이 돼야함</li>
       <li>층이 깊으면 복잡한 함수 표현은 가능하지만, 최적화는 더 어려워짐 (나중에 convolution 에서 residual 배울 것)</li>
     </ul>
   </li>
@@ -718,14 +720,7 @@ dtype: float64
       <li>확률의 공리 3 조건 무조건 만족해야 확률</li>
       <li>조건부 확률
         <blockquote>
-          <table>
-            <tbody>
-              <tr>
-                <td>P(A</td>
-                <td>B) = P(A교B)/P(B)</td>
-              </tr>
-            </tbody>
-          </table>
+          <p>P(A|B) = P(A교B)/P(B)</p>
         </blockquote>
       </li>
       <li>확률 변수 : 표본공간의 사건 또는 원소를 실수값으로 변환하는 함수

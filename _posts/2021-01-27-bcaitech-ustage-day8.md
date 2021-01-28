@@ -52,7 +52,7 @@ df_data.head()
 
 - 결과
 
-![ustage_day8_1]({{ site.baseurl }}/assets/img/ustage_day8/ustage_day8_1.png)
+![ustage_day8_0]({{ site.baseurl }}/assets/img/ustage_day8/ustage_day8_0.png)
 
 ## 기본 사용
 
@@ -172,16 +172,14 @@ first_name	last_name	age	city	debt
     - df["account"][:3] → 어카운트 시리즈의 0, 1, 2 인덱스 지닌 값들 뽑음
     - 인덱스가 영어인데 숫자로 부르면 안 뽑아짐
 - fancy index, boolean index 가능
-- 인덱스값 설정, df.index = df["account"]
+- 인덱스값 설정, df.account = df["account"]
 - 데이터 뽑는 방식 (중요)
-    1. df[["name", "street][:2] # 컬럼과 인덱스 네임
+    1. df["name", "street][:2] # 컬럼과 인덱스 네임
     : 해당 시리즈의 인스턴스 2개 가져옴
     2. df.loc[[211829, 320563], ["name", "street"] # row 네임, col 네임
     : 해당 인덱스에 해당 컬럼 값 가져옴
     3. df.iloc[:2, :2] # 로우 개수, 컬럼 개수
     : 2개 컬럼의 2개 인스턴스 가져옴
-
-→ 셋 다 같은 결과
 
 - reset_index() : 인덱스 값 초기화 (0, 1, 2 ...), 원본 안바뀜
     - 프로퍼티로 inplace=Ture 하면 원본에 적용
@@ -351,6 +349,13 @@ df_info.apply(np.mean)
 
 # 내장 함수 사용
 df_info.mean()
+
+'''
+earn      32446.292622
+height       66.592640
+age          45.328499
+dtype: float64
+'''
 ```
 
 ## pandas built-in function
@@ -387,7 +392,7 @@ df_info.mean()
 
 ### 여러개 컬럼 다룰 때
 
-- 컬럼에 대한 리스틀 만들어서 수행
+- 컬럼에 대한 리스트를 만들어서 수행
 
 ### 한 번에 볼 수 있는 양 조절
 
@@ -416,7 +421,7 @@ df_info.mean()
 → d 개가 p 개로 가므로 W 는 dxp 개가 있음
     - W 는 d 개의 변수로 p 개의 선형모델을 만들어서 p 개의 잠재변수를 설명하는 모델
 
-[]()
+![ustage_day8_1]({{ site.baseurl }}/assets/img/ustage_day8/ustage_day8_1.png)
 
 ## Softmax
 
@@ -450,13 +455,13 @@ def softmax(vec):
 ![ustage_day8_2]({{ site.baseurl }}/assets/img/ustage_day8/ustage_day8_2.png)
 
 - 2-layer 신경망 : x → z 에서 W1, 활성함수(시그마)(z) → o 에서 W2 사용
-- 위 구조를 반복적으로 사용하면 multi-layer perceptron, MLP 신경망이 됨
 
     ![ustage_day8_3]({{ site.baseurl }}/assets/img/ustage_day8/ustage_day8_3.png)
 
+- 위 구조를 반복적으로 사용하면 multi-layer perceptron, MLP 신경망이 됨
 - 위 작업은 Forward propagation!
 - 왜 층을 여러개 쌓나요?
-    - 층이 깊을수록 목적함수를 근사하는데 필요한 뉴련(노드) 의 숫자가 훨씬 빨리 줄어들어 더 효율적인 학습 가능 → 층이 얇으면 넓은 신경망이 돼야함
+    - 층이 깊을수록 목적함수를 근사하는데 필요한 뉴런(노드) 의 숫자가 훨씬 빨리 줄어들어 더 효율적인 학습 가능 → 층이 얇으면 넓은 신경망이 돼야함
     - 층이 깊으면 복잡한 함수 표현은 가능하지만, 최적화는 더 어려워짐 (나중에 convolution 에서 residual 배울 것)
 
 ## 딥러닝 학습원리: 역전파 알고리즘
@@ -517,7 +522,7 @@ def softmax(vec):
         - 베이지안 학파
     - 확률의 공리 3 조건 무조건 만족해야 확률
     - 조건부 확률
-    > P(A|B) = P(A교B)/P(B)
+    > P(A\|B) = P(A교B)/P(B)
     - 확률 변수 : 표본공간의 사건 또는 원소를 실수값으로 변환하는 함수
         - 이산형 변수
         - 연속형 변수
