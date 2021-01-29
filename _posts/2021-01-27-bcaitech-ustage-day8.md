@@ -413,12 +413,12 @@ dtype: float64
 
 ### 선형 모델
 
-- O(nxp) = X(nxd)W(dxp) + b(nxp)
+- O(n x p) = X(n x d)W(d x p) + b(n x p)
     - X : 데이터 행렬, W : X 각 데이터를 다른 공간으로 보내주는 가중치 행렬
     - b 는 각 행들이 같은 값을 지님 (y 절편 벡터)
 - 아래 그림과 같이 각 데이터 x 는 각 결과 o 에 대해 화살표로 연결됨
 → 화살표는 x 를 o 로 연결하는 W (웨이트) 라고 생각하면 됨
-→ d 개가 p 개로 가므로 W 는 dxp 개가 있음
+→ d 개가 p 개로 가므로 W 는 d x p 개가 있음
     - W 는 d 개의 변수로 p 개의 선형모델을 만들어서 p 개의 잠재변수를 설명하는 모델
 
 ![ustage_day8_1]({{ site.baseurl }}/assets/img/ustage_day8/ustage_day8_1.png)
