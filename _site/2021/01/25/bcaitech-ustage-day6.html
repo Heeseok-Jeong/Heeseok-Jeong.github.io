@@ -712,7 +712,7 @@
   <li><code class="language-plaintext highlighter-rouge">||x - y||</code></li>
 </ul>
 
-<h3 id="두-벡터-사의-각도-구하기">두 벡터 사의 각도 구하기</h3>
+<h3 id="두-벡터-사이의-각도-구하기">두 벡터 사이의 각도 구하기</h3>
 
 <ul>
   <li>L2 노름으로 구할 수 있음</li>
@@ -821,7 +821,6 @@
   <li>$A^+$ 로 표현</li>
   <li>행의 개수가 열의 개수보다 많은 경우 $A^+ = (A^TA)^\mathit{-1}A^T$</li>
   <li>열의 개수가 행의 개수보다 많은 경운 $A^+ = A^T(AA^T)^\mathit{-1}$</li>
-  <li>$A^+A = I$ 성립</li>
   <li><code class="language-plaintext highlighter-rouge">np.linalg.pinv(Y)</code></li>
   <li>조심할 점
     <ul>
@@ -831,7 +830,7 @@
   </li>
   <li>응용 1 : 변수 개수와 식의 개수가 같지 않은 연립방정식 풀기
 ⇒ Ax = b 에서 양 변의 앞에 $A^+$ 곱하기</li>
-  <li>응용 2 : 선형회귀분석에서 데이터가 변수 개수보다 많거나 같을 때 사용 (행이 더 많기 때문에 방정식을 푸는 것은 불가능 → L2 norm 을 최소하하는 웨이트 찾기 가능), 양 변 앞에 $X^T$ 곱함
+  <li>응용 2 : 선형회귀분석에서 데이터가 변수 개수보다 많거나 같을 때 사용 (행이 더 많기 때문에 방정식을 푸는 것은 불가능 → L2 norm 을 최소화하는 웨이트 찾기 가능), 양 변 앞에 $X^T$ 곱함
     <ul>
       <li><code class="language-plaintext highlighter-rouge">sklearn</code> 의 <code class="language-plaintext highlighter-rouge">LinearRegression</code> 과 같은 결과를 가져올 수 있음</li>
     </ul>
