@@ -34,7 +34,7 @@ sitemap :
 
 - **변수의 움직임에 따른 함수값의 변화를 측정하기 위한 도구**로 최적화에서 가장 많이 사용
 - 변화율의 극한
-- $f^{'}(x) = \lim_\mathit{h\rightarrow0}\frac{f(x+h)-f(x)}{h}$
+- $f^{`}(x) = \lim_\mathit{h\rightarrow0}(f(x+h)-f(x))/h$
 - 파이썬에서 `sympy` 모듈의 `sympy.diff` 를 사용해 미분 계산 가능
 
 ```python
