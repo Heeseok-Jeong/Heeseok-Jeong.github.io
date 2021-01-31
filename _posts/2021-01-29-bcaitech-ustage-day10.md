@@ -38,7 +38,7 @@ sitemap :
 
 - pyplot 객체를 사용하여 데이터를 표시
 - pyplot 객체에 그래프들을 쌓은 후 flush(show함수) (보여주고 나면 비움)
-- Graph 는 원래 figure 객체에 생성됨
+- Graph 는 기본 figure 객체에 생성됨
 - pyplot 객체 사용시 기본 figure 에 그래프가 그려짐
 - plot 은 라인 그래프이므로 쌍 안맞추면 이상하게 그려짐 → X 순서대로 Y 값 적을 것
 - plot 만 해도 그려지긴 함, 그래도 show 쓰자

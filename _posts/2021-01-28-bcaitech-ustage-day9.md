@@ -259,7 +259,7 @@ kings	812	812.000000	812
 
 ```python
 score = lambda x: (x - x.mean()) / x.std()
-grouped.transform(score)'
+grouped.transform(score)
 '''
 Rank	Year	Points
 0	-1.500000	-1.161895	1.284327
