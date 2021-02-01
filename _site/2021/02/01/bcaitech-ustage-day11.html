@@ -178,7 +178,7 @@
 
 <h3 id="베이즈-정리-예제">베이즈 정리: 예제</h3>
 
-<p>[사진1]</p>
+<p><img src="/assets/img/ustage_day11/1.png" alt="image1" /></p>
 
 <ul>
   <li>D : 새로 관찰되는 데이터, $\theta$ : 모델에서 계산하고 싶어하는 모수 (가설)</li>
@@ -207,12 +207,12 @@
       </li>
     </ul>
 
-    <p>[사진2]</p>
+    <p><img src="/assets/img/ustage_day11/2.png" alt="image2" /></p>
   </li>
   <li>
     <p>만약 오검진될 확률 (1종 오류) 이 1% 가 아닌 10% 가 된다면?</p>
 
-    <p>[사진3]</p>
+    <p><img src="/assets/img/ustage_day11/3.png" alt="image3" /></p>
 
     <ul>
       <li>오탐율 (False alarm) 이 오르면 테스트의 정밀도 (Precision) 가 떨어짐</li>
@@ -222,7 +222,7 @@
 
 <h3 id="조건부-확률의-시각화">조건부 확률의 시각화</h3>
 
-<p>[사진4]</p>
+<p><img src="/assets/img/ustage_day11/4.png" alt="image4" /></p>
 
 <ul>
   <li>confusion matrix 라고도 함</li>
@@ -241,13 +241,13 @@
   <li>베이즈 정리를 통해 새로운 데이터가 들어왔을 때 앞서 계산한 사후확률을 사전확률로 사용하여 <strong>갱신된 사후확률을 계산</strong>할 수 있음</li>
 </ul>
 
-<p>[사진5]</p>
+<p><img src="/assets/img/ustage_day11/5.png" alt="image5" /></p>
 
 <ul>
   <li>앞서 판정 받은 사람이 두 번째 검진에서도 양성 판정을 받았을 때 진짜 발병했을 확률은?</li>
 </ul>
 
-<p>[사진6]</p>
+<p><img src="/assets/img/ustage_day11/6.png" alt="image6" /></p>
 
 <h2 id="조건부-확률--인과관계">조건부 확률 → 인과관계?</h2>
 
@@ -257,14 +257,14 @@
   <li>
     <p>인과관계는 <strong>데이터 분포의 변화에 강건한 예측모형</strong>을 만들 때 필요, 단, 인과관계 만으로는 높은 예측 정확도를 담보하기는 어려움 (데이터 분포 변화 강건하지만 예측 정확도는 조건부 확률보다 낮다)</p>
 
-    <p>[사진7]</p>
+    <p><img src="/assets/img/ustage_day11/7.png" alt="image7" /></p>
   </li>
   <li>인과관계를 알아내기 위해서는 <strong>중첩요인 Z (confounding factor) 의 효과를 제거</strong>하고 원인에 해당하는 변수만의 인과관계를 계산해야 함, 만일 Z 의 효과를 제거하지 않으면 가짜 연관성 (spurious correlation) 이 나옴
     <ul>
       <li>키가 클수록 지능이 좋다 → 어린 아이 (키가 작은) 같이 연령에 따른 지능 지수는 고려하지 않았기 때문에 이런 결과가 나옴</li>
     </ul>
 
-    <p>[사진8]</p>
+    <p><img src="/assets/img/ustage_day11/8.png" alt="image8" /></p>
   </li>
 </ul>
 
@@ -276,12 +276,12 @@
   <li>
     <p>조정 효과를 통해 Z 의 개입을 제거함</p>
 
-    <p>[사진9]</p>
+    <p><img src="/assets/img/ustage_day11/9.png" alt="image9" /></p>
   </li>
   <li>
     <p>인과 관계 고려한 분석이 조건부보다 더 좋은 결과 나옴, 변수들끼리 관계 파악해야함</p>
 
-    <p>[사진10]</p>
+    <p><img src="/assets/img/ustage_day11/10.png" alt="image10" /></p>
   </li>
 </ul>
 
@@ -710,7 +710,7 @@ epoch 99, loss 0.1929432600736618
   <li>Data : 1 차원의 x, y 데이터 1~N 개</li>
   <li>Model : y_hat = wx + b</li>
   <li>Loss : 정답과 예측값 차이의 제곱 평균
-[사진11]</li>
+<img src="/assets/img/ustage_day11/11.png" alt="image11" /></li>
   <li>경사하강법, optimization variables 업데이트하는 방법
     <ul>
       <li>loss 를 w 에 대해 편미분하고 이를 lr 과 곱하여 현재 w 에서 뺌.</li>
@@ -718,7 +718,7 @@ epoch 99, loss 0.1929432600736618
       <li>딥러닝에서는 마지막 층의 w 와 시작점에 대한 영향력을 알기 위해 바로 옆 레이어끼리 편미분하여 각각의 값에 경사하강법 수행</li>
     </ul>
 
-    <p>[사진12]</p>
+    <p><img src="/assets/img/ustage_day11/12.png" alt="image12" /></p>
 
     <ul>
       <li>적절한 스텝사이즈를 잡아야 함</li>
@@ -727,7 +727,7 @@ epoch 99, loss 0.1929432600736618
   <li>
     <p>다차원의 input 과 output 이라면 행렬 연산 수행</p>
 
-    <p>[사진13]</p>
+    <p><img src="/assets/img/ustage_day11/13.png" alt="image13" /></p>
 
     <ul>
       <li>행렬은 두 개의 벡터 공간을 선형 변환 (연결) 해주는 것으로 이해 가능</li>
@@ -738,7 +738,7 @@ epoch 99, loss 0.1929432600736618
       <li>근데 여기서 선형 결합만 계속 반복하는건 1번의 선형결합과 다를게 없음 → 비선형함수와 결합해서 표현을 극대화한 벡터를 얻어서 다음 스텝 수행</li>
     </ul>
 
-    <p>[사진14]</p>
+    <p><img src="/assets/img/ustage_day11/14.png" alt="image14" /></p>
   </li>
   <li>Activation functions (비선형 함수)
     <ul>

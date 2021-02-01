@@ -48,7 +48,7 @@ sitemap :
 
 ### 베이즈 정리: 예제
 
-[사진1]
+![image1]({{ site.baseurl }}/assets/img/ustage_day11/1.png)
 
 - D : 새로 관찰되는 데이터, $\theta$ : 모델에서 계산하고 싶어하는 모수 (가설)
 - 사후확률 : 데이터를 관찰했을 때, 이 가설이 성립할 확률 (데이터 관찰 이후 측정하기 때문에 사후확률)
@@ -63,17 +63,17 @@ sitemap :
     - $\theta$ 를 COVID-99 발병 사건으로 정의 (관찰 불가) 하고, $D$ 를 테스트 결과라고 정의 (관찰 가능) 함.
     - $P(D)$, evidence 를 구해서 풀면됨, $P(D\ |\ \urcorner\theta)$ 를 모르면 풀기 어려움
 
-    [사진2]
+    ![image2]({{ site.baseurl }}/assets/img/ustage_day11/2.png)
 
 - 만약 오검진될 확률 (1종 오류) 이 1% 가 아닌 10% 가 된다면?
 
-    [사진3]
+    ![image3]({{ site.baseurl }}/assets/img/ustage_day11/3.png)
 
     - 오탐율 (False alarm) 이 오르면 테스트의 정밀도 (Precision) 가 떨어짐
 
 ### 조건부 확률의 시각화
 
-[사진4]
+![image4]({{ site.baseurl }}/assets/img/ustage_day11/4.png)
 
 - confusion matrix 라고도 함
 - True Positive : 양성이 나왔을 때 실제 발병한 경우
@@ -88,11 +88,11 @@ sitemap :
 
 - 베이즈 정리를 통해 새로운 데이터가 들어왔을 때 앞서 계산한 사후확률을 사전확률로 사용하여 **갱신된 사후확률을 계산**할 수 있음
 
-[사진5]
+![image5]({{ site.baseurl }}/assets/img/ustage_day11/5.png)
 
 - 앞서 판정 받은 사람이 두 번째 검진에서도 양성 판정을 받았을 때 진짜 발병했을 확률은?
 
-[사진6]
+![image6]({{ site.baseurl }}/assets/img/ustage_day11/6.png)
 
 ## 조건부 확률 → 인과관계?
 
@@ -100,12 +100,12 @@ sitemap :
 - 데이터가 많아져도 조건부 확률만 가지고 인과관계를 추론하는 것은 불가능
 - 인과관계는 **데이터 분포의 변화에 강건한 예측모형**을 만들 때 필요, 단, 인과관계 만으로는 높은 예측 정확도를 담보하기는 어려움 (데이터 분포 변화 강건하지만 예측 정확도는 조건부 확률보다 낮다)
 
-    [사진7]
+    ![image7]({{ site.baseurl }}/assets/img/ustage_day11/7.png)
 
 - 인과관계를 알아내기 위해서는 **중첩요인 Z (confounding factor) 의 효과를 제거**하고 원인에 해당하는 변수만의 인과관계를 계산해야 함, 만일 Z 의 효과를 제거하지 않으면 가짜 연관성 (spurious correlation) 이 나옴
     - 키가 클수록 지능이 좋다 → 어린 아이 (키가 작은) 같이 연령에 따른 지능 지수는 고려하지 않았기 때문에 이런 결과가 나옴
 
-    [사진8]
+    ![image8]({{ site.baseurl }}/assets/img/ustage_day11/8.png)
 
 ### 인과관계 추론 : 예제
 
@@ -113,11 +113,11 @@ sitemap :
 - 전체적으로 봤을 때는 치료법 b 의 완치율이 높지만 각각의 환자에 대한 완치율을 보면 a 의 완치율이 더 높음 → 전체 평균으로 계산하면 오류를 범함 (심슨 패러독스)
 - 조정 효과를 통해 Z 의 개입을 제거함
 
-    [사진9]
+    ![image9]({{ site.baseurl }}/assets/img/ustage_day11/9.png)
 
 - 인과 관계 고려한 분석이 조건부보다 더 좋은 결과 나옴, 변수들끼리 관계 파악해야함
 
-    [사진10]
+    ![image10]({{ site.baseurl }}/assets/img/ustage_day11/10.png)
 
 <br>
 
@@ -459,24 +459,24 @@ with torch.no_grad(): # we don't need gradients in the testing phase
 - Data : 1 차원의 x, y 데이터 1~N 개
 - Model : y_hat = wx + b
 - Loss : 정답과 예측값 차이의 제곱 평균
-[사진11]
+![image11]({{ site.baseurl }}/assets/img/ustage_day11/11.png)
 - 경사하강법, optimization variables 업데이트하는 방법
     - loss 를 w 에 대해 편미분하고 이를 lr 과 곱하여 현재 w 에서 뺌.
     - 마찬가지로 b 에 대해서도, loss 를 b 에 대해 편미분하고 이를 lr 과 곱하여 현재 b 에서 뺌.
     - 딥러닝에서는 마지막 층의 w 와 시작점에 대한 영향력을 알기 위해 바로 옆 레이어끼리 편미분하여 각각의 값에 경사하강법 수행
 
-    [사진12]
+    ![image12]({{ site.baseurl }}/assets/img/ustage_day11/12.png)
 
     - 적절한 스텝사이즈를 잡아야 함
 - 다차원의 input 과 output 이라면 행렬 연산 수행
 
-    [사진13]
+    ![image13]({{ site.baseurl }}/assets/img/ustage_day11/13.png)
 
     - 행렬은 두 개의 벡터 공간을 선형 변환 (연결) 해주는 것으로 이해 가능
 - 딥러닝은 여기서 히든 레이어와 W 를 더 늘려 나감
     - 근데 여기서 선형 결합만 계속 반복하는건 1번의 선형결합과 다를게 없음 → 비선형함수와 결합해서 표현을 극대화한 벡터를 얻어서 다음 스텝 수행
 
-    [사진14]
+    ![image14]({{ site.baseurl }}/assets/img/ustage_day11/14.png)
 
 - Activation functions (비선형 함수)
     - ReLU
