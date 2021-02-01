@@ -195,16 +195,16 @@ sitemap :
     - Attention Is All You Need
     - 지금은 어텐션이 웬만한 분야 모델 다 이김
     - Multi head attention 이해 하는거 중요
-    - 기존 구조에 비해 어떤 장점이 있고 장점이 있는지 중요
+    - 기존 구조에 비해 어떤 장점이 있는지 중요
 - 2018 - BERT
     - Bidirectional Encoder Representations from Transformer
-    - 날씨 예측이나 뉴스 기사 작성 모델을 만들고 싶은데 뉴스 기사 데이터가 별로 없음, pre-training 에서는 굉장히 큰 말 뭉치를 사용 → Fine-Tuning 에서 소수의 뉴스 기사 데이터를 줘서 좋은 성능 냄
+    - 날씨 예측이나 뉴스 기사 작성 모델을 만들고 싶은데 뉴스 기사 데이터가 별로 없을 때, pre-training 에서는 굉장히 큰 말 뭉치를 사용 → Fine-Tuning 에서 소수의 뉴스 기사 데이터를 줘서 좋은 성능 냄
 - 2019 - Big Language Models
     - OpenAI 에서 GPT-3 냈음
     - 굉장히 많은 파라미터 (1750억개) 를 사용하여 좋은 성능 냄, BERT 의 끝판왕
 - 2020 - Self Supervised Learning
     - SimCLR : a simple framework for contrastive learning of visual representations
-    - 한정된 학습 데이터에서는 모델을 바꿔가며 학습하는게 일반적, 이제는 라벨은 모르지만 이미지임은 아는 데이터를 비지도 모델을 활용. 어떻게 이미지를 컴퓨터가 이해하는 벡터로 바꿀지 고민.
+    - 한정된 학습 데이터에서는 모델을 바꿔가며 학습하는게 일반적, 이제는 라벨은 모르지만 이미지임은 아는 데이터를 비지도학습 모델에 활용. 어떻게 이미지를 컴퓨터가 이해하는 벡터로 바꿀지 고민.
     - 무작위 이미지에서 좋은 피쳐를 뽑아 학습에 이용하겠다.
     - 학습데이터를 스스로 만들어내서 (뻥튀기 시켜서) 좋은 성능 만들어내기도 함
 
@@ -247,23 +247,24 @@ sitemap :
 
 - 실행과정
 
-    1. colab 에서 내 구글드라이브 마운트, 인증까지 완료할 것
+    1) colab 에서 내 구글드라이브 마운트, 인증까지 완료할 것
 
     ```python
     from google.colab import drive
     drive.mount('/content/drive')
     ```
 
-    2. cloudflared 실행
+    2) cloudflared 실행
 
     ```python
     from colab_ssh import launch_ssh_cloudflared, init_git_cloudflared
     launch_ssh_cloudflared(password="cho7611278")
     ```
 
-    3. vscode 에서 실행
+    3) vscode 에서 실행
 
     - 커맨트+쉬프트+p → connect to host → [rank-outdoor-rt-rise.trycloudflare.com](http://rank-outdoor-rt-rise.trycloudflare.com/) 실행후 비밀번호 입력
+
 
     ### Tips
 
@@ -314,11 +315,8 @@ sitemap :
 - autograd 함수 자주 사용
 
     $y = w^2$
-
     $z\ =\ 2\ *\ y\ +\ 5$
-
     $z\ =\ 2\ *\ w^2\ +\ 5$
-
     에서 z 미분 구하기
 
     ```python
@@ -492,12 +490,12 @@ with torch.no_grad(): # we don't need gradients in the testing phase
 - 꼭 제곱하는 MSE 를 사용할 필요는 없음, 절댓값을 제곱할 수도 있고, 그냥 절댓값 씌울 수도 있음
 → 아웃레이어에 대응하다가 거기에 적합한 모델이 되버릴 수도 있음
 - 손실 함수가 어떤 성질을 가지고 있고, 이게 왜 내가 원하는 결과를 얻어낼 수 있는지 알아야 함
-1. 회귀 문제에서는 MSE 가 적합
-2. 분류 문제를 생각해보면, 아웃풋은 one-hot vector 가 나옴 (하나만 1이고 나머지는 0)
+1) 회귀 문제에서는 MSE 가 적합
+2) 분류 문제를 생각해보면, 아웃풋은 one-hot vector 가 나옴 (하나만 1이고 나머지는 0)
 → Cross-Entropy 를 사용 → 그 차원에 해당하는 값만 키워줌 
 다른 말로 예측 결과 벡터가 다른 값들에 비해 그냥 높기만 하면 됨 → 이것을 수학적으로 표현해주는게 CE
 ⇒ 근데 과연 CE 가 분류 문제 푸는데 최적인가? 고민해보고 판단해봐야 함
-3. 확률적 문제 (Probabilistic Task) 에서는 MLE(최대가능도) 함수를 사용하여 적절한 모수를 추정
+3) 확률적 문제 (Probabilistic Task) 에서는 MLE(최대가능도) 함수를 사용하여 적절한 모수를 추정
 - 사람 얼굴을 보고 나이를 맞추는 문제에서 단순히 나이만 맞추면 회귀 문제
 - 20살일 확률, 30살일 확률 등을 알려준다면 확률적 문제
 
@@ -521,7 +519,7 @@ with torch.no_grad(): # we don't need gradients in the testing phase
 5. MLP 모델의 간단한 forward path (간단한 테스트인듯) x_numpy → x_torch → y_torch → y_numpy
     1. 인풋 데이터 x_numpy 를 만듦
     2. numpy 를 torch 에 넣음. gpu든 cpu든 사용할 디바이스를 마지막에 넣어줘야함, to(device)
-    3. M (모델) 에 x_torch 를 넣어서 학습시킴, forward 함수 실행 (사실 forward 안해도 돌아감, 알아서 forward 하는것, 하지만 명시해주는게 나을듯)
+    3. M (모델) 에 x_torch 를 넣어서 학습시킴, forward 함수 실행 (사실 forward 안해도 돌아감, 알아서 forward, 하지만 명시해주는게 나을듯)
     4. y_torch 로 부터 결과를 detach 하고 이를 numpy 로 변환시켜 y_numpy 에 넣음
 6. 파라미터 체크
     1. M.named_parameters() 를 하면 만들어둔 레이어(lin_1, lin_2) 들의 파라미터 weight, bias 가 나옴
@@ -547,6 +545,8 @@ with torch.no_grad(): # we don't need gradients in the testing phase
 9. Test
     1. 테스트 데이터로 모델을 돌리고 y_pred 를 얻음
     2. 원하는 크기만큼 pred 와 label 을 비교하고 그에 맞는 사진을 보여줌
+
+*eval 이나 train 같은 함수들 만들고 나면 반드시 잘되는지 테스트 해줘야함
 
 **Further Questions**
 
@@ -630,7 +630,7 @@ with torch.no_grad(): # we don't need gradients in the testing phase
     - 따로 설치하는 법
 
         ```python
-        !wget [http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz](http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz)
+        !wget http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz
         !gunzip train-images-idx3-ubyte.gz
         ```
 
