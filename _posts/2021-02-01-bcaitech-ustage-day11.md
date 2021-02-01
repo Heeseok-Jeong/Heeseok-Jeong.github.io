@@ -668,12 +668,12 @@ with torch.no_grad(): # we don't need gradients in the testing phase
 
 ## 수업 질문
 
-1. [가능도함수의 모양]([https://github.com/boostcamp-ai-tech-4/peer-session/issues/44](https://github.com/boostcamp-ai-tech-4/peer-session/issues/44))
-2. [딥러닝에서 최대가능도 수식에 대한 의미]([https://github.com/boostcamp-ai-tech-4/peer-session/issues/45](https://github.com/boostcamp-ai-tech-4/peer-session/issues/45))
+1. [가능도함수의 모양](https://github.com/boostcamp-ai-tech-4/peer-session/issues/44)
+2. [딥러닝에서 최대가능도 수식에 대한 의미](https://github.com/boostcamp-ai-tech-4/peer-session/issues/45)
 
 ## 각자 가장 열심히 한 경험 (자소서 문항 3번)
 
-히스: 어플리케이션
+히스: 어플리케이션 개발
 
 펭귄: 캐글 스터디에서 힘들었던거
 
