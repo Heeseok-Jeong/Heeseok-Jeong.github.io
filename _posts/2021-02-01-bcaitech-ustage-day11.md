@@ -18,7 +18,7 @@ sitemap :
 - [베이즈 통계학 맛보기](#베이즈-통계학-맛보기)
 - [딥러닝 기본 용어 설명 - Historical Review](#딥러닝-기본-용어-설명---historical-review)
 - [PyTorch 시작하기](#pytorch-시작하기)
-- [뉴럴 네트워크 - MLP](#뉴럴-네트워크---MLP)
+- [뉴럴 네트워크 - MLP](#뉴럴-네트워크---mlp)
 - [데이터셋 다루기](#데이터셋-다루기)
 - [Today I Felt](#today-i-felt)
 
@@ -662,6 +662,35 @@ with torch.no_grad(): # we don't need gradients in the testing phase
 
 <br>
 
+## TED 세미나
+
+- 학부시절, 휠체어 이용자를 위한 어플리케이션을 구글 플레이 스토어에 배포한 경험을 발표하였다.
+
+## 수업 질문
+
+1. [가능도함수의 모양]([https://github.com/boostcamp-ai-tech-4/peer-session/issues/44](https://github.com/boostcamp-ai-tech-4/peer-session/issues/44))
+2. [딥러닝에서 최대가능도 수식에 대한 의미]([https://github.com/boostcamp-ai-tech-4/peer-session/issues/45](https://github.com/boostcamp-ai-tech-4/peer-session/issues/45))
+
+## 각자 가장 열심히 한 경험 (자소서 문항 3번)
+
+히스: 어플리케이션
+
+펭귄: 캐글 스터디에서 힘들었던거
+
+서폿: 좌절 후 알고리즘을 열심히 해서 -> 여러 기업 코테통과
+
+샐리: 플젝 (csrt +ssd) 로 ‘실시간’물체 추적
+
+원딜: 졸업플젝 yolo 가지고 높은 온도 위치 찾기
+
+엠제이: 포스코 플젝-> 포즈 측정  손글씨 폰트 샘플로 같은 폰트 글씨 만들기
+
+후미: ocr 책번역기
+
+## TMI 세션
+
+- 펭귄님에 대해 잘 알 수 있는 시간이었다!
+
 <br>
 
 <hr>
@@ -671,3 +700,11 @@ with torch.no_grad(): # we don't need gradients in the testing phase
 # Today I Felt
 
 <br>
+
+## 휘몰아치는 수업량
+
+오늘은 평소보다 2배 많은 강의가 있었는데, 거의 자정이 되어서야 강의를 다봤다. 복습도 해야하고 나만의 데이터셋 만들기 실습도 해야하는데 할게 정말 많다. 힘들지만 캠프가 끝났을 때의 나를 상상하며 노력해야지!
+
+## 교수님 면담
+
+오늘 캡스톤 지도 교수님이셨던 Henry Choi 교수님을 찾아뵀다. 근황도 전하고 AI 진로에 대해 조언도 해주셔서 감사했다. 그치만 애매한 나의 학점 때문에 이를 메우기 위해서는 실력이 필요하다 말씀하셨고, 캠프하면서 남들보다 더 노력하라 말씀하셨다. 정말 감사한 조언이었다. 진로가 취업이 될지 대학원이 될지 아무것도 모르지만 우선은 실력을 갈고 닦아 어디서든 쓰임 받을 수 있는 인재가 되도록 노력해야함을 느꼈다.
