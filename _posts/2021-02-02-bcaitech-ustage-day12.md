@@ -33,8 +33,7 @@ sitemap :
 ## Introduction
 
 - 최적화와 관련된 여러 용어들에 대해 명확히 알아야 함, 그러지 않으면 다른 사람들과 얘기할 때 어려움을 겪을 것
-- Gradient Descent
-    - 미분 가능한 함수에서 **로컬 미니멈**을 찾기 위해 일차 미분 최적화 알고리즘을 사용하는 방법
+- Gradient Descent : 미분 가능한 함수에서 **로컬 미니멈**을 찾기 위해 일차 미분 최적화 알고리즘을 사용하는 방법
 
 ## Important Concepts in Optimization
 
@@ -42,20 +41,21 @@ sitemap :
 
 - 많은 경우에 모델의 일반적인 성능을 높이는게 목적 → 일반적이란?
 - 학습을 시킬 때 마다 Training error 는 내려감, 하지만 Test error 는 오히려 올라갈 때가 있음
-- Generalization gap : Test error 와 Train error 의 차이 → Test 성능을 Training 때 만큼 보장해주는게 목적
-- 그러나 근본적으로는 Training 성능이 좋아야 학습과의 차이를 줄이는게 가능
+- Generalization gap : Test error 와 Train error 의 차이 => Test 성능을 Training 때 만큼 보장해주는게 목적
+- 그러나 근본적으로는 Training 성능이 좋아야 함
 - Underfitting : 학습이 덜 돼서 트레이닝 예측도 잘 못하는 경우
 - Overfitting : 학습이 너무 많이 돼서 학습데이터에 대해서는 잘 맞추지만 모델의 모양이 이상해져서 실제 예측을 잘 못하게 됨 (그러나 이렇게 구불구불한 모양을 원할 때도 있을 수 있다.)
 
 ## Cross-validation
 
 - 얼마나 모델이 독립적인 테스트 데이터셋에 일반화 잘하는지 평가하기 위한 모델 유효성 검증 테크닉
-- Cross-validation : 예를 들어 학습 데이터가 10만개면 (테스트 데이터와 별도) 2만개씩 5 folds 로 나누고, 첫 번째 학습에서는 1~4 folds 를 학습에 쓰고 fold 5 를 validation 하고, 두 번째 학습에서는 1, 2, 3, 5 folds 를 학습에 쓰고 fold 4 를 validation 하는 식으로 진행 → 학습 데이터를 k 개로 나누고 k-1 개 학습, 1 개 validation
+- Cross-validation : 예를 들어 학습 데이터가 10만개면 (테스트 데이터와 별도) 2만개씩 5 folds 로 나누고, 첫 번째 학습에서는 1~4 folds 를 학습에 쓰고 fold 5 를 validation 하고, 두 번째 학습에서는 1, 2, 3, 5 folds 를 학습에 쓰고 fold 4 를 validation 하는 식으로 진행  
+    → 학습 데이터를 k 개로 나누고 k-1 개 학습, 1 개 validation
 - 파라미터 : 내가 찾고 싶은 값, 웨이트 등
-- 하이퍼 파라미터 : 미리 정해두는 값, lr, loss-function 등 → 어떻게 세팅하는게 최적인지 모르니까 크로스 밸리데이션을 통해 최적의 하이퍼 파라미터셋을 찾음 → 이 하이퍼 파라미터를 적용하고 이제는 모든 데이터로 학습 진행
+- 하이퍼 파라미터 : 미리 정해두는 값, lr, loss-function 등  
+    → 어떻게 세팅하는게 최적인지 모르니까 크로스 밸리데이션을 통해 최적의 하이퍼 파라미터셋을 찾음  
+    → 이 하이퍼 파라미터를 적용하고 이제는 모든 데이터로 학습 진행
 - (중요) 테스트 데이터는 학습에서 절대 사용하면 안됨, 크로스 밸리데이션, 밸리데이션 등 어떤 경우에도 사용하면 치팅이라 안됨
-
-(Q. 학습할 때 중간에 테스트 데이터로 체크하되 웨이트를 안건드리면 치팅이 아니지 않을까?)
 
 ## Bias and Variance
 
@@ -68,7 +68,7 @@ sitemap :
 
 ### Bias and Variance Tradeoff
 
-- 노이즈가 낀 학습데이터를 사용하여 로스를 최소화하는 과정은 사실 세 가지 값이 연관되어 있음
+- 노이즈가 낀 학습데이터를 사용하여 로스를 최소화하는 과정은 사실 세 가지 값이 연관되어 있음  
 → $bias^2$, variance, and noise
 
     ![image2]({{ site.baseurl }}/assets/img/ustage_day12/2.png)
@@ -79,14 +79,16 @@ sitemap :
 
 - 신발끈을 위로들어 하늘을 날겠다!
 - 랜덤 샘플링을 사용하여 성능을 높이고자 하는 방법
-- 100 개의 학습데이터가 있으면 다 사용하지 않고 랜덤하게 80 개만 사용해서 모델을 만듦. 여러번 수행하여 만들어진 모델들은 같은 하나의 입력에 대해서도 같은 값을 예측할 수도 있지만 다른 값을 낼 수도 있음
-→ 얼마나 모델들이 일치를 이루는지 체크 → 전체적인 모델의 uncertain 을 확인
+- 100 개의 학습데이터가 있으면 다 사용하지 않고 랜덤하게 80 개만 사용해서 모델을 만듦. 여러번 수행하여 만들어진 모델들은 같은 하나의 입력에 대해서도 같은 값을 예측할 수도 있지만 다른 값을 낼 수도 있음  
+    → 얼마나 모델들이 일치를 이루는지 체크  
+    → 전체적인 모델의 uncertain 을 확인
 - 학습 데이터가 고정돼있을 때, 랜덤 샘플링하여 여러 모델을 만들어 측정하겠다!
 
 ## Bagging vs. Boosting
 
 - Bagging (**B**oostrapping **agg**regat**ing**)
-    - 정해진 학습데이터를 모두 사용하여 1 개의 모델을 만드는게 아니라 학습데이터를 부트스트래핑해서 여러 모델 만듦 → 모델들의 아웃풋을 평균냄
+    - 정해진 학습데이터를 모두 사용하여 1 개의 모델을 만드는게 아니라 학습데이터를 부트스트래핑해서 여러 모델 만듦  
+        → 모델들의 아웃풋을 평균냄
     - 다른 말로 앙상블
     - 하나의 모델보다 성능이 좋음
 - Boosting
@@ -155,6 +157,7 @@ sitemap :
 
 - Adagrad 에서 G 가 계속 커지는 현상 막음
 - EMA : 지수 이동 평균 (Exponential Moving Average)
+    - 오래된 자료에 대한 가중치가 기하 급수적으로 감소
 - 러닝레이트가 없음 → 바꿀 수 있는 요소가 별로 없음 → 잘 사용 안 함
 
     ![image9]({{ site.baseurl }}/assets/img/ustage_day12/9.png)
@@ -170,11 +173,13 @@ sitemap :
 
 - 일반적으로 사용됨
 - Adaptive Moment Estimation, 과거 grad 와 제곱 grad 를 함께 지님
-- 모멘텀과 adaptive learning rate 를 합친 방법
+- **모멘텀**과 **adaptive learning rate** 를 합친 방법
 
     ![image11]({{ site.baseurl }}/assets/img/ustage_day12/11.png)
 
-(optimizer 들을 직접 구현할 필요는 없고 제공하는거 한 줄 쓰면 됨)
+(optimizer 들을 직접 구현할 필요는 없고 제공하는거 한 줄 쓰면 됨)  
+<br>
+<br>
 
 ## Regularization
 
@@ -375,7 +380,7 @@ sitemap :
 
 1. [[히스] Valid 데이터와 Test 데이터](https://github.com/boostcamp-ai-tech-4/peer-session/issues/47)
 2. [[히스] CNN 과 MLP 의 차이](https://github.com/boostcamp-ai-tech-4/peer-session/issues/48)
-3. [[엠제이] adadelta를 통해서 천억개의 파라미터 연산량을 어떻게 줄여주는것일까?](https://github.com/boostcamp-ai-tech-4/peer-session/issues/48)9
+3. [[엠제이] adadelta를 통해서 천억개의 파라미터 연산량을 어떻게 줄여주는것일까?](https://github.com/boostcamp-ai-tech-4/peer-session/issues/49)
 
 ## TMI 세션
 
