@@ -360,7 +360,6 @@ sitemap :
 
     ![image29]({{ site.baseurl }}/assets/img/ustage_day12/29.png)
 
-    (Q. 컨벌루젼 역전파 다시 이해할 것)
 
 <br>
 
@@ -372,6 +371,16 @@ sitemap :
 
 <br>
 
+## 수업 질문
+
+1. [[히스] Valid 데이터와 Test 데이터](https://github.com/boostcamp-ai-tech-4/peer-session/issues/47)
+2. [[히스] CNN 과 MLP 의 차이](https://github.com/boostcamp-ai-tech-4/peer-session/issues/48)
+3. [[엠제이] adadelta를 통해서 천억개의 파라미터 연산량을 어떻게 줄여주는것일까?](https://github.com/boostcamp-ai-tech-4/peer-session/issues/48)9
+
+## TMI 세션
+
+샐리님의 TMI에 대해 알 수 있는 시간이었다 :)
+
 <br>
 
 <hr>
@@ -381,3 +390,7 @@ sitemap :
 # Today I Felt
 
 <br>
+
+## 배우는 즐거움
+
+머신러닝과 딥러닝의 원리나 개념을 잘 모르고 사용했던 지난 날이 부끄러운만큼 딥러닝을 더 자세히 알기 위해 공부하고 있다. 쉽지만은 않지만 즐겁게 공부하고 있다는게 중요한 것 같다. 다른 일을 할 때도 시간나면 머릿속으로 개념정리를 하고 그러다 문득 재밌다는 생각이 들 때면 힘이난다. 정말로 열심히 공부하고 이해해서 이 기술로 사회에 기여할 수 있는 사람이 되고싶다.
