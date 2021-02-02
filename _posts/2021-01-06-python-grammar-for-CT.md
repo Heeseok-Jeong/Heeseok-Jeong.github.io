@@ -155,3 +155,17 @@ Counter
 ```python
 reversed_dict = dict(map(reversed, original_dict.items()))
 ```
+
+### json parsing
+```python
+>>> import jmespath
+>>> persons = {
+...   "persons": [
+...     { "name": "erik", "age": 38 },
+...     { "name": "john", "age": 45 },
+...     { "name": "rob", "age": 14 }
+...   ]
+... }
+>>> jmespath.search('persons[*].age', persons)
+[38, 45, 14]
+```
