@@ -322,7 +322,7 @@
       <li>generalization 에 좋음</li>
       <li>vanishing gradient problem 해결
         <ul>
-          <li>sigmoid 나 tanh 를 미분하면 범위가 [0, 1/4] 이 돼서 계속 0 에 가까워지게 되는 문제</li>
+          <li>sigmoid 나 tanh 를 미분하면 범위가 [0, 1/4], 더 미분하면 계속 0 에 가까워지는 문제</li>
         </ul>
       </li>
     </ul>
@@ -410,7 +410,7 @@
   <li>Bottleneck architecture
     <ul>
       <li>구글의 NiN 과 비슷</li>
-      <li>3x3 하기 전에 1x1 로 줄이고, 하고 나서 1x1 로 늘려서 차원 낮춰줌</li>
+      <li>3x3 하기 전에 1x1 로 줄이고, 3x3 하고 나서 1x1 로 늘려서 차원 낮춰줌</li>
     </ul>
   </li>
 </ul>
@@ -441,6 +441,10 @@
     <ul>
       <li>참고: <a href="https://pytorch.org/docs/stable/torchvision/models.html">pytorch official docs</a></li>
     </ul>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">import</span> <span class="nn">torchvision.models</span> <span class="k">as</span> <span class="n">models</span>
+  <span class="n">resnet18</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -528,9 +532,9 @@
   <li>
     <p>Fast RCNN</p>
 
-    <p>1) 입력 이미지로 바운딩 박스 뽑음
-  2) CNN 한 번 돌려서 convolutional feature map 생성 (SPPNet 과 동일)
-  3) 각 지역에 대해 고정 길이 피쳐를 ROI pooling 으로 부터 얻음
+    <p>1) 입력 이미지로 바운딩 박스 뽑음<br />
+  2) CNN 한 번 돌려서 convolutional feature map 생성   (SPPNet 과 동일)<br />
+  3) 각 지역에 대해 고정 길이 피쳐를 ROI pooling 으로 부터 얻음<br />
   4) 클래스와 바운딩 박스 regressor 두 결과를 얻어냄</p>
   </li>
   <li>Faster RCNN
@@ -567,7 +571,7 @@
               <li>각 셀은 B=5 (논문기준) 개의 바운딩 박스를 예측함
                 <ul>
                   <li>그 바운딩 박스들이 box probability 를 통해 쓸모 있는지 없는지 확인</li>
-                  <li>box refinement 와 confidence 체크를 통해서</li>
+                  <li>box refinement 와 confidence 체크를 이용</li>
                 </ul>
               </li>
               <li>각 셀은 C class probabilities 를 예측함</li>
@@ -705,7 +709,7 @@
 <h2 id="tmi-세션">TMI 세션</h2>
 
 <ul>
-  <li>내 차례;;</li>
+  <li>나의 TMI</li>
 </ul>
 
 <p><br /></p>
@@ -722,7 +726,11 @@
 
 <p>수업 정리, 실습, 추가적으로 공부할 것들, 읽어야 할 것들이 쏟아지고 있다.</p>
 
-<p>구글 이미지 다운로드 프로그램을 ssh 로 코랩에 접속하여 사용하니 파이썬 버전 때문인지 잘 되지 않았다. 그냥 내 로컬 컴퓨터로 다운받고 드라이브에 올리기로 노선을 바꿨는데, 할 일이 이 것 뿐이었으면 괜찮았을텐데 할 일이 많아 머리가 복잡해졌다. 이럴 때일수록 일을 크게 생각하지 말고 잘게 나누고 우선순위를 두어 해야함을 상기했다.</p>
+<p><br /></p>
+
+<p>나만의 데이터셋 만들기 과정 중 구글 이미지 다운로드 프로그램을 ssh 로 코랩에 접속하여 사용하니 파이썬 버전 때문인지 잘 되지 않아서 내 로컬 컴퓨터로 다운받고 드라이브에 올리기로 노선을 바꿨다. 할 일이 이 것 뿐이었으면 괜찮았을텐데 남은 일들이 많아 머리가 복잡해졌다. 이럴 때일수록 일을 크게 생각하지 말고 잘게 나누고 우선순위를 두어 해야함을 상기했다.</p>
+
+<p><br /></p>
 
 <p>지치지 않기 위해 조금 더 효율적으로 일을 하고 머리를 써야함을 느낀 하루!</p>
 

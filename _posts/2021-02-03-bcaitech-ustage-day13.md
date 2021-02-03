@@ -176,7 +176,7 @@ sitemap :
     - 경사하강법으로 최적화하기 용이
     - generalization 에 좋음
     - vanishing gradient problem 해결
-        - sigmoid 나 tanh 를 미분하면 범위가 [0, 1/4] 이 돼서 계속 0 에 가까워지게 되는 문제
+        - sigmoid 나 tanh 를 미분하면 범위가 [0, 1/4], 더 미분하면 계속 0 에 가까워지는 문제
 
 ## VGGNet
 
@@ -226,7 +226,7 @@ sitemap :
     - conv → batch norm → 활성화 구조인데 활성화 → BN 하는게 더 잘된다는 말도 있음
 - Bottleneck architecture
     - 구글의 NiN 과 비슷
-    - 3x3 하기 전에 1x1 로 줄이고, 하고 나서 1x1 로 늘려서 차원 낮춰줌
+    - 3x3 하기 전에 1x1 로 줄이고, 3x3 하고 나서 1x1 로 늘려서 차원 낮춰줌
 
 ## DenseNet
 
@@ -247,6 +247,11 @@ sitemap :
 
 - 수업에서 다룬 modern CNN network의 일부는, Pytorch 라이브러리 내에서 pre-trained 모델로 지원합니다. pytorch를 통해 어떻게 불러올 수 있을까요?
     - 참고: [pytorch official docs](https://pytorch.org/docs/stable/torchvision/models.html)
+
+    ```python
+    import torchvision.models as models
+    resnet18 = models.resnet18(pretrained=True)
+    ```
 
 <br>
 
@@ -307,10 +312,10 @@ sitemap :
     - 이미지 안에서 바운딩 박스 뽑고, 이미지 전체에 대해서 convolution 피쳐 맵을 만들어 뽑힌 위치에 해당하는 텐서만 긁어오기
 - Fast RCNN
 
-    1) 입력 이미지로 바운딩 박스 뽑음
-    2) CNN 한 번 돌려서 convolutional feature map 생성 (SPPNet 과 동일)
-    3) 각 지역에 대해 고정 길이 피쳐를 ROI pooling 으로 부터 얻음
-    4) 클래스와 바운딩 박스 regressor 두 결과를 얻어냄
+    1) 입력 이미지로 바운딩 박스 뽑음  
+    2) CNN 한 번 돌려서 convolutional feature map 생성   (SPPNet 과 동일)  
+    3) 각 지역에 대해 고정 길이 피쳐를 ROI pooling 으로 부터 얻음  
+    4) 클래스와 바운딩 박스 regressor 두 결과를 얻어냄  
 
 - Faster RCNN
     - 이미지를 통해 바운딩 박스를 뽑아내는 Region Proposal 도 학습을 시켜버리자  
@@ -331,7 +336,7 @@ sitemap :
         - 물체를 바운딩 박스로 감지 + 분류 확률에 비춰봄 → 바로 결과 나옴
             - 각 셀은 B=5 (논문기준) 개의 바운딩 박스를 예측함
                 - 그 바운딩 박스들이 box probability 를 통해 쓸모 있는지 없는지 확인
-                - box refinement 와 confidence 체크를 통해서
+                - box refinement 와 confidence 체크를 이용
             - 각 셀은 C class probabilities 를 예측함
 
             ⇒ 두 정보를 취합하여 박스 + 클래스를 알게됨
@@ -436,7 +441,7 @@ sitemap :
 
 ## TMI 세션
 
-- 내 차례;;
+- 나의 TMI
 
 <br>
 
@@ -452,6 +457,10 @@ sitemap :
 
 수업 정리, 실습, 추가적으로 공부할 것들, 읽어야 할 것들이 쏟아지고 있다.  
 
-구글 이미지 다운로드 프로그램을 ssh 로 코랩에 접속하여 사용하니 파이썬 버전 때문인지 잘 되지 않았다. 그냥 내 로컬 컴퓨터로 다운받고 드라이브에 올리기로 노선을 바꿨는데, 할 일이 이 것 뿐이었으면 괜찮았을텐데 할 일이 많아 머리가 복잡해졌다. 이럴 때일수록 일을 크게 생각하지 말고 잘게 나누고 우선순위를 두어 해야함을 상기했다.  
+<br>
+
+나만의 데이터셋 만들기 과정 중 구글 이미지 다운로드 프로그램을 ssh 로 코랩에 접속하여 사용하니 파이썬 버전 때문인지 잘 되지 않아서 내 로컬 컴퓨터로 다운받고 드라이브에 올리기로 노선을 바꿨다. 할 일이 이 것 뿐이었으면 괜찮았을텐데 남은 일들이 많아 머리가 복잡해졌다. 이럴 때일수록 일을 크게 생각하지 말고 잘게 나누고 우선순위를 두어 해야함을 상기했다.  
+  
+<br>
 
 지치지 않기 위해 조금 더 효율적으로 일을 하고 머리를 써야함을 느낀 하루!
