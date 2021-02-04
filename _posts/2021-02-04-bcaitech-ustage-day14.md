@@ -44,9 +44,9 @@ sitemap :
 
 - 이전 시퀀스의 정보를 가지고 앞으로 발생할 데이터의 확률분포를 다루기 위해 조건부확률을 이용할 수 있음
 
-    [사진1]
+    ![image1]({{ site.baseurl }}/assets/img/ustage_day14/1.png)
 
-    [사진2]
+    ![image2]({{ site.baseurl }}/assets/img/ustage_day14/2.png)
 
     - 베이즈 정리 사용
     - 시퀀스 데이터를 분석할 때 모든 과거 정보들이 필요한 것은 아님
@@ -71,7 +71,7 @@ sitemap :
 
         ⇒ RNN
 
-        [사진3]
+        ![image3]({{ site.baseurl }}/assets/img/ustage_day14/3.png)
 
 <br>
 
@@ -83,13 +83,13 @@ sitemap :
 
 - 가장 기본적인 RNN 모형은 MLP 와 유사함
 
-    [사진4]
+    ![image4]({{ site.baseurl }}/assets/img/ustage_day14/4.png)
 
     - 이 모델은 t 번째 입력이 들어오기 때문에 과거의 정보를 다룰 수 없음
     - 어떻게 과거의 정보를 H 에 담을까?
 - RNN 은 이전 순서의 잠재변수와 현재의 입력을 활용하여 모델링
 
-    [사진 5]
+    ![image5]({{ site.baseurl }}/assets/img/ustage_day14/5.png)
 
     - 가중치 행렬
         - 입력 데이터를 선형모델을 통해 잠재변수로 인코딩해주는 $W_X^\mathit{(1)}$ 과 이전 시점의 잠재변수로부터 정보를 받아 현재 시점의 잠재변수로 인코딩해주는 $W_H^\mathit{(1)}$가 있음
@@ -99,13 +99,13 @@ sitemap :
 - RNN 의 **역전파**는 잠재변수의 연결그래프에 따라 순차적으로 계산
     - 즉 계산 그래프의 거꾸로 흐름, 잠재 변수들의 연결 그래프에 따라 순차적으로 진행됨, 맨 마지막 시점의 그래디언트가 타고 타고 올라와서 과거 그래디언트까지 흐름 (BPTT)
 
-    [사진6]
+    ![image6]({{ site.baseurl }}/assets/img/ustage_day14/6.png)
 
 ### BPTT, Backpropagation Through Time
 
 - BPTT 를 통해 RNN 의 가중치행렬의 미분을 계산해보면 아래와 같이 미분의 곱으로 이루어진 항이 계산됨
 
-    [사진7]
+    ![image7]({{ site.baseurl }}/assets/img/ustage_day14/7.png)
 
     - 최종적으로 나오는 프로덕트텀 (i+1 부터 t 까지 잠재변수 곱) 을 보면 시퀀스 길이가 길어질수록 곱해지는 텀들이 불안정해짐, 이 값이 1 보다 크면 미분값이 매우 커지고 1보다 작으면 미분값이 매우 작아지기 때문 (기울기 소실)
     - 일반적인 BPTT 를 모든 시점에 적용하면 학습이 어려움
@@ -116,7 +116,7 @@ sitemap :
 ⇒ **truncated BPTT**
     - BPTT 를 모든 시점에 적용하지 않고 블록으로 끊어서 수행
 
-    [사진8]
+    ![image8]({{ site.baseurl }}/assets/img/ustage_day14/8.png)
 
     - 잠재변수들에 들어오는 그래디언트를 보면 미래에서 $H_\mathit{t+1}$ 까지 들어오는 그래디언트는 받지만, $H_t$ 에는 전달하지 않음, $H_t$ 는 $O_t$ 에서 들어오는 그래디언트르 받음
 - 하지만 완전한 해결책이 되지 않음, 따라서 길이가 긴 시퀀스를 처리하기 힘든 Vanilla RNN 대신 LSTM 이나 GRU 등장
@@ -144,13 +144,13 @@ sitemap :
 - 이전 데이터로 다음 단어를 예측해보자
 - 고려해야하는 정보량이 늘어남
 
-    [사진9]
+    ![image9]({{ site.baseurl }}/assets/img/ustage_day14/9.png)
 
 ### Autoregressive model
 
 - Fix the past timespan, 과거 내용 중 볼 내용 크기를 고정
 
-    [사진10]
+    ![image10]({{ site.baseurl }}/assets/img/ustage_day14/10.png)
 
 ### Markov model (first-order autoregressive model)
 
@@ -159,7 +159,7 @@ sitemap :
 - 내일이 수능이면 오늘 공부만 영향주는가? X → 과거 공부한게 다 누적됨
 - 장점 : joint distribution 을 표현하기 쉬움
 
-    [사진11]
+    ![image11]({{ site.baseurl }}/assets/img/ustage_day14/11.png)
 
 ### Latent autoregressive model
 
@@ -167,13 +167,13 @@ sitemap :
 - 중간에 히든 스테이트 (잠재변수, 과거를 요약) 가 들어감
 - 아웃풋은 하나의 과거 정보만 의존하지만 그 이전 잠재변수 (Latent state) 에도 영향받음
 
-    [사진12]
+    ![image12]({{ site.baseurl }}/assets/img/ustage_day14/12.png)
 
 ## Recurrent Nueral Network
 
 - 앞서 말한 구조들을 가장 잘 표현
 
-    [사진13]
+    ![image13]({{ site.baseurl }}/assets/img/ustage_day14/13.png)
 
 - RNN 은 시간순으로 푼다고 표현, t 에서 t-1 의 정보들도 봄
 - 사실 RNN 을 시간순으로 풀면 입력이 굉장히 많은 Fullly-connected layer 와 동일해짐
@@ -181,7 +181,7 @@ sitemap :
     - 과거에 얻어진 어떤 정보들이 요약돼서 미래에서 고려해야 하는데, RNN 은 이 정보들을 같은 방식으로 계속 취합하기 때문에 먼 과거의 정보가 미래에 반영되기 힘듦
     - 메멘토처럼 기억력이 일정 시간이라고 생각하면 됨 → 제한된 사고력
 
-    [사진14]
+    ![image14]({{ site.baseurl }}/assets/img/ustage_day14/14.png)
 
     - 더불어 활성함수까지 합쳐지면 더 예전 정보는 영향력이 없어짐, 시그모이드면 Vanishing Gradient, 렐루면 너무 커져서 exponential (폭발적이게) 됨
 
@@ -189,15 +189,15 @@ sitemap :
 
 - 지금까지 말한 기본 RNN = Vanilla RNN
 
-    [사진15]
+    ![image15]({{ site.baseurl }}/assets/img/ustage_day14/15.png)
 
 ### LSTM
 
-[사진16]
+![image16]({{ site.baseurl }}/assets/img/ustage_day14/16.png)
 
 - 어떻게 LSTM 이 롱텀 디펜던시를 해결하는지 볼 것
 
-    [사진17]
+    ![image17]({{ site.baseurl }}/assets/img/ustage_day14/17.png)
 
     - input : 단어에 대한 벡터 (총 단어 5 만개면 5 만짜리 one-hot vector)
     - output (hidden state) : 다음번 분포, 단어의 확률을 찾게 해줌 (유일하게 밖으로 나감)
@@ -207,13 +207,13 @@ sitemap :
 - LSTM 은 게이트로 이해하는게 좋음. 총 3개의 게이트 존재
     - 히든으로부터 받은 정보를 조작해서 cell state 에 영향을 줌
 
-    [사진18]
+    ![image18]({{ site.baseurl }}/assets/img/ustage_day14/18.png)
 
     - Forget gate (버릴거 정하기)
         - Decide which information to throw away
         - $f_t$ : 이전 셀스테이트에서 넘어온 정보 중 버릴 것을 정함
 
-        → 이전 요약 정보와 현재 입력을 통해 지울거 정함 
+        → 이전 히든 정보와 현재 입력을 통해 지울거 정함 
 
     - Input gate (남길거 정하기)
         - Decide which information to store in the cell state
@@ -223,7 +223,7 @@ sitemap :
 
         → 이전 요약 정보와 현재 입력을 통해 남길거 정함
 
-    [사진19]
+    ![image19]({{ site.baseurl }}/assets/img/ustage_day14/19.png)
 
     - Update cell (작업 실시)
         - Update the cell state
@@ -239,7 +239,7 @@ sitemap :
 
 ### GRU, Gated Recurrent Unit
 
-[사진20]
+![image20]({{ site.baseurl }}/assets/img/ustage_day14/20.png)
 
 - LSTM 과 다르게 Gate 2 개 (reset gate (폴겟 게이트와 비슷), update gate)
 - cell state 없음, hidden state 만 존재
@@ -268,7 +268,9 @@ sitemap :
             - rnn 에 인풋 x 와 c0, h0 를 넣어 결과 얻음 (x : N x L x Q ⇒ rnn_out : N x L x D)
             - 결과 사이즈를 바꿔줌 (N x K)
 
-        ### Check How LSTM Works
+
+    - Check How LSTM Works
+
 
         - `N`: number of batches
         - `L`: sequence lengh
@@ -291,9 +293,11 @@ sitemap :
 
 - LSTM에서는 Modern CNN 내용에서 배웠던 중요한 개념이 적용되어 있습니다. 무엇일까요?
 
-    ⇒ 
+    => Gradient Vanishing 문제를 해결하기 위해 CNN 에서 Residual 을 사용한 것 같이, LSTM 도 과거의 정보를 기억하는 방법을 사용
 
 - Pytorch LSTM 클래스에서 3dim 데이터(batch_size, sequence length, num feature), `batch_first` 관련 argument는 중요한 역할을 합니다. `batch_first=True`인 경우는 어떻게 작동이 하게되는걸까요?
+
+    => output 이 배치가 제일 먼저 나오게 됨
 
 <br>
 
@@ -333,15 +337,15 @@ sitemap :
 - 인코더는 Self-Attention → Feed Forward Neural Network 로 구성
 - 인코더와 디코더에 사용되는 **Self-Attention** 이 트랜스포머의 핵심
 
-    [사진21]
+    ![image21]({{ site.baseurl }}/assets/img/ustage_day14/21.png)
 
 - 세 개의 단어 (각각 벡터) 가 주어지면 셀프어텐션은  $x_i$ 벡터가 $z_i$ 벡터로 바꿀 때 각각의 단어 x 들을 모두 사용함 → 디펜던시가 있음 (다른 단어들 보는 것)
 
-    [사진22]
+    ![image22]({{ site.baseurl }}/assets/img/ustage_day14/22.png)
 
-- 피드 포워드는 그냥 원래 MLP 처럼 진행\
+- 피드 포워드는 그냥 원래 MLP 처럼 진행
 
-    [사진23]
+    ![image23]({{ site.baseurl }}/assets/img/ustage_day14/23.png)
 
 ### Self-Attention (이 과정 반드시 이해)
 
@@ -349,32 +353,32 @@ sitemap :
 - Thinking 이라는 단어가 주어졌을 때 인코딩하기 위해 세 개의 벡터 **Queries, Key, Values** 벡터가 사용됨
     - 한 단어마다 Q, K, V 가 생성됨
 
-    [사진24]
+    ![image24]({{ site.baseurl }}/assets/img/ustage_day14/24.png)
 
 - Thinking 과 Machines 라는 단어들을 인코딩하면 각 단어마다 만들어진 Q, K, V 를 통해 Score 를 생성 → i 번째 단어가 j 번째 단어와 얼마나 유사도가 있는지 qi, kj 를 내적
 
-    [사진25]
+    ![image25]({{ site.baseurl }}/assets/img/ustage_day14/25.png)
 
     - i 번째 단어와 나머지 단어들과의 관계를 계산 → Attention
 
-    [사진26]
+    ![image26]({{ site.baseurl }}/assets/img/ustage_day14/26.png)
 
 - 스코어가 나오면 스코어에 대해노말라이제이션 (루트dk (키벡터차원) = 8로 나눠줌, 값이 너무 커지지 않게 하기 위해).
 - 이후 소프트맥스함 → i, j 단어와의 관계를 확률로 표현
-- 이 값을 value 와 곱함 = Sum
+- 이 값을 value 와 곱함, 이후 다 더함 Sum
 
-    [사진27]
+    ![image27]({{ site.baseurl }}/assets/img/ustage_day14/27.png)
 
 ⇒ Value 벡터의 웨이트를 구하는 과정. 각 단어 쿼리와 다른 단어 키 곱하고, 노말라이즈하고, 소프트맥스하고, 밸류곱함
 
 - Q, K 는 차원이 같아야함 (내적), V 는 차원 달라도됨
 - 행렬로 보자
 
-    [사진28]
+    ![image28]({{ site.baseurl }}/assets/img/ustage_day14/28.png)
 
 - 수식
 
-    [사진29]
+    ![image29]({{ site.baseurl }}/assets/img/ustage_day14/29.png)
 
 ⇒ Single-head Attention
 
@@ -393,15 +397,15 @@ sitemap :
 - 싱글 헤드 어텐션을 여러번 함
 - 하나의 임베딩된 벡터에 대해 Q, K, V 를 여러개 만듦
 
-    [사진30]
+    ![image30]({{ site.baseurl }}/assets/img/ustage_day14/30.png)
 
 - 한 단어에 대해 만약 8번 셀프 어텐션하면 8개의 인코딩된 결과가 나옴
 
-    [사진31]
+    ![image31]({{ site.baseurl }}/assets/img/ustage_day14/31.png)
 
 - 임베딩된 차원과 인코딩된 차원은 항상 같아야 함
 
-[사진32]
+![image32]({{ site.baseurl }}/assets/img/ustage_day14/32.png)
 
 - 실제로는 한 단어의 임베딩 벡터 차원이 100 이라면 10 짜리 10 개로 나눠서 어텐션 진행 → 10 헤드 어텐션
 
@@ -409,17 +413,17 @@ sitemap :
 
 - 모든 단어를 한 번에 인코더에 넣으면 단어들의 순서가 사라짐 → 순서를 기억하게 해줌
 - 주어진 입력 값에 어떤 값을 더해줌
-- 최근 포지셔널 인코딩 결과
+- 최근에 사용되는 포지셔널 인코딩 결과
 
-    [사진33]
+    ![image33]({{ site.baseurl }}/assets/img/ustage_day14/33.png)
 
 - 왜 트랜스포머는 입력 임베딩에 독릭적으로 진행되는지 생각해볼 것
 
-[사진34]
+![image34]({{ site.baseurl }}/assets/img/ustage_day14/34.png)
 
 ## Decoder
 
-[사진35]
+![image35]({{ site.baseurl }}/assets/img/ustage_day14/35.png)
 
 - Encoder 는 주어진 단어를 표현하는 것
 - Decoder 는 단어를 생성해내야함
@@ -455,14 +459,14 @@ sitemap :
 
     ⇒ Encoder-Decoder Attention
 
-    [사진36]
+    ![image36]({{ site.baseurl }}/assets/img/ustage_day14/36.png)
 
     - 원래라면 K, Q 는 차원 같아야하고 V 는 달라도 되지만 여기서 K, V 는 인코더에서 온거고 Q 는 디코더꺼라 K, V 가 같음
     - SPDA 의 목적은 Q 에 대해 인코더를 찾는게 목적
 - Multi Head Attention
     - 어텐션 n_head 만큼 만듦
 
-[사진37]
+![image37]({{ site.baseurl }}/assets/img/ustage_day14/37.png)
 
 ⇒ 꼭 코딩 따라서 다 쳐볼 것, 이해도 하고
 
@@ -486,6 +490,20 @@ sitemap :
 
 <br>
 
+## 스몰 토크
+
+- 서폿님과의 미니 심리학 토크 (심리 연구의 여러 허점)
+
+## 수업 질문
+- [[펭귄] Adadelta 수식](#https://github.com/boostcamp-ai-tech-4/peer-session/issues/55)
+- [[펭귄] LSTM과 GRU 비교](#https://github.com/boostcamp-ai-tech-4/peer-session/issues/56)
+
+## 미니 데이터셋 만들기 회의
+
+- 내일까지 참가자 지원
+- 주말에 데이터 수집 및 분류
+- 각자 학습
+
 <br>
 
 <hr>
@@ -495,3 +513,11 @@ sitemap :
 # Today I Felt
 
 <br>
+
+## 다른 짓...
+
+저녁 5시쯤 친구가 던져준 알고리즘 문제를 밤에 풀었어야 했는데 빨리 풀고 남은 강의 봐야지 하며 문제에 달려들었다. 생각보다 안풀려서 시간을 1시간 넘게 써버렸다.. 이게 화근이었다 ㅠ 문제 풀다가 정말 기대했던 부스트캠퍼 3기 선배 Meet Up 도 까먹어버리고.. 흑흑.. 그렇게 예상보다 강의를 늦게 다보게 되며 밤에서야 복습을 끝낼 수 있었다. 딴짓은 할거 다하고 하자..
+
+## 트랜스포머!!!
+
+캡스톤 프로젝트에 사용했던 트랜스포머 모델을 배울 수 있어서 너무 좋았다. 정말 최성준 교수님의 강의는 너무나 만족스럽다. 프로젝트 당시 이해도 못하고 사용했던 트랜스포머라 항상 마음에 걸렸는데 이제는 이해했기 때문에 마음이 한결 가볍다. 앞으로 다양한 모델과 기술을 볼 때는 교수님께서 알려주시지 않기 때문에 스스로 구글링을 잘하고 논문을 보며 이해하는 연습을 해야겠다고 느꼈다.

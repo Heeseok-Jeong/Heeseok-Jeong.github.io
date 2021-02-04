@@ -140,9 +140,9 @@
   <li>
     <p>이전 시퀀스의 정보를 가지고 앞으로 발생할 데이터의 확률분포를 다루기 위해 조건부확률을 이용할 수 있음</p>
 
-    <p>[사진1]</p>
+    <p><img src="/assets/img/ustage_day14/1.png" alt="image1" /></p>
 
-    <p>[사진2]</p>
+    <p><img src="/assets/img/ustage_day14/2.png" alt="image2" /></p>
 
     <ul>
       <li>베이즈 정리 사용</li>
@@ -185,7 +185,7 @@
 
         <p>⇒ RNN</p>
 
-        <p>[사진3]</p>
+        <p><img src="/assets/img/ustage_day14/3.png" alt="image3" /></p>
       </li>
     </ul>
   </li>
@@ -203,7 +203,7 @@
   <li>
     <p>가장 기본적인 RNN 모형은 MLP 와 유사함</p>
 
-    <p>[사진4]</p>
+    <p><img src="/assets/img/ustage_day14/4.png" alt="image4" /></p>
 
     <ul>
       <li>이 모델은 t 번째 입력이 들어오기 때문에 과거의 정보를 다룰 수 없음</li>
@@ -213,7 +213,7 @@
   <li>
     <p>RNN 은 이전 순서의 잠재변수와 현재의 입력을 활용하여 모델링</p>
 
-    <p>[사진 5]</p>
+    <p><img src="/assets/img/ustage_day14/5.png" alt="image5" /></p>
 
     <ul>
       <li>가중치 행렬
@@ -232,7 +232,7 @@
       <li>즉 계산 그래프의 거꾸로 흐름, 잠재 변수들의 연결 그래프에 따라 순차적으로 진행됨, 맨 마지막 시점의 그래디언트가 타고 타고 올라와서 과거 그래디언트까지 흐름 (BPTT)</li>
     </ul>
 
-    <p>[사진6]</p>
+    <p><img src="/assets/img/ustage_day14/6.png" alt="image6" /></p>
   </li>
 </ul>
 
@@ -242,7 +242,7 @@
   <li>
     <p>BPTT 를 통해 RNN 의 가중치행렬의 미분을 계산해보면 아래와 같이 미분의 곱으로 이루어진 항이 계산됨</p>
 
-    <p>[사진7]</p>
+    <p><img src="/assets/img/ustage_day14/7.png" alt="image7" /></p>
 
     <ul>
       <li>최종적으로 나오는 프로덕트텀 (i+1 부터 t 까지 잠재변수 곱) 을 보면 시퀀스 길이가 길어질수록 곱해지는 텀들이 불안정해짐, 이 값이 1 보다 크면 미분값이 매우 커지고 1보다 작으면 미분값이 매우 작아지기 때문 (기울기 소실)</li>
@@ -260,7 +260,7 @@
       <li>BPTT 를 모든 시점에 적용하지 않고 블록으로 끊어서 수행</li>
     </ul>
 
-    <p>[사진8]</p>
+    <p><img src="/assets/img/ustage_day14/8.png" alt="image8" /></p>
 
     <ul>
       <li>잠재변수들에 들어오는 그래디언트를 보면 미래에서 $H_\mathit{t+1}$ 까지 들어오는 그래디언트는 받지만, $H_t$ 에는 전달하지 않음, $H_t$ 는 $O_t$ 에서 들어오는 그래디언트르 받음</li>
@@ -299,7 +299,7 @@
   <li>
     <p>고려해야하는 정보량이 늘어남</p>
 
-    <p>[사진9]</p>
+    <p><img src="/assets/img/ustage_day14/9.png" alt="image9" /></p>
   </li>
 </ul>
 
@@ -309,7 +309,7 @@
   <li>
     <p>Fix the past timespan, 과거 내용 중 볼 내용 크기를 고정</p>
 
-    <p>[사진10]</p>
+    <p><img src="/assets/img/ustage_day14/10.png" alt="image10" /></p>
   </li>
 </ul>
 
@@ -322,7 +322,7 @@
   <li>
     <p>장점 : joint distribution 을 표현하기 쉬움</p>
 
-    <p>[사진11]</p>
+    <p><img src="/assets/img/ustage_day14/11.png" alt="image11" /></p>
   </li>
 </ul>
 
@@ -334,7 +334,7 @@
   <li>
     <p>아웃풋은 하나의 과거 정보만 의존하지만 그 이전 잠재변수 (Latent state) 에도 영향받음</p>
 
-    <p>[사진12]</p>
+    <p><img src="/assets/img/ustage_day14/12.png" alt="image12" /></p>
   </li>
 </ul>
 
@@ -344,7 +344,7 @@
   <li>
     <p>앞서 말한 구조들을 가장 잘 표현</p>
 
-    <p>[사진13]</p>
+    <p><img src="/assets/img/ustage_day14/13.png" alt="image13" /></p>
   </li>
   <li>RNN 은 시간순으로 푼다고 표현, t 에서 t-1 의 정보들도 봄</li>
   <li>사실 RNN 을 시간순으로 풀면 입력이 굉장히 많은 Fullly-connected layer 와 동일해짐</li>
@@ -354,7 +354,7 @@
       <li>메멘토처럼 기억력이 일정 시간이라고 생각하면 됨 → 제한된 사고력</li>
     </ul>
 
-    <p>[사진14]</p>
+    <p><img src="/assets/img/ustage_day14/14.png" alt="image14" /></p>
 
     <ul>
       <li>더불어 활성함수까지 합쳐지면 더 예전 정보는 영향력이 없어짐, 시그모이드면 Vanishing Gradient, 렐루면 너무 커져서 exponential (폭발적이게) 됨</li>
@@ -365,19 +365,19 @@
   <li>
     <p>지금까지 말한 기본 RNN = Vanilla RNN</p>
 
-    <p>[사진15]</p>
+    <p><img src="/assets/img/ustage_day14/15.png" alt="image15" /></p>
   </li>
 </ul>
 
 <h3 id="lstm">LSTM</h3>
 
-<p>[사진16]</p>
+<p><img src="/assets/img/ustage_day14/16.png" alt="image16" /></p>
 
 <ul>
   <li>
     <p>어떻게 LSTM 이 롱텀 디펜던시를 해결하는지 볼 것</p>
 
-    <p>[사진17]</p>
+    <p><img src="/assets/img/ustage_day14/17.png" alt="image17" /></p>
 
     <ul>
       <li>input : 단어에 대한 벡터 (총 단어 5 만개면 5 만짜리 one-hot vector)</li>
@@ -392,7 +392,7 @@
       <li>히든으로부터 받은 정보를 조작해서 cell state 에 영향을 줌</li>
     </ul>
 
-    <p>[사진18]</p>
+    <p><img src="/assets/img/ustage_day14/18.png" alt="image18" /></p>
 
     <ul>
       <li>Forget gate (버릴거 정하기)
@@ -401,7 +401,7 @@
           <li>$f_t$ : 이전 셀스테이트에서 넘어온 정보 중 버릴 것을 정함</li>
         </ul>
 
-        <p>→ 이전 요약 정보와 현재 입력을 통해 지울거 정함</p>
+        <p>→ 이전 히든 정보와 현재 입력을 통해 지울거 정함</p>
       </li>
       <li>Input gate (남길거 정하기)
         <ul>
@@ -415,7 +415,7 @@
       </li>
     </ul>
 
-    <p>[사진19]</p>
+    <p><img src="/assets/img/ustage_day14/19.png" alt="image19" /></p>
 
     <ul>
       <li>Update cell (작업 실시)
@@ -440,7 +440,7 @@
 
 <h3 id="gru-gated-recurrent-unit">GRU, Gated Recurrent Unit</h3>
 
-<p>[사진20]</p>
+<p><img src="/assets/img/ustage_day14/20.png" alt="image20" /></p>
 
 <ul>
   <li>LSTM 과 다르게 Gate 2 개 (reset gate (폴겟 게이트와 비슷), update gate)</li>
@@ -489,8 +489,9 @@
             </ul>
           </li>
         </ul>
-
-        <p>### Check How LSTM Works</p>
+      </li>
+      <li>
+        <p>Check How LSTM Works</p>
 
         <ul>
           <li><code class="language-plaintext highlighter-rouge">N</code>: number of batches</li>
@@ -529,10 +530,12 @@
   <li>
     <p>LSTM에서는 Modern CNN 내용에서 배웠던 중요한 개념이 적용되어 있습니다. 무엇일까요?</p>
 
-    <p>⇒</p>
+    <p>=&gt; Gradient Vanishing 문제를 해결하기 위해 CNN 에서 Residual 을 사용한 것 같이, LSTM 도 과거의 정보를 기억하는 방법을 사용</p>
   </li>
   <li>
     <p>Pytorch LSTM 클래스에서 3dim 데이터(batch_size, sequence length, num feature), <code class="language-plaintext highlighter-rouge">batch_first</code> 관련 argument는 중요한 역할을 합니다. <code class="language-plaintext highlighter-rouge">batch_first=True</code>인 경우는 어떻게 작동이 하게되는걸까요?</p>
+
+    <p>=&gt; output 이 배치가 제일 먼저 나오게 됨</p>
   </li>
 </ul>
 
@@ -592,17 +595,17 @@
   <li>
     <p>인코더와 디코더에 사용되는 <strong>Self-Attention</strong> 이 트랜스포머의 핵심</p>
 
-    <p>[사진21]</p>
+    <p><img src="/assets/img/ustage_day14/21.png" alt="image21" /></p>
   </li>
   <li>
     <p>세 개의 단어 (각각 벡터) 가 주어지면 셀프어텐션은  $x_i$ 벡터가 $z_i$ 벡터로 바꿀 때 각각의 단어 x 들을 모두 사용함 → 디펜던시가 있음 (다른 단어들 보는 것)</p>
 
-    <p>[사진22]</p>
+    <p><img src="/assets/img/ustage_day14/22.png" alt="image22" /></p>
   </li>
   <li>
-    <p>피드 포워드는 그냥 원래 MLP 처럼 진행\</p>
+    <p>피드 포워드는 그냥 원래 MLP 처럼 진행</p>
 
-    <p>[사진23]</p>
+    <p><img src="/assets/img/ustage_day14/23.png" alt="image23" /></p>
   </li>
 </ul>
 
@@ -615,25 +618,25 @@
       <li>한 단어마다 Q, K, V 가 생성됨</li>
     </ul>
 
-    <p>[사진24]</p>
+    <p><img src="/assets/img/ustage_day14/24.png" alt="image24" /></p>
   </li>
   <li>
     <p>Thinking 과 Machines 라는 단어들을 인코딩하면 각 단어마다 만들어진 Q, K, V 를 통해 Score 를 생성 → i 번째 단어가 j 번째 단어와 얼마나 유사도가 있는지 qi, kj 를 내적</p>
 
-    <p>[사진25]</p>
+    <p><img src="/assets/img/ustage_day14/25.png" alt="image25" /></p>
 
     <ul>
       <li>i 번째 단어와 나머지 단어들과의 관계를 계산 → Attention</li>
     </ul>
 
-    <p>[사진26]</p>
+    <p><img src="/assets/img/ustage_day14/26.png" alt="image26" /></p>
   </li>
   <li>스코어가 나오면 스코어에 대해노말라이제이션 (루트dk (키벡터차원) = 8로 나눠줌, 값이 너무 커지지 않게 하기 위해).</li>
   <li>이후 소프트맥스함 → i, j 단어와의 관계를 확률로 표현</li>
   <li>
-    <p>이 값을 value 와 곱함 = Sum</p>
+    <p>이 값을 value 와 곱함, 이후 다 더함 Sum</p>
 
-    <p>[사진27]</p>
+    <p><img src="/assets/img/ustage_day14/27.png" alt="image27" /></p>
   </li>
 </ul>
 
@@ -644,12 +647,12 @@
   <li>
     <p>행렬로 보자</p>
 
-    <p>[사진28]</p>
+    <p><img src="/assets/img/ustage_day14/28.png" alt="image28" /></p>
   </li>
   <li>
     <p>수식</p>
 
-    <p>[사진29]</p>
+    <p><img src="/assets/img/ustage_day14/29.png" alt="image29" /></p>
   </li>
 </ul>
 
@@ -678,17 +681,17 @@
   <li>
     <p>하나의 임베딩된 벡터에 대해 Q, K, V 를 여러개 만듦</p>
 
-    <p>[사진30]</p>
+    <p><img src="/assets/img/ustage_day14/30.png" alt="image30" /></p>
   </li>
   <li>
     <p>한 단어에 대해 만약 8번 셀프 어텐션하면 8개의 인코딩된 결과가 나옴</p>
 
-    <p>[사진31]</p>
+    <p><img src="/assets/img/ustage_day14/31.png" alt="image31" /></p>
   </li>
   <li>임베딩된 차원과 인코딩된 차원은 항상 같아야 함</li>
 </ul>
 
-<p>[사진32]</p>
+<p><img src="/assets/img/ustage_day14/32.png" alt="image32" /></p>
 
 <ul>
   <li>실제로는 한 단어의 임베딩 벡터 차원이 100 이라면 10 짜리 10 개로 나눠서 어텐션 진행 → 10 헤드 어텐션</li>
@@ -700,18 +703,18 @@
   <li>모든 단어를 한 번에 인코더에 넣으면 단어들의 순서가 사라짐 → 순서를 기억하게 해줌</li>
   <li>주어진 입력 값에 어떤 값을 더해줌</li>
   <li>
-    <p>최근 포지셔널 인코딩 결과</p>
+    <p>최근에 사용되는 포지셔널 인코딩 결과</p>
 
-    <p>[사진33]</p>
+    <p><img src="/assets/img/ustage_day14/33.png" alt="image33" /></p>
   </li>
   <li>왜 트랜스포머는 입력 임베딩에 독릭적으로 진행되는지 생각해볼 것</li>
 </ul>
 
-<p>[사진34]</p>
+<p><img src="/assets/img/ustage_day14/34.png" alt="image34" /></p>
 
 <h2 id="decoder">Decoder</h2>
 
-<p>[사진35]</p>
+<p><img src="/assets/img/ustage_day14/35.png" alt="image35" /></p>
 
 <ul>
   <li>Encoder 는 주어진 단어를 표현하는 것</li>
@@ -760,7 +763,7 @@
 
     <p>⇒ Encoder-Decoder Attention</p>
 
-    <p>[사진36]</p>
+    <p><img src="/assets/img/ustage_day14/36.png" alt="image36" /></p>
 
     <ul>
       <li>원래라면 K, Q 는 차원 같아야하고 V 는 달라도 되지만 여기서 K, V 는 인코더에서 온거고 Q 는 디코더꺼라 K, V 가 같음</li>
@@ -775,7 +778,7 @@
   </li>
 </ul>
 
-<p>[사진37]</p>
+<p><img src="/assets/img/ustage_day14/37.png" alt="image37" /></p>
 
 <p>⇒ 꼭 코딩 따라서 다 쳐볼 것, 이해도 하고</p>
 
@@ -803,6 +806,26 @@
 
 <p><br /></p>
 
+<h2 id="스몰-토크">스몰 토크</h2>
+
+<ul>
+  <li>서폿님과의 미니 심리학 토크 (심리 연구의 여러 허점)</li>
+</ul>
+
+<h2 id="수업-질문">수업 질문</h2>
+<ul>
+  <li><a href="#https://github.com/boostcamp-ai-tech-4/peer-session/issues/55">[펭귄] Adadelta 수식</a></li>
+  <li><a href="#https://github.com/boostcamp-ai-tech-4/peer-session/issues/56">[펭귄] LSTM과 GRU 비교</a></li>
+</ul>
+
+<h2 id="미니-데이터셋-만들기-회의">미니 데이터셋 만들기 회의</h2>
+
+<ul>
+  <li>내일까지 참가자 지원</li>
+  <li>주말에 데이터 수집 및 분류</li>
+  <li>각자 학습</li>
+</ul>
+
 <p><br /></p>
 
 <hr />
@@ -812,6 +835,14 @@
 <h1 id="today-i-felt">Today I Felt</h1>
 
 <p><br /></p>
+
+<h2 id="다른-짓">다른 짓…</h2>
+
+<p>저녁 5시쯤 친구가 던져준 알고리즘 문제를 밤에 풀었어야 했는데 빨리 풀고 남은 강의 봐야지 하며 문제에 달려들었다. 생각보다 안풀려서 시간을 1시간 넘게 써버렸다.. 이게 화근이었다 ㅠ 문제 풀다가 정말 기대했던 부스트캠퍼 3기 선배 Meet Up 도 까먹어버리고.. 흑흑.. 그렇게 예상보다 강의를 늦게 다보게 되며 밤에서야 복습을 끝낼 수 있었다. 딴짓은 할거 다하고 하자..</p>
+
+<h2 id="트랜스포머">트랜스포머!!!</h2>
+
+<p>캡스톤 프로젝트에 사용했던 트랜스포머 모델을 배울 수 있어서 너무 좋았다. 정말 최성준 교수님의 강의는 너무나 만족스럽다. 프로젝트 당시 이해도 못하고 사용했던 트랜스포머라 항상 마음에 걸렸는데 이제는 이해했기 때문에 마음이 한결 가볍다. 앞으로 다양한 모델과 기술을 볼 때는 교수님께서 알려주시지 않기 때문에 스스로 구글링을 잘하고 논문을 보며 이해하는 연습을 해야겠다고 느꼈다.</p>
 
   </section>
 </div>
