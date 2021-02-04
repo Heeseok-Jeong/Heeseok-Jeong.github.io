@@ -186,7 +186,8 @@ sitemap :
     - dropout(p=0.5)
     - VGG16, VGG19 사용
 - 왜 3x3 컨벌루션?
-    - 컨벌루션이 사이즈가 크면 한 번에 많이 볼 수 있지만, 그것보다 사이즈를 작게하여 여러 뎁스로 더 보는게 나음 (Receptive field, # of params)
+    - 컨벌루션이 사이즈가 크면 한 번에 많이 볼 수 있지만, 그것보다 사이즈를 작게하여 여러 뎁스로 더 보는게 나음 
+      - Receptive field, 하나의 출력에 관여하는 입력 픽셀의 개수
 
     ![image6]({{ site.baseurl }}/assets/img/ustage_day13/6.png)
 
