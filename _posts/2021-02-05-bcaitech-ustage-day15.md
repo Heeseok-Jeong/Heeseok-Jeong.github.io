@@ -51,11 +51,11 @@ sitemap :
 
 - 베르누이 분포 : 동전 던지기
 
-    [사진1]
+    ![image1]({{ site.baseurl }}/assets/img/ustage_day15/1.png)
 
 - 카테고리컬 분포 : m 면체 주사위 던지기
 
-    [사진2]
+    ![image2]({{ site.baseurl }}/assets/img/ustage_day15/2.png)
 
 - RGB joint distribution (결합 분포) 을 모델링한다면
     - (r, g, b) ~ p(R, G, B)
@@ -76,7 +76,7 @@ sitemap :
     - 위 두 개의 중간 : 체인 룰과 컨디셔널을 이용해서
     - 세 가지 기본적인 룰
 
-        [사진3]
+        ![image3]({{ site.baseurl }}/assets/img/ustage_day15/3.png)
 
     - 체인룰을 사용하면, joint 분포를 conditional 분포로 바꿔줌
         - 어떤 것도 바뀌지 않음 → fully dependent 모델 파라미터 수와 같음
@@ -87,41 +87,41 @@ sitemap :
             - $2^n-1$ 를 따름
     - Markov assumtion, 바로 전 입력에 의해 현재 입력 영향
 
-        [사진4]
+        ![image4]({{ site.baseurl }}/assets/img/ustage_day15/4.png)
 
         - 파라미터 수 : 2n - 1
         - Markov asuumtion 모델을 레버리징하여 파라미터에 대해 exponential reduction (지수를 배수로 줄임) 가능
         - **Auto-regressive models** 는 이 conditional independency 를 레버리징함.
 
-    ### Auto-regressive Model
+### Auto-regressive Model
 
-    - MNIST 이미지 28x28 짜리 숫자 사진이 있다고 가정하자.
-    - 우리의 목표는 p(x) = p(x1, ..., p784) 를 학습하는것, x 는 0 or 1
-    - 어떻게 p(x) 를 파라미터화 할까?
-        - joint distribution 에 체인룰 적용
+- MNIST 이미지 28x28 짜리 숫자 사진이 있다고 가정하자.
+- 우리의 목표는 p(x) = p(x1, ..., p784) 를 학습하는것, x 는 0 or 1
+- 어떻게 p(x) 를 파라미터화 할까?
+    - joint distribution 에 체인룰 적용
 
-        [사진5]
+    ![image5]({{ site.baseurl }}/assets/img/ustage_day15/5.png)
 
-        ⇒ auto-regressive model
+    ⇒ auto-regressive model
 
-        - 자기 회귀 모델은 하나의 정보가 이전 정보들에 의존적인 것
-            - 마코비언처럼 하나의 정보가 이전 정보에만 의존해도 (AROne 모델)
-            - 하나의 정보가 모든 이전 정보에 의존 (ARN 모델)
-        - 어떤 이미지를 자기회귀 하려면 랜덤 변수들에 대해 ordering (순서 매기기) 필요함
-            - 순서 매기는 방법에 따라 성능이 달라질 수 있음 (지그재그, 연속 등)
-    - joint distribution 에 대해 마코비언 추정을 하거나 다른 conditional independence 추정을 하는 것이 체인룰 입장에서 joint distribution 을 쪼개는 데에 어떤 관계가 있는지 생각할 것
+    - 자기 회귀 모델은 하나의 정보가 이전 정보들에 의존적인 것
+        - 마코비언처럼 하나의 정보가 이전 정보에만 의존해도 (AROne 모델)
+        - 하나의 정보가 모든 이전 정보에 의존 (ARN 모델)
+    - 어떤 이미지를 자기회귀 하려면 랜덤 변수들에 대해 ordering (순서 매기기) 필요함
+        - 순서 매기는 방법에 따라 성능이 달라질 수 있음 (지그재그, 연속 등)
+- joint distribution 에 대해 마코비언 추정을 하거나 다른 conditional independence 추정을 하는 것이 체인룰 입장에서 joint distribution 을 쪼개는 데에 어떤 관계가 있는지 생각할 것
 
 ### NADE : Neural Autoregressive Density Estimator
 
-[사진6]
+![image6]({{ site.baseurl }}/assets/img/ustage_day15/6.png)
 
 - i 번째 픽셀을 1 ~ i-1 번째 픽셀에 의존하게 만듦
-- 첫 번째 픽셀의 확률분포는 독립적으로 만들고, 두 번째 픽셀의 확률은 첫 번째 픽셀에 의존하게 (h 가 됨) ... 끝까지 진행
+- 첫 번째 픽셀의 확률분포는 독립적으로 만들고, 두 번째 픽셀의 확률은 첫 번째 픽셀에 의존 (h 가 됨), 세 번째 픽셀의 확률은 첫 번째와 두번째에 의존 ... 끝까지 진행
 - 100번째 뉴럴 네트워크 (100번째 픽셀에 대한 확률분포) 만들 때는 99 개의 이전 입력들을 받을 수 있는 뉴럴 네트워크 필요
 - NADE 는 explicit 모델 (생성 + 분류(확률계산)) → 주어진 입력에 대해 density 계산 가능
 - 784 개의 바이너리 픽셀 {x1, ..., x784} 이 있다면, joint 확률은 아래와 같음
 
-    [사진7]
+    ![image7]({{ site.baseurl }}/assets/img/ustage_day15/7.png)
 
 - 연속 확률 변수일 때는 마지막 모델에 가우시안 믹스쳐 모델을 사용
 
@@ -130,11 +130,11 @@ sitemap :
 - auto-regressive model 정의하는데 RNN 사용 가능
 - n x n RGB 이미지가 있을 때, R 먼저 만들고 G 만들고 B 만듦
 
-    [사진8]
+    ![image8]({{ site.baseurl }}/assets/img/ustage_day15/8.png)
 
 - ordering 을 어떻게 하냐에 따라 두 버전 존재
 
-    [사진9]
+    ![image9]({{ site.baseurl }}/assets/img/ustage_day15/9.png)
 
     - Row LSTM : i 번째 픽셀을 만들 때 위쪽 정보 사용 (아래로 진행, 맞나?)
     - Diagonal BiLSTM : bidirectional 하면서 자기 이전 정보 모두 사용 (옆으로 진행)
@@ -148,27 +148,27 @@ sitemap :
 
 - Variational inference (VI)
     - VI 의 목적은 **variational distribution** 을 **posterior dist**  와 최적의 매치가 되도록 최적화하는 것
-        - Posterior dist : $p_\theta(z|x)$
+        - Posterior dist : $p_\theta(z\|x)$
             - 관측이 주어졌을 때 관심있는 확률 변수의 확률 분포
             - 계산하기 힘듦 → 근사하는게 vd
-        - Variational dist : $q_\varnothing(z|x)$
+        - Variational dist : $q_\varnothing(z\|x)$
             - 가장 관심있는 pd 를 근사한 것
     - KL 발산을 사용해서 true posterior 를 최소화하는 vd 찾고자 함
 
-    [사진10]
+    ![image10]({{ site.baseurl }}/assets/img/ustage_day15/10.png)
 
     - VD 를 찾는게 목적 (Encoder)
     - 문제는 posterior 를 모르는데 어떻게 이를 근사하는 VD 를 만들 수 있을까?
 
         → ELBO 트릭 사용
 
-        [사진11]
+        ![image11]({{ site.baseurl }}/assets/img/ustage_day15/11.png)
 
         - ELBO (Evidence Lower Bound) 를 키움으로써 거리를 줄여줌
         - 수식 따라가보는거 추천
     - ELBO
 
-        [사진12]
+        ![image12]({{ site.baseurl }}/assets/img/ustage_day15/12.png)
 
         - Reconstruction Term : 인코더를 통해 x 라는 입력을 latent space 로 보냈다가 디코더로 돌아오는 Reconstruction loss 를 줄이는 것
         - Prior Fitting Term : x 라는 이미지들을 latent space 에 올림 (점들). 점들이 이루는 분포가 내가 가정하는 latent space 의 prior dist (사전 분포) 와 동시에 만족하는 것과 같음
@@ -176,14 +176,14 @@ sitemap :
 
     ⇒ 어떤 입력을 latent space 로 보내서 무언가를 찾고 이를 다시 reconstruction 하는 term 만들어지고, generative model 이 되기 위해서는 latent space 된 prior dist 로 z 를 샘플링 하고 디코더를 태워서 나온 아웃풋 (이미지) 를 제너레이션 result 로 봄. 
 
-    - 입란 auto encoder 는 인풋이 latent space 갔다가 output 나오므로 generation model 아님
+    - 일반 auto encoder 는 인풋이 latent space 갔다가 output 나오므로 generation model 아님
     - Key Limitation
         - intractable 모델 (가능성 측정이 힘들다)
             - VA 는 Explicit 모델이 아님, 어떤 입력이 주어졌을 때 얘가 얼마나 비슷한지 (likeli 한지) 알기 어려움
         - prior fitting term 은 반드시 미분가능, 따라서 diverse latent prior dist 사용하기 힘듦
         - 일반적으로 isotropic 가우시안 사용 (모든 아웃풋 차원이 독립)
 
-            [사진13] 
+            ![image13]({{ site.baseurl }}/assets/img/ustage_day15/13.png) 
 
             - 어떤 prior dist 가 가우시안이면, variation dist 와 prior dist 사이의 KL 발산은 위와 같이 close form 으로 나옴
     - 가장 큰 단점 : 인코더 활용할 때 prior fitting term 이 KL 발산을 활용하는 것, 가우시안 아닌 경우 활용 힘듦
@@ -194,7 +194,7 @@ sitemap :
 - Auto encoder 의 KL 발산에 있는 prior fitting term 을 GAN objective 로 바꾼 것
 - 샘플링 가능한 latent dist 가 있으면 맞춰줄 수 있음 (uniform dist, 가우시안 믹스쳐 등) → 여러 분포 활용 가능하다는게 장점
 
-    [사진14]
+    ![image14]({{ site.baseurl }}/assets/img/ustage_day15/14.png)
 
 - 성능도 VA 보다 좋을 때가 많음
 
@@ -207,29 +207,29 @@ sitemap :
 - two-player game
     - 한 쪽은 높이고 싶어하고, 한 쪽은 낮추고 싶어함
 
-    [사진15]
+    ![image15]({{ site.baseurl }}/assets/img/ustage_day15/15.png)
 
 - 장점 : discriminator 가 성능이 좋아짐에 따라 generator 가 좋아진다.
 - Implicit model
 
-    [사진16]
+    ![image16]({{ site.baseurl }}/assets/img/ustage_day15/16.png)
 
     - z 로 출발해서 제너레이터 통과해서 가짜 만들고 디스크리미네이터는 가짜와 진짜를 보고 판단
 - Discriminator
 
-    [사진17]
+    ![image17]({{ site.baseurl }}/assets/img/ustage_day15/17.png)
 
 - Generator
     - optimal discriminator 를 집어넣음
 
-    [사진18]
+    ![image18]({{ site.baseurl }}/assets/img/ustage_day15/18.png)
 
 - 엄밀히 말하면 dis 가 optimal 이라고 가정했을 때, 이를 gen 이 학습하면 위와 같은 식이 나왔는데 실제로는 dis 가 optimal 수렴하는거 보장 힘듦 → gen 식 보장 안됨 (이론적으로는 가능하지만)
 - AAE 에 활용
 
 ### DCGAN
 
-[사진19]
+![image19]({{ site.baseurl }}/assets/img/ustage_day15/19.png)
 
 - 기본 GAN 은 MLP, 얘는 이미지에 사용
 - LeakyReLU 사용
@@ -239,7 +239,7 @@ sitemap :
 
 - 학습할 때 단순히 z 로만 만드는게 아니라 class c 를 사용해 만들자.
 
-[사진20]
+![image20]({{ site.baseurl }}/assets/img/ustage_day15/20.png)
 
 ### Text2Image
 
@@ -255,7 +255,7 @@ sitemap :
 - 이미지 사이 도메인 변경, 말→얼룩말 바꾸기
 - Cycle-consistency loss 중요
 
-[사진21]
+![image21]({{ site.baseurl }}/assets/img/ustage_day15/21.png)
 
 ### Star-GAN
 
@@ -316,6 +316,9 @@ sitemap :
 #### 9. 설명을 매우 잘하시는데 강의나 발표 준비할 때 팁이 있을까요?
 
 : 생존을 위해 열심히 하고 있다. 패스트 캠퍼스에서 강의하면서 도움 많이 되었음. 많이 하면 느는듯. 주변에 똑똑한 사람들이 많은데 이들은 설명을 잘 못함 너무 똑똑해서. 천재가 아니라 더 잘 설명하는게 아닐까 싶다.
+
+<br>
+<br>
 
 ### 라이브 Q&A
 
@@ -391,9 +394,24 @@ sitemap :
 
 : 학회 등에서 다양한 사람들 만나서 교류 도움됨. 온라인보다.
 
+<br>
+
+<hr>
+
+<br>
+
 # 피어 세션
 
 <br>
+
+## 수업 질문
+
+[[히스] generative model 에서 generator 로 실제 아웃풋 생성](https://github.com/boostcamp-ai-tech-4/peer-session/issues/58)
+
+## 데이터셋 만들기
+
+- 시간 : 2/9 14~17pm
+- 주제 : 닮은 사람 분류 (아이즈원 김채원, 조유리, 최예나)
 
 <br>
 
@@ -404,3 +422,7 @@ sitemap :
 # Today I Felt
 
 <br>
+
+## 설 연휴 = 메꾸는 시간
+
+다음주는 통으로 휴강이다. 바로 오예를 외쳤지만 사실 그 시간은 모든 강의 복습 및 부족한 공부를 하는 시간이 될 것 같다. 그리고 실습으로는 notMNIST 데이터 클래스 만들기, 트랜스포머 코드 연구, 우리 조 데이터셋 만들기를 할 예정이다. 쉬기도 쉬겠지만 공부할 생각부터 하다니 대견스다. 사실 머신러닝 공부가 재밌다. 학교 시험용이 아니라 내가 알기 위해 공부하는거라 그런거겠지? 아무튼 설 연휴 다음부터 있을 본격적인 수업 전에 기본을 확실히 다져야지!

@@ -153,12 +153,12 @@
   <li>
     <p>베르누이 분포 : 동전 던지기</p>
 
-    <p>[사진1]</p>
+    <p><img src="/assets/img/ustage_day15/1.png" alt="image1" /></p>
   </li>
   <li>
     <p>카테고리컬 분포 : m 면체 주사위 던지기</p>
 
-    <p>[사진2]</p>
+    <p><img src="/assets/img/ustage_day15/2.png" alt="image2" /></p>
   </li>
   <li>RGB joint distribution (결합 분포) 을 모델링한다면
     <ul>
@@ -189,7 +189,7 @@
       <li>
         <p>세 가지 기본적인 룰</p>
 
-        <p>[사진3]</p>
+        <p><img src="/assets/img/ustage_day15/3.png" alt="image3" /></p>
       </li>
       <li>체인룰을 사용하면, joint 분포를 conditional 분포로 바꿔줌
         <ul>
@@ -207,7 +207,7 @@
       <li>
         <p>Markov assumtion, 바로 전 입력에 의해 현재 입력 영향</p>
 
-        <p>[사진4]</p>
+        <p><img src="/assets/img/ustage_day15/4.png" alt="image4" /></p>
 
         <ul>
           <li>파라미터 수 : 2n - 1</li>
@@ -216,53 +216,53 @@
         </ul>
       </li>
     </ul>
+  </li>
+</ul>
 
-    <p>### Auto-regressive Model</p>
+<h3 id="auto-regressive-model">Auto-regressive Model</h3>
+
+<ul>
+  <li>MNIST 이미지 28x28 짜리 숫자 사진이 있다고 가정하자.</li>
+  <li>우리의 목표는 p(x) = p(x1, …, p784) 를 학습하는것, x 는 0 or 1</li>
+  <li>어떻게 p(x) 를 파라미터화 할까?
+    <ul>
+      <li>joint distribution 에 체인룰 적용</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day15/5.png" alt="image5" /></p>
+
+    <p>⇒ auto-regressive model</p>
 
     <ul>
-      <li>MNIST 이미지 28x28 짜리 숫자 사진이 있다고 가정하자.</li>
-      <li>우리의 목표는 p(x) = p(x1, …, p784) 를 학습하는것, x 는 0 or 1</li>
-      <li>어떻게 p(x) 를 파라미터화 할까?
+      <li>자기 회귀 모델은 하나의 정보가 이전 정보들에 의존적인 것
         <ul>
-          <li>joint distribution 에 체인룰 적용</li>
-        </ul>
-
-        <p>[사진5]</p>
-
-        <p>⇒ auto-regressive model</p>
-
-        <ul>
-          <li>자기 회귀 모델은 하나의 정보가 이전 정보들에 의존적인 것
-            <ul>
-              <li>마코비언처럼 하나의 정보가 이전 정보에만 의존해도 (AROne 모델)</li>
-              <li>하나의 정보가 모든 이전 정보에 의존 (ARN 모델)</li>
-            </ul>
-          </li>
-          <li>어떤 이미지를 자기회귀 하려면 랜덤 변수들에 대해 ordering (순서 매기기) 필요함
-            <ul>
-              <li>순서 매기는 방법에 따라 성능이 달라질 수 있음 (지그재그, 연속 등)</li>
-            </ul>
-          </li>
+          <li>마코비언처럼 하나의 정보가 이전 정보에만 의존해도 (AROne 모델)</li>
+          <li>하나의 정보가 모든 이전 정보에 의존 (ARN 모델)</li>
         </ul>
       </li>
-      <li>joint distribution 에 대해 마코비언 추정을 하거나 다른 conditional independence 추정을 하는 것이 체인룰 입장에서 joint distribution 을 쪼개는 데에 어떤 관계가 있는지 생각할 것</li>
+      <li>어떤 이미지를 자기회귀 하려면 랜덤 변수들에 대해 ordering (순서 매기기) 필요함
+        <ul>
+          <li>순서 매기는 방법에 따라 성능이 달라질 수 있음 (지그재그, 연속 등)</li>
+        </ul>
+      </li>
     </ul>
   </li>
+  <li>joint distribution 에 대해 마코비언 추정을 하거나 다른 conditional independence 추정을 하는 것이 체인룰 입장에서 joint distribution 을 쪼개는 데에 어떤 관계가 있는지 생각할 것</li>
 </ul>
 
 <h3 id="nade--neural-autoregressive-density-estimator">NADE : Neural Autoregressive Density Estimator</h3>
 
-<p>[사진6]</p>
+<p><img src="/assets/img/ustage_day15/6.png" alt="image6" /></p>
 
 <ul>
   <li>i 번째 픽셀을 1 ~ i-1 번째 픽셀에 의존하게 만듦</li>
-  <li>첫 번째 픽셀의 확률분포는 독립적으로 만들고, 두 번째 픽셀의 확률은 첫 번째 픽셀에 의존하게 (h 가 됨) … 끝까지 진행</li>
+  <li>첫 번째 픽셀의 확률분포는 독립적으로 만들고, 두 번째 픽셀의 확률은 첫 번째 픽셀에 의존 (h 가 됨), 세 번째 픽셀의 확률은 첫 번째와 두번째에 의존 … 끝까지 진행</li>
   <li>100번째 뉴럴 네트워크 (100번째 픽셀에 대한 확률분포) 만들 때는 99 개의 이전 입력들을 받을 수 있는 뉴럴 네트워크 필요</li>
   <li>NADE 는 explicit 모델 (생성 + 분류(확률계산)) → 주어진 입력에 대해 density 계산 가능</li>
   <li>
     <p>784 개의 바이너리 픽셀 {x1, …, x784} 이 있다면, joint 확률은 아래와 같음</p>
 
-    <p>[사진7]</p>
+    <p><img src="/assets/img/ustage_day15/7.png" alt="image7" /></p>
   </li>
   <li>연속 확률 변수일 때는 마지막 모델에 가우시안 믹스쳐 모델을 사용</li>
 </ul>
@@ -274,12 +274,12 @@
   <li>
     <p>n x n RGB 이미지가 있을 때, R 먼저 만들고 G 만들고 B 만듦</p>
 
-    <p>[사진8]</p>
+    <p><img src="/assets/img/ustage_day15/8.png" alt="image8" /></p>
   </li>
   <li>
     <p>ordering 을 어떻게 하냐에 따라 두 버전 존재</p>
 
-    <p>[사진9]</p>
+    <p><img src="/assets/img/ustage_day15/9.png" alt="image9" /></p>
 
     <ul>
       <li>Row LSTM : i 번째 픽셀을 만들 때 위쪽 정보 사용 (아래로 진행, 맞나?)</li>
@@ -302,29 +302,13 @@
     <ul>
       <li>VI 의 목적은 <strong>variational distribution</strong> 을 <strong>posterior dist</strong>  와 최적의 매치가 되도록 최적화하는 것
         <ul>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>Posterior dist : $p_\theta(z</td>
-                  <td>x)$</td>
-                </tr>
-              </tbody>
-            </table>
+          <li>Posterior dist : $p_\theta(z|x)$
             <ul>
               <li>관측이 주어졌을 때 관심있는 확률 변수의 확률 분포</li>
               <li>계산하기 힘듦 → 근사하는게 vd</li>
             </ul>
           </li>
-          <li>
-            <table>
-              <tbody>
-                <tr>
-                  <td>Variational dist : $q_\varnothing(z</td>
-                  <td>x)$</td>
-                </tr>
-              </tbody>
-            </table>
+          <li>Variational dist : $q_\varnothing(z|x)$
             <ul>
               <li>가장 관심있는 pd 를 근사한 것</li>
             </ul>
@@ -334,7 +318,7 @@
       <li>KL 발산을 사용해서 true posterior 를 최소화하는 vd 찾고자 함</li>
     </ul>
 
-    <p>[사진10]</p>
+    <p><img src="/assets/img/ustage_day15/10.png" alt="image10" /></p>
 
     <ul>
       <li>VD 를 찾는게 목적 (Encoder)</li>
@@ -343,7 +327,7 @@
 
         <p>→ ELBO 트릭 사용</p>
 
-        <p>[사진11]</p>
+        <p><img src="/assets/img/ustage_day15/11.png" alt="image11" /></p>
 
         <ul>
           <li>ELBO (Evidence Lower Bound) 를 키움으로써 거리를 줄여줌</li>
@@ -353,7 +337,7 @@
       <li>
         <p>ELBO</p>
 
-        <p>[사진12]</p>
+        <p><img src="/assets/img/ustage_day15/12.png" alt="image12" /></p>
 
         <ul>
           <li>Reconstruction Term : 인코더를 통해 x 라는 입력을 latent space 로 보냈다가 디코더로 돌아오는 Reconstruction loss 를 줄이는 것</li>
@@ -366,7 +350,7 @@
     <p>⇒ 어떤 입력을 latent space 로 보내서 무언가를 찾고 이를 다시 reconstruction 하는 term 만들어지고, generative model 이 되기 위해서는 latent space 된 prior dist 로 z 를 샘플링 하고 디코더를 태워서 나온 아웃풋 (이미지) 를 제너레이션 result 로 봄.</p>
 
     <ul>
-      <li>입란 auto encoder 는 인풋이 latent space 갔다가 output 나오므로 generation model 아님</li>
+      <li>일반 auto encoder 는 인풋이 latent space 갔다가 output 나오므로 generation model 아님</li>
       <li>Key Limitation
         <ul>
           <li>intractable 모델 (가능성 측정이 힘들다)
@@ -378,7 +362,7 @@
           <li>
             <p>일반적으로 isotropic 가우시안 사용 (모든 아웃풋 차원이 독립)</p>
 
-            <p>[사진13]</p>
+            <p><img src="/assets/img/ustage_day15/13.png" alt="image13" /></p>
 
             <ul>
               <li>어떤 prior dist 가 가우시안이면, variation dist 와 prior dist 사이의 KL 발산은 위와 같이 close form 으로 나옴</li>
@@ -399,7 +383,7 @@
   <li>
     <p>샘플링 가능한 latent dist 가 있으면 맞춰줄 수 있음 (uniform dist, 가우시안 믹스쳐 등) → 여러 분포 활용 가능하다는게 장점</p>
 
-    <p>[사진14]</p>
+    <p><img src="/assets/img/ustage_day15/14.png" alt="image14" /></p>
   </li>
   <li>성능도 VA 보다 좋을 때가 많음</li>
 </ul>
@@ -417,13 +401,13 @@
       <li>한 쪽은 높이고 싶어하고, 한 쪽은 낮추고 싶어함</li>
     </ul>
 
-    <p>[사진15]</p>
+    <p><img src="/assets/img/ustage_day15/15.png" alt="image15" /></p>
   </li>
   <li>장점 : discriminator 가 성능이 좋아짐에 따라 generator 가 좋아진다.</li>
   <li>
     <p>Implicit model</p>
 
-    <p>[사진16]</p>
+    <p><img src="/assets/img/ustage_day15/16.png" alt="image16" /></p>
 
     <ul>
       <li>z 로 출발해서 제너레이터 통과해서 가짜 만들고 디스크리미네이터는 가짜와 진짜를 보고 판단</li>
@@ -432,14 +416,14 @@
   <li>
     <p>Discriminator</p>
 
-    <p>[사진17]</p>
+    <p><img src="/assets/img/ustage_day15/17.png" alt="image17" /></p>
   </li>
   <li>Generator
     <ul>
       <li>optimal discriminator 를 집어넣음</li>
     </ul>
 
-    <p>[사진18]</p>
+    <p><img src="/assets/img/ustage_day15/18.png" alt="image18" /></p>
   </li>
   <li>엄밀히 말하면 dis 가 optimal 이라고 가정했을 때, 이를 gen 이 학습하면 위와 같은 식이 나왔는데 실제로는 dis 가 optimal 수렴하는거 보장 힘듦 → gen 식 보장 안됨 (이론적으로는 가능하지만)</li>
   <li>AAE 에 활용</li>
@@ -447,7 +431,7 @@
 
 <h3 id="dcgan">DCGAN</h3>
 
-<p>[사진19]</p>
+<p><img src="/assets/img/ustage_day15/19.png" alt="image19" /></p>
 
 <ul>
   <li>기본 GAN 은 MLP, 얘는 이미지에 사용</li>
@@ -461,7 +445,7 @@
   <li>학습할 때 단순히 z 로만 만드는게 아니라 class c 를 사용해 만들자.</li>
 </ul>
 
-<p>[사진20]</p>
+<p><img src="/assets/img/ustage_day15/20.png" alt="image20" /></p>
 
 <h3 id="text2image">Text2Image</h3>
 
@@ -483,7 +467,7 @@
   <li>Cycle-consistency loss 중요</li>
 </ul>
 
-<p>[사진21]</p>
+<p><img src="/assets/img/ustage_day15/21.png" alt="image21" /></p>
 
 <h3 id="star-gan">Star-GAN</h3>
 
@@ -550,6 +534,9 @@
 <h4 id="9-설명을-매우-잘하시는데-강의나-발표-준비할-때-팁이-있을까요">9. 설명을 매우 잘하시는데 강의나 발표 준비할 때 팁이 있을까요?</h4>
 
 <p>: 생존을 위해 열심히 하고 있다. 패스트 캠퍼스에서 강의하면서 도움 많이 되었음. 많이 하면 느는듯. 주변에 똑똑한 사람들이 많은데 이들은 설명을 잘 못함 너무 똑똑해서. 천재가 아니라 더 잘 설명하는게 아닐까 싶다.</p>
+
+<p><br />
+<br /></p>
 
 <h3 id="라이브-qa">라이브 Q&amp;A</h3>
 
@@ -625,9 +612,26 @@
 
 <p>: 학회 등에서 다양한 사람들 만나서 교류 도움됨. 온라인보다.</p>
 
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
 <h1 id="피어-세션">피어 세션</h1>
 
 <p><br /></p>
+
+<h2 id="수업-질문">수업 질문</h2>
+
+<p><a href="https://github.com/boostcamp-ai-tech-4/peer-session/issues/58">[히스] generative model 에서 generator 로 실제 아웃풋 생성</a></p>
+
+<h2 id="데이터셋-만들기">데이터셋 만들기</h2>
+
+<ul>
+  <li>시간 : 2/9 14~17pm</li>
+  <li>주제 : 닮은 사람 분류 (아이즈원 김채원, 조유리, 최예나)</li>
+</ul>
 
 <p><br /></p>
 
@@ -638,6 +642,10 @@
 <h1 id="today-i-felt">Today I Felt</h1>
 
 <p><br /></p>
+
+<h2 id="설-연휴--메꾸는-시간">설 연휴 = 메꾸는 시간</h2>
+
+<p>다음주는 통으로 휴강이다. 바로 오예를 외쳤지만 사실 그 시간은 모든 강의 복습 및 부족한 공부를 하는 시간이 될 것 같다. 그리고 실습으로는 notMNIST 데이터 클래스 만들기, 트랜스포머 코드 연구, 우리 조 데이터셋 만들기를 할 예정이다. 쉬기도 쉬겠지만 공부할 생각부터 하다니 대견스다. 사실 머신러닝 공부가 재밌다. 학교 시험용이 아니라 내가 알기 위해 공부하는거라 그런거겠지? 아무튼 설 연휴 다음부터 있을 본격적인 수업 전에 기본을 확실히 다져야지!</p>
 
   </section>
 </div>
