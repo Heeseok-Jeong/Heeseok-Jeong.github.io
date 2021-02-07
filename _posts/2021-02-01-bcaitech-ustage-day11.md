@@ -266,10 +266,10 @@ sitemap :
     - 커맨트+쉬프트+p → connect to host → [rank-outdoor-rt-rise.trycloudflare.com](http://rank-outdoor-rt-rise.trycloudflare.com/) 실행후 비밀번호 입력
 
 
-    ### Tips
+### Tips
 
-    - vscode ssh 로 코랩 접속해서 .py 로 작업하는거 추천
-    - OOP 개념 활용해서 파일들 구분하는거 추천
+- vscode ssh 로 코랩 접속해서 .py 로 작업하는거 추천
+- OOP 개념 활용해서 파일들 구분하는거 추천
 
 ### Pytorch 코드
 
