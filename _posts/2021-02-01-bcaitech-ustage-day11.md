@@ -314,8 +314,8 @@ sitemap :
 - one_hot 함수 사용 가능
 - autograd 함수 자주 사용
 
-    $y = w^2$
-    $z\ =\ 2\ *\ y\ +\ 5$
+    $y = w^2$,  
+    $z\ =\ 2\ *\ y\ +\ 5$,  
     $z\ =\ 2\ *\ w^2\ +\ 5$
     에서 z 미분 구하기
 
@@ -489,15 +489,15 @@ with torch.no_grad(): # we don't need gradients in the testing phase
 - 손실 함수의 목적은 우리가 예측한 값과 실제 값의 차이를 최소화 하는 것
 - 꼭 제곱하는 MSE 를 사용할 필요는 없음, 절댓값을 제곱할 수도 있고, 그냥 절댓값 씌울 수도 있음
 → 아웃레이어에 대응하다가 거기에 적합한 모델이 되버릴 수도 있음
-- 손실 함수가 어떤 성질을 가지고 있고, 이게 왜 내가 원하는 결과를 얻어낼 수 있는지 알아야 함
-1) 회귀 문제에서는 MSE 가 적합
+- 손실 함수가 어떤 성질을 가지고 있고, 이게 왜 내가 원하는 결과를 얻어낼 수 있는지 알아야 함  
+1) 회귀 문제에서는 MSE 가 적합  
 2) 분류 문제를 생각해보면, 아웃풋은 one-hot vector 가 나옴 (하나만 1이고 나머지는 0)
 → Cross-Entropy 를 사용 → 그 차원에 해당하는 값만 키워줌 
 다른 말로 예측 결과 벡터가 다른 값들에 비해 그냥 높기만 하면 됨 → 이것을 수학적으로 표현해주는게 CE
-⇒ 근데 과연 CE 가 분류 문제 푸는데 최적인가? 고민해보고 판단해봐야 함
+⇒ 근데 과연 CE 가 분류 문제 푸는데 최적인가? 고민해보고 판단해봐야 함  
 3) 확률적 문제 (Probabilistic Task) 에서는 MLE(최대가능도) 함수를 사용하여 적절한 모수를 추정
 - 사람 얼굴을 보고 나이를 맞추는 문제에서 단순히 나이만 맞추면 회귀 문제
-- 20살일 확률, 30살일 확률 등을 알려준다면 확률적 문제
+- 20살일 확률, 30살일 확률 등을 알려준다면 확률적 문제  
 
 ## MLP 실습 (MNIST 데이터로 글자 분석)
 
@@ -576,7 +576,7 @@ with torch.no_grad(): # we don't need gradients in the testing phase
 - config.py, main.py, [network.py](http://network.py) 로 구분돼있음
 - config 는 namedtuple 처럼 epoch 등 미리 선언해놓고 다른 곳에서 불러서 씀
 - main 에서 모델은 모듈화되어서 여러 모델 (CNN, RNN, MLP 등) 을 끼워넣으면서 돌릴 수 있음
-- python3 [main.py](http://main.py) —epochs 20 해서 돌림
+- python3 [main.py](http://main.py) --epochs 20 해서 돌림
 
 ## DataLoader
 
