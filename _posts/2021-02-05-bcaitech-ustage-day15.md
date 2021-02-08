@@ -42,7 +42,7 @@ sitemap :
 
         → **implicit model**
 
-    - **Density estimation** : p(x) 는 어떤 이미지가 주어졌을 때, 강아지같은지 고양이같은지 구분, 즉 만들어내는거 이상으로 분류(감지) 까지 가능함 **(anomaly detection)**
+    - **Density estimation** : p(x) 는 어떤 이미지가 주어졌을 때, 강아지같은지 고양이같은지 구분, 즉 만들어내는거 이상으로 감지 까지 가능함 **(anomaly detection)**
     → 이렇게 확률까지 얻어내는 모델을 **explicit** 모델이라 함
     - **Unsupervised representation learning** : 여러 이미지들이 귀, 꼬리들과 같은 공통점이 있다는 것을 우리는 학습할 수 있음 **(feature learning)**
 - p(x) 를 어떻게 만들까?
@@ -118,7 +118,7 @@ sitemap :
 - i 번째 픽셀을 1 ~ i-1 번째 픽셀에 의존하게 만듦
 - 첫 번째 픽셀의 확률분포는 독립적으로 만들고, 두 번째 픽셀의 확률은 첫 번째 픽셀에 의존 (h 가 됨), 세 번째 픽셀의 확률은 첫 번째와 두번째에 의존 ... 끝까지 진행
 - 100번째 뉴럴 네트워크 (100번째 픽셀에 대한 확률분포) 만들 때는 99 개의 이전 입력들을 받을 수 있는 뉴럴 네트워크 필요
-- NADE 는 explicit 모델 (생성 + 분류(확률계산)) → 주어진 입력에 대해 density 계산 가능
+- NADE 는 explicit 모델 (생성 + 확률계산) → 주어진 입력에 대해 density 계산 가능
 - 784 개의 바이너리 픽셀 {x1, ..., x784} 이 있다면, joint 확률은 아래와 같음
 
     ![image7]({{ site.baseurl }}/assets/img/ustage_day15/7.png)
