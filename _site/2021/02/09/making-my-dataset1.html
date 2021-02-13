@@ -98,9 +98,7 @@
     </p>
   </section>
   <section class="post-content">
-    <h1 id="포스팅중">포스팅중…</h1>
-
-<h1 id="목록">목록</h1>
+    <h1 id="목록">목록</h1>
 
 <ul>
   <li><a href="#개요">개요</a></li>
@@ -144,9 +142,26 @@
 <h1 id="주제-선정">주제 선정</h1>
 <p><br /></p>
 
-<h2 id="조유리즈-사람이-봐도-헷갈리는-데이터">조유리즈 (사람이 봐도 헷갈리는 데이터)</h2>
+<h3 id="조유리즈-사람이-봐도-헷갈리는-데이터">조유리즈 (사람이 봐도 헷갈리는 데이터)</h3>
 
-<p>처음 선정했던 주제는 조유리즈다. 조유리즈란</p>
+<p>처음 선정했던 주제는 조유리즈다. 아이즈원의 멤버 김채원, 조유리, 최예원은 팬들이 봐도 헷갈릴정도로 비슷하게 생긴 멤버들이다.</p>
+
+<p><img src="/assets/img/making_my_dataset1/1.png" alt="image1" /></p>
+
+<p>(정말 닮았다)</p>
+
+<p>=&gt; 데이터가 적기 때문에 우선은 확실히 구분가는 레이블을 주제로 변경</p>
+
+<p><br />
+<br /></p>
+
+<h3 id="마동석-수지-유재석-구분하기-쉬운-데이터">마동석, 수지, 유재석 (구분하기 쉬운 데이터)</h3>
+
+<p>인터넷에 사진이 많고 특징이 뚜렷한 인물들로 주제를 변경하였다. 조 인원이 6명이기 때문에 2 명씩 한 인물에 대해 데이터를 모으기로 하였고 나는 수지를 담당하였다.</p>
+
+<p><br /></p>
+
+<p>추가적으로 데이터 양은 한 인물마다 학습이 잘 될 것 같은 사진 300 장을 팀별로 선별하였다.</p>
 
 <p><br /></p>
 <hr />
@@ -156,6 +171,46 @@
 <h1 id="데이터-수집">데이터 수집</h1>
 <p><br /></p>
 
+<h2 id="how">How?</h2>
+
+<p>이미지 데이터를 모으기 위해서는 인터넷에 존재하는 여러 플랫폼에서 이미지를 가져와야 한다. 이미지를 가져오는 방법에는 직접 하나하나 다운로드할 수도 있지만, 이를 효율적으로 하기 위해 크롤링 툴을 사용하였다.</p>
+
+<h3 id="구글-이미지-다운로드---googleimagesdownload">구글 이미지 다운로드 - googleimagesdownload</h3>
+
+<p>가장 많은 정보가 존재하는 구글에서 이미지를 가져오는 프로그램은 이미 존재한다! 다음 프로그램을 이용하여 이미지를 가져오자.</p>
+
+<p><br /></p>
+
+<p>-&gt; <a href="https://github.com/hardikvasa/google-images-download">google_images_download</a></p>
+
+<blockquote>
+  <p>위 프로그램을 사용할 때 100장 이상은 크롤링이 필요하므로 <code class="language-plaintext highlighter-rouge">chromedriver</code> 를 설치하고 –chromedriver 옵션에 설치한 크롬 드라이버 위치를 명시해야한다.</p>
+</blockquote>
+
+<p><br /></p>
+
+<p>‘수지’, ‘미쓰에이 수지’, ‘배수지’, ‘수지비주얼’ 키워드로 각 키워드 당 350 여장의 사진을 다운로드하였다.</p>
+
+<p><br /></p>
+
+<h3 id="인스타-이미지-다운로드-with-tag">인스타 이미지 다운로드 with tag</h3>
+
+<p>SNS 중 사진이 가장 많은 인스타그램에서 원하는 # 태그를 검색하고 첫번째로 나오는 태그에서 원하는만큼 사진을 가져오는 프로그램을 이용하였다 (구글링하여 코드 작성).</p>
+
+<p><br /></p>
+
+<p>-&gt; <a href="https://github.com/Heeseok-Jeong/instagram_image_download">instagram_image_download</a></p>
+
+<p><br /></p>
+
+<p>‘배수지’ 키워드로 350 여장의 사진을 다운로드하였다.</p>
+
+<p><br /></p>
+
+<h3 id="수집-데이터">수집 데이터</h3>
+
+<p>전체 1700 여장의 사진을 수집하였다.</p>
+
 <p><br /></p>
 <hr />
 
@@ -163,6 +218,18 @@
 
 <h1 id="데이터-가공">데이터 가공</h1>
 <p><br /></p>
+
+<p>인터넷에서 수집한 사진들 중 학습에 적합한 사진을 골라내는 단계이다. 매뉴얼하게 일일이 골라내는 방법을 사용하였다. 아래의 룰을 기반으로 사진을 삭제하였다.</p>
+
+<ul>
+  <li>연예인 수지와 관계 없는 사진</li>
+  <li>정면 얼굴이 뚜렷하지 않은 사진</li>
+  <li>누군가와 함께 있는 사진</li>
+</ul>
+
+<p><br /></p>
+
+<p>과정을 수행하여 1700 장의 사진에서 300 장의 사진 (25%) 만 추려내었다.</p>
 
 <p><br /></p>
 <hr />
@@ -172,6 +239,23 @@
 <h1 id="데이터로-dataset-만들기">데이터로 dataset 만들기</h1>
 <p><br /></p>
 
+<p>현재 ‘동석’, ‘수지’, ‘재석’ 폴더 (레이블) 에 약 300 장의 이미지 파일들이 존재한다. dataset 을 만드는 것은 전체 데이터를 일정 비율로 나눠 train 과 test 로 분리하는 것을 의미한다.</p>
+
+<p><br /></p>
+
+<p>먼저 jpg, png 이미지 파일들이 섞여있기 때문에 파일들을 읽어 모두 png 파일로 변형한다.<br />
+<code class="language-plaintext highlighter-rouge">sklearn 의 train_test_split</code> 함수를 통해 레이블마다 train 과 test 데이터 비율을 일정하게 만들어준다. 그리고 이 파일들을 <code class="language-plaintext highlighter-rouge">dataset/train</code> 과 <code class="language-plaintext highlighter-rouge">dataset/test</code> 폴더에 넣어 dataset 을 준비한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">train_image</span><span class="p">,</span> <span class="n">test_image</span><span class="p">,</span> <span class="n">train_target</span><span class="p">,</span> <span class="n">test_target</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">dataset</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">stratify</span><span class="o">=</span><span class="n">dataset</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],)</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<p>=&gt; 나만의 데이터셋을 수집하고 가공하여 모델 학습에 필요한 dataset 완성
+<img src="/assets/img/making_my_dataset1/2.png" alt="image2" />
+<img src="/assets/img/making_my_dataset1/3.png" alt="image3" /></p>
 
   </section>
 </div>
