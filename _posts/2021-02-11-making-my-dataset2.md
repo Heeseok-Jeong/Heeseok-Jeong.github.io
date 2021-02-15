@@ -21,3 +21,4 @@ sitemap :
 
 ## 전이 학습
 
+https://blog.naver.com/PostView.nhn?blogId=ckdgus1433&logNo=221407059199

@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Ustage Day 16" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="BoostCamp AI Tech" />
+  <meta name="description" content="Intro to NLP|Word Embedding" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Ustage Day 16" />
+  <meta property="og:description" content="Intro to NLP|Word Embedding" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2021/02/15/bcaitech-ustage-day16.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Ustage Day 16" />
+  <meta name="twitter:description" content="Intro to NLP|Word Embedding" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Ustage Day 16</title>
+</head>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        TeX: {
+          equationNumbers: {
+            autoNumber: "AMS"
+          }
+        },
+        tex2jax: {
+        inlineMath: [ ['$', '$'] ],
+        displayMath: [ ['$$', '$$'] ],
+        processEscapes: true,
+      }
+    });
+    MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Ustage Day 16</h1>
+    <p class="subtitle">Intro to NLP|Word Embedding</p>
+    <p class="meta">
+      February 15, 2021
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+
+<p><br /></p>
+
+<ul>
+  <li><a href="#intro-to-nlp--bag-of-words">Intro to NLP, Bag-of-Words</a></li>
+  <li><a href="#word-embedding">Word Embedding</a></li>
+  <li><a href="#naive-bayes-classifier-구현">Naive Bayes Classifier 구현</a></li>
+  <li><a href="#word2vec-구현">Word2Vec 구현</a></li>
+  <li><a href="#피어-세션">피어 세션</a></li>
+  <li><a href="#today-i-felt">Today I Felt</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="intro-to-nlp-bag-of-words">Intro to NLP, Bag-of-Words</h1>
+
+<p><br /></p>
+
+<h2 id="이번-주-강의-목표">이번 주 강의 목표</h2>
+
+<ul>
+  <li>NLU (Natural Language Understanding), NLG(Natural Language Generation) 이해</li>
+  <li>NLP 와 관련된 여러 태스크 (NMT, QA 등) 이해 및 수행</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="academic-disciplines-related-to-nlp">Academic Disciplines related to NLP</h2>
+
+<h3 id="nlp-major-conferences-acl-emnlp-naacl">NLP (major conferences: ACL, EMNLP, NAACL)</h3>
+
+<ul>
+  <li>State-of-the-art model 사용</li>
+  <li>Low-level parsing
+    <ul>
+      <li>단어를 의미 단위로 준비하기 위한 단계</li>
+      <li>Tokenization
+        <ul>
+          <li>단어를 token 이라 부르고, 주어진 문장을 단어 단위로 쪼개는 과정은 tokenization</li>
+        </ul>
+      </li>
+      <li>Stemming
+        <ul>
+          <li>한 단어의 어미 변화를 컴퓨터가 이해하도록 함 (좋다, 좋은데, 좋고 등)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Word and phrase level
+    <ul>
+      <li>단어에 대한 분석 단계</li>
+      <li>NER (Named Entity Recognition)
+        <ul>
+          <li>New York Times 와 같은 단어를 하나로 인식</li>
+        </ul>
+      </li>
+      <li>POS (Part-of-speech) tagging, noun-phrase chunking, dependency parsing, coreference resolution</li>
+    </ul>
+  </li>
+  <li>Sentence level
+    <ul>
+      <li>문장 분석 단계</li>
+      <li>Sentiment analysis
+        <ul>
+          <li>문장을 보고 긍정, 부정 구분 (It’s not bad → 긍정)</li>
+        </ul>
+      </li>
+      <li>Machine translation
+        <ul>
+          <li>주어진 영어 문장을 한글 문장으로 번역할 때, 문장 이해 및 어순 분석하여 번역</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Multi-sentence and paragraph level
+    <ul>
+      <li>다수의 문장 및 문단 분석</li>
+      <li>Entailment prediction
+        <ul>
+          <li>두 문장간의 논리적 모순 분석</li>
+        </ul>
+      </li>
+      <li>Question Answering
+        <ul>
+          <li>독해 기반 질의 응답 (구글에 질문을 하면 예전에는 해당 키워드 문서 나열했다면, 이제는 답을 내놓음)</li>
+        </ul>
+      </li>
+      <li>Dialog systems
+        <ul>
+          <li>챗봇같은 대화 수행 시스템</li>
+        </ul>
+      </li>
+      <li>Summarization
+        <ul>
+          <li>문서 요약</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="text-mining-major-conferences-kdd-the-webconf-formerly-www-wsdm-cikm-icwsm">Text Mining (major conferences: KDD, The WebConf (formerly, WWW), WSDM, CIKM, ICWSM)</h3>
+
+<ul>
+  <li>빅데이터 분석과 관련 깊음, 1 년 동안 생긴 모든 뉴스 기사에서 키워드를 시간순으로 분석하여 인사이트 제공</li>
+  <li>Document clustering (e.g., topic modeling)
+    <ul>
+      <li>관련된 문서 군집화</li>
+    </ul>
+  </li>
+  <li>컴퓨테이셔널 사회 과학과도 관련
+    <ul>
+      <li>SNS 에 많이 사용되는 신조어 분석하여 사회적 인사이트 생성</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="information-retrieval-major-conferences-sigir-wsdm-cikm-recsys">Information Retrieval (major conferences: SIGIR, WSDM, CIKM, RecSys)</h3>
+
+<ul>
+  <li>구글이나 네이버 등에서 사용되는 정보 검색 기술</li>
+  <li>이미 충분히 발전하여 발전이 더딤</li>
+  <li>추천 시스템은 활발한 연구 중</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="trends-of-nlp">Trends of NLP</h2>
+
+<ul>
+  <li>이번 수업은 NLP 를 다룸</li>
+  <li>CV (이미지 분야) 는 GAN 등 활용하여 빠르게 발전했으나, NLP 분야는 더디게 발전했음</li>
+  <li>Word Embedding, 여러 차원을 지닌 단어를 점으로 표현 (Word2Vec)</li>
+  <li>과거에는 RNN 기반 모델이 기본이 되었음</li>
+  <li>요즘엔 Attention 과 Transformer 기반 모델이 기본
+    <ul>
+      <li>룰 기반 방식 (주어 목적어 보어 등) 은 번역 성능이 낮았음, 어텐션은 단어 간의 관계를 분석하므로 성능이 매우 뛰어남</li>
+      <li>Transformer 모델은 NMT 외에 CV, 시계열 예측, 신약 개발 등 다양한 분야에 사용됨</li>
+    </ul>
+  </li>
+  <li>발전된 Transformer 모델 (e.g., BERT, GPT-3)
+    <ul>
+      <li>단어 관계 분석은 방대한 데이터로 지도학습하고, 전이 학습으로 자가 지도 학습, self-supervised training (데이터에 라벨 없음 → 문장에서 몇 단어를 가려서 앞 뒤 문맥으로 유추하도록 학습) 을 학습하여 성능 향상</li>
+      <li>이러한 모델들은 엄청난 cost 가 있기 때문에 학습하기 어려움 (OpenAI 에서 만든 GPT-3 학습하는데 전기세만 몇 억원)</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="bag-of-words">Bag-of-Words</h2>
+
+<ul>
+  <li>1 단계 : 문장에서 유니크한 단어들만 vocabulary 에 모음
+    <ul>
+      <li>문장 : “John really really loves this movie”, “Jane really likes this song”</li>
+      <li>Voca : {“John”, “really”, “loves”, “this”, “movie”, “Jane”, “likes”, “song”}</li>
+    </ul>
+  </li>
+  <li>2 단계 : 사전의 단어들을 one-hot vector 로 인코딩
+    <ul>
+      <li>예시
+        <ul>
+          <li>John : [1 0 0 0 0 0 0 0]</li>
+          <li>…</li>
+          <li>song: [0 0 0 0 0 0 0 1]</li>
+        </ul>
+      </li>
+      <li>두 단어 사이의 거리는 $\sqrt{2}$</li>
+      <li>두 단어 사이의 내적각 (cosine similarity, 유사도) 는 0 (두 단어 관계 없음)</li>
+    </ul>
+  </li>
+  <li>3 단계 : 단어의 one-hot vectors 를 더하여 bag-of-words 생성
+    <ul>
+      <li>“John really really loves this movie” → [1, 2, 1, 1, 1, 0, 0, 0]</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="naivebayes-classifier-를-활용한-문서-분류기">NaiveBayes Classifier 를 활용한 문서 분류기</h3>
+
+<p><img src="/assets/img/ustage_day16/1.png" alt="image1" /></p>
+
+<p><img src="/assets/img/ustage_day16/2.png" alt="image2" /></p>
+
+<p><img src="/assets/img/ustage_day16/3.png" alt="image3" /></p>
+
+<ul>
+  <li>
+    <p>한계 : 트레인 데이터에 한 단어가 직접 나타나지 않으면, 아무리 다른 단어가 그 단어와 관계 깊더라도 값이 0이 됨</p>
+
+    <p>→ 스무딩 사용</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="word-embedding">Word Embedding</h1>
+
+<p><br /></p>
+
+<h2 id="학습-방향">학습 방향</h2>
+
+<ul>
+  <li>Word2Vec 과 GloVe 가 단어를 학습하는 원리 이해</li>
+</ul>
+
+<p><strong>Further Reading</strong></p>
+
+<ul>
+  <li><a href="https://arxiv.org/abs/1310.4546">Word2Vec, NeurIPS’13</a></li>
+  <li><a href="https://www.aclweb.org/anthology/D14-1162/">GloVe, EMNLP’14</a></li>
+</ul>
+
+<p><strong>Further Questions</strong></p>
+
+<ul>
+  <li>Word2Vec과 GloVe 알고리즘이 가지고 있는 단점은 무엇일까요?</li>
+</ul>
+
+<h2 id="word-embedding-이란">Word Embedding 이란?</h2>
+
+<ul>
+  <li>단어를 벡터 (점) 로 표현</li>
+  <li>‘cat’ 과 ‘kitty’ 는 유사하기 때문에 벡터가 비슷해야 함 → 거리가 가까워야 함</li>
+  <li>‘hamburger’ 는 위 단어들과 유사하지 않으므로 벡터가 달라야 함 → 거리가 멀어져야 함</li>
+</ul>
+
+<h2 id="word2vec">Word2Vec</h2>
+
+<ul>
+  <li>
+    <p>가까운 단어들과 관계가 높다고 가정</p>
+
+    <p><img src="/assets/img/ustage_day16/4.png" alt="image4" /></p>
+  </li>
+  <li>1) 문장 내 단어 tokenization</li>
+  <li>2) 유니크한 단어로 사전 구축, 한 단어는 사전 사이즈만큼 크기를 가진 원 핫 벡터가 됨</li>
+  <li>3) sliding window 를 적용하여 한 단어를 중심으로 앞 뒤 단어들과 쌍을 구성함
+    <ul>
+      <li>I study math → (I, study), (study, I), (study, math), (math, study)</li>
+    </ul>
+  </li>
+  <li>
+    <p>입력 레이어의 차원과 출력 레이어의 차원은 같아야 함, 히든 레이어의 차원은 임의 설정 가능</p>
+
+    <p><img src="/assets/img/ustage_day16/5.png" alt="image5" /></p>
+
+    <p><img src="/assets/img/ustage_day16/6.png" alt="image6" /></p>
+
+    <ul>
+      <li>(study, math) 예시</li>
+      <li>원 핫 벡터이기 때문에 W1 과 W2 의 해당 부분만 활성화됨</li>
+      <li>입력 [0, 1, 0] → [0, 0, 1] 이 됨</li>
+      <li>입력 단어와 출력 단어에 대해 W 가 최대가 되도록 함</li>
+    </ul>
+  </li>
+  <li>
+    <p>Gradient Descent 를 통해 웨이트 학습</p>
+
+    <p><img src="/assets/img/ustage_day16/7.png" alt="image7" /></p>
+
+    <ul>
+      <li>수렴된 모습</li>
+      <li>왼쪽의 W 매트릭스를 보면, 입력값 juice 에 대해 drink 가 유사함을 알 수 있음 (내적시 가장 값이 큼)</li>
+    </ul>
+  </li>
+  <li>일반적으로 W1 (입력 임베딩 웨이트) 를 사용함</li>
+  <li>즉, 학습을 진행할 수록 입력, 출력 웨이트 매트릭스는 두 단어 사이의 관계 (유사도) 를 나타내줌</li>
+</ul>
+
+<h3 id="property-of-word2vec">Property of Word2Vec</h3>
+
+<ul>
+  <li>
+    <p>Analogy Reasoning</p>
+
+    <p><img src="/assets/img/ustage_day16/8.png" alt="image8" /></p>
+
+    <ul>
+      <li>한국 - 서울 + 도쿄 = 일본</li>
+    </ul>
+  </li>
+  <li>Intrusion Detection
+    <ul>
+      <li>여러 단어가 주어졌을 때 나머지 단어와 가장 다른 단어 찾기</li>
+      <li>각 단어별로 word 벡터간의 유클리드 거리를 구해서 가장 먼 단어 찾으면 됨
+        <ul>
+          <li>math, shopping, reading, science → shopping</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Word2Vec 은 NLP 문제들의 성능을 향상시킴</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="glove">GloVe</h2>
+
+<p><img src="/assets/img/ustage_day16/9.png" alt="image9" /></p>
+
+<ul>
+  <li>GloVe : Global Vectors for Word Representation</li>
+  <li>Word2Vec 과 차이는 두 단어가 얼마나 등장했는지를 사전에 미리 계산하고, 두 단어의 내적 값이 두 단어 등장 횟수에 유사해지게 만들어 줌, 두 알고리즘 적용했을 때 성능 비슷</li>
+  <li>
+    <p>중복이 줄어들어 빠름</p>
+
+    <p><img src="/assets/img/ustage_day16/10.png" alt="image10" /></p>
+
+    <ul>
+      <li>두 부류 간의 관계가 일정한 벡터로 나타남</li>
+    </ul>
+  </li>
+</ul>
+
+<p>*Word2Vec 과 GloVe 사이트 들어가면 이미 학습된 거 쓸 수 있음</p>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="naive-bayes-classifier-구현">Naive Bayes Classifier 구현</h1>
+
+<p><br /></p>
+
+<h2 id="과정">과정</h2>
+
+<p>1) 필요 패키지 import</p>
+
+<ul>
+  <li>konlpy : 한국어 형태소 분석에 필요한 패키지</li>
+  <li>tqdm : 상태 진행률 표시 패키지</li>
+  <li>defaultdict : dict 기능 + 기본값 세팅 가능</li>
+</ul>
+
+<p>2) 학습 및 테스트 데이터 전처리</p>
+
+<ul>
+  <li>한국어 레스토랑 리뷰 데이터를 이용, 적절한 감정 분류 목표 (0 : 부정, 1 : 긍정)</li>
+  <li>knlpy.tag.Okt() 를 사용하여 주어진 문장을 토큰화 (단어 단위로 쪼개줌, 띄어쓰기 단위가 아니라 토크나이저가 자체적으로 판단하여 단어 위주로 쪼갬)</li>
+  <li>학습데이터 기준 가장 많이 등장한 단어부터 vocab 에 추가 → {단어 : 인덱스} 구조</li>
+</ul>
+
+<p>3) 모델 Class 구현 (NaiveBayes Classifier)</p>
+
+<ul>
+  <li>init
+    <ul>
+      <li>k : smoothing 을 위한 상수</li>
+      <li>w2i : 위에서 만든 vocab</li>
+      <li>priors : 각 class 의 prior 확률</li>
+      <li>likelihoods : 각 token 의 특정 class 조건 내에서의 likelihood</li>
+    </ul>
+  </li>
+  <li>train
+    <ul>
+      <li>set_priors, set_likelihoods 진행</li>
+    </ul>
+  </li>
+  <li>infrence
+    <ul>
+      <li>토큰이 들어오면 각 클래스별로 구해준 확률로 토큰에 대한 베이즈 확률 구해줌</li>
+      <li>조건부 확률 0~1 사이 값을 계속 곱해주면 0 으로 수렴할 위험이 있기 때문에 log 를 취해서 0 이 되지 않도록 함</li>
+      <li>클래스에 대해 구한 조건부 확률로 가장 큰 클래스 반환</li>
+    </ul>
+  </li>
+  <li>set_priors
+    <ul>
+      <li>priors 계산</li>
+    </ul>
+  </li>
+  <li>set_likelihoods
+    <ul>
+      <li>likelihoods 계산
+        <ul>
+          <li>{token0 : {class0 : 확률, …, classN : 확률}, …, tokenN : {class0 : 확률, …, classN : 확률}}</li>
+          <li>확률 : 해당 토큰이 어떤 클래스에 등장한 횟수 + k / (전체 데이터에서 어떤 클래스가 등장한 횟수 + 전체 단어 개수*k) # 스무딩</li>
+          <li>스무딩을 왜할까?
+            <ul>
+              <li>이론에서 배웠던대로 트레인에 없는 likelihood 에 의해 테스트 값이 0 이 나오는 것을 막기 위해 사용</li>
+              <li>즉, 분자 분모가 0 이 되지 않게 하려고 사용</li>
+              <li>Laplace Smoothing</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>4) 모델 학습</p>
+
+<p>5) 테스트</p>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="word2vec-구현">Word2Vec 구현</h1>
+
+<p><br /></p>
+
+<h2 id="과정-1">과정</h2>
+
+<p>1) 필요 패키지 import</p>
+
+<ul>
+  <li>위와 동일 + Dataset, DataLoader 와 같은 torch 관련 패키지 추가</li>
+</ul>
+
+<p>2) 데이터 전처리</p>
+
+<ul>
+  <li>학습 데이터는 동일하지만, 테스트는 문장이 아닌 단어로 진행 (단어간 관계 학습이므로)</li>
+  <li>토큰화 + w2i 사전 만듦</li>
+  <li>모델에 들어가기 위한 Dataset 클래스 정의 (딥러닝이므로)
+    <ul>
+      <li>Word2Vec 모델은 CBOW (Continuous Bag of Words) 와 Skip-gram 두 가지 존재</li>
+      <li>두 모델 모두 윈도우 사이즈 세팅함</li>
+      <li>CBOW 는 인풋으로 주변 단어들을 사용하고 아웃풋으로 중심 단어가 나옴. 주변 단어를 통해 중심 단어 예측
+        <ul>
+          <li>주변 단어의 원핫 벡터를 임베딩하고 이들을 더하여 레이어에 넣어 중심 단어 원핫 벡터가 나오도록 학습</li>
+        </ul>
+      </li>
+      <li>Skip-gram 은 중심 단어를 입력하여 주변 단어들을 출력으로 받음. 중심 단어로 주변 단어 예측
+        <ul>
+          <li>중심 단어 원핫 벡터를 임베딩하고 레이어를 거쳐 주변 단어들이 나오도록 학습</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>CBOWDataset 데이터 클래스 (x : 주변 단어, y : 중심 단어) 와 SkipGramDataset (x : 중심 단어, y : 주변 단어, x 를 y 개수로 중복되게 설정하여 와 x 와 y 가 1대1 대응되게 함) 정의</li>
+</ul>
+
+<p>3) 모델 Class 구현</p>
+
+<ul>
+  <li>init
+    <ul>
+      <li>embedding : vocab_size 크기의 one-hot vector 를 특정 크기의 dim 차원으로 embedding 시키는 layer</li>
+      <li>linear : 변환된 embedding vector 를 다시 원래 vocab_size 로 바꾸는 layer</li>
+      <li>forward
+        <ul>
+          <li>CBOW : 주변 단어들을 임베딩하고 더한 후 리니어 진행</li>
+          <li>SkipGram : 중심 단어와 주변 단어 1대1로 진행</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>4) 모델 학습</p>
+
+<ul>
+  <li>hyperparameter (batch_size, lr 등) 세팅하고 dataloader 세팅</li>
+  <li>CBOW 학습</li>
+  <li>SkipGram 학습</li>
+</ul>
+
+<p>5) 테스트</p>
+
+<ul>
+  <li>테스트 단어들을 w2i 를 통해 텐서로 만들고 이를 각 모델에 맞게 임베딩하여 해당 단어와 다른 단어들과 관계 파악</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="피어-세션">피어 세션</h1>
+
+<p><br /></p>
+
+<h2 id="설-연휴">설 연휴</h2>
+
+<ul>
+  <li>원딜	학습정리 하려했는데 안함</li>
+  <li>서폿	이사함, 코로나 검사ㅠㅠ</li>
+  <li>히스	부산가서 친구 집가서 놀다가 밤낮바뀜</li>
+  <li>엠제이	쉬었습니다</li>
+  <li>후미	밀린 게임</li>
+  <li>샐리	공부, 여행가서 떡갈비</li>
+  <li>펭귄	학습정리 밀린거 끝냈습니다</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="수업-질문">수업 질문</h2>
+
+<ul>
+  <li><a href="https://github.com/boostcamp-ai-tech-4/peer-session/issues/61">[히스] GloVe 와 Word2Vec 의 차이가 무엇인가요?</a></li>
+  <li><a href="https://github.com/boostcamp-ai-tech-4/peer-session/issues/62">[펭귄] Distributional Hypothesis의 의미</a></li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="ted-세션---서폿님">TED 세션 - 서폿님</h2>
+
+<p>심리학의 일반화와 관련된 오류에 대해 서폿님이 발표하였다.</p>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="today-i-felt">Today I Felt</h1>
+
+<p><br /></p>
+
+<h2 id="관성-만들기">관성 만들기</h2>
+
+<p>일주일 간의 휴가로 규칙적이던 생활 습관이 무너지고 공부 관성이 줄어들었다. 다시 마음 다잡고 성장을 바라보며 몸을 만들어야겠다. 무엇보다 중간중간 집중력을 흐트러뜨리는 유혹들을 이겨내기 위해 [단기 목표-성취 전략] 을 잘 활용해야겠다.</p>
+
+<h2 id="심리학">심리학</h2>
+
+<p>오늘 TED 세션은 마치 대학 교양 수업을 듣는 것처럼 유익하고 재밌었다. 언론이나 주변 사람이 주장하는 데에 증거가 있는지부터 생각해야함을 느꼈다. 또한 평소에 바른 정보를 얻기 위한 노력해야함을 느꼈다.</p>
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>
