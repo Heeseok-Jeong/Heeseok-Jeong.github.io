@@ -343,6 +343,7 @@ sitemap :
 
 - [[히스] GloVe 와 Word2Vec 의 차이가 무엇인가요?](https://github.com/boostcamp-ai-tech-4/peer-session/issues/61)
 - [[펭귄] Distributional Hypothesis의 의미](https://github.com/boostcamp-ai-tech-4/peer-session/issues/62)
+- [[MJ] 똑같은 단어가 있으면 Word2vec이 어떻게 동작하는지?](https://github.com/boostcamp-ai-tech-4/peer-session/issues/63)
 
 <br>
 
