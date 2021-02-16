@@ -297,23 +297,23 @@ hidden = torch.zeros((num_layers * num_dirs, batch.shape[0], hidden_size))  # (1
 
 # 학습
 for t in range(max_len):
-	# 한 단어이므로 셀 하나만 통과함
-  input_emb = embedding(input_id).unsqueeze(0)  # (1, B, d_w)
-  output, hidden = gru(input_emb, hidden)  # output: (1, B, d_h), hidden: (1, B, d_h)
+        # 한 단어이므로 셀 하나만 통과함
+    input_emb = embedding(input_id).unsqueeze(0)  # (1, B, d_w)
+    output, hidden = gru(input_emb, hidden)  # output: (1, B, d_h), hidden: (1, B, d_h)
 
-	# 다음 단어를 예측함
-  # V: vocab size
-  output = output_layer(output)  # (1, B, V)
-  probs, top_id = torch.max(output, dim=-1)  # probs: (1, B), top_id: (1, B)
+        # 다음 단어를 예측함
+    # V: vocab size
+    output = output_layer(output)  # (1, B, V)
+    probs, top_id = torch.max(output, dim=-1)  # probs: (1, B), top_id: (1, B)
 
-  print("*" * 50)
-  print(f"Time step: {t}")
-  print(output.shape)
-  print(probs.shape)
-  print(top_id.shape)
+    print("*" * 50)
+    print(f"Time step: {t}")
+    print(output.shape)
+    print(probs.shape)
+    print(top_id.shape)
 
-	# 예측 단어를 다음 입력으로 사용
-  input_id = top_id.squeeze(0)  # (B)
+        # 예측 단어를 다음 입력으로 사용
+    input_id = top_id.squeeze(0)  # (B)
 ```
 
 - 현재는 max_len 만큼 문장을 돌지만, seq-seq 에서는 eos 오면 문장 끝냄.
@@ -481,11 +481,9 @@ PAD = Language.PAD_TOKEN_IDX
 
 ## 수업 질문
 
-<br>
-
-<hr>
-
-<br>
+- [[히스] Word2Vector 의 목적](https://github.com/boostcamp-ai-tech-4/peer-session/issues/65)
+- [[히스] LSTM과 GRU 는 백프로파게이션을 셀 스테이트에 대해서만 하나요?](https://github.com/boostcamp-ai-tech-4/peer-session/issues/66)
+- [[펭귄] 양방향 RNN/LSTM은 어떤 식으로 학습을 하나요?](https://github.com/boostcamp-ai-tech-4/peer-session/issues/67)
 
 <br>
 
@@ -499,6 +497,9 @@ PAD = Language.PAD_TOKEN_IDX
 
 ## 온라인 커뮤니케이션
 
-커뮤니케이션을 잘한다고 생각해왔는데, 온라인에서는 서로 서로 말할 타이밍을 잡아야하고, 얼굴로 감정을 보지 않고 소리가 주가 되다보니 오프라인 커뮤니케이션보다 힘든 점이 있다. 앞으로 온라인 커뮤니케이션이 더 활발해질지도 모르는 세상이기에 내가 부족한 온라인 커뮤니케이션 능력을 길러야할 것 같다.   
+나름 커뮤니케이션을 잘한다고 생각하며 살아왔는데, 온라인에서는 서로 서로 말할 타이밍을 잡아야하고, 얼굴로 감정을 보지 않고 소리가 주가 되다보니 오프라인 커뮤니케이션보다 힘든 점이 있다. 앞으로 온라인 커뮤니케이션이 더 활발해질지도 모르는 세상이기에 조금 더 온라인 커뮤니케이션에 맞는 역량을 키울 필요성을 느꼈다.   
 
-어제 클럽하우스에서 성킴님을 비롯한 여러 자연어 처리 전문가들이 GPT-3 에 대해 토론을 했다. 토론 내용도 너무 좋았지만, 온라인 커뮤니케이션 관점에서 성킴님의 모더레이터 역할에서 배울 점을 발견할 수 있었다. 본인이 말하기보다는 적절히 다른 사람들이 말할 기회를 열어주고, 전체 흐름 환기 등이 그것이다. 피어 세션을 기회 삼아 조금 더 온라인 커뮤니케이션 능력을 길러야겠다 :)
+<br>
+
+어제 클럽하우스에서 성킴님을 비롯한 여러 자연어 처리 전문가들이 GPT-3 에 대해 토론을 했다. 토론 내용도 너무 좋았지만, 온라인 커뮤니케이션 관점에서 성킴님의 모더레이터 역할에서 배울 점을 발견할 수 있었다. 본인이 말하기보다는 적절히 다른 사람들이 말할 기회를 열어주고, 전체 흐름 환기, 조율 등이 그것이다.  
+앞으로 피어 세션을 기회 삼아 조금 더 온라인 커뮤니케이션 능력을 길러야겠다 :)
