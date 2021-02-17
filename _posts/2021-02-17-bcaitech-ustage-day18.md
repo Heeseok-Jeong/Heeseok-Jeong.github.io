@@ -1,7 +1,7 @@
 ---
 layout : post
-title : Ustage Day 17
-subtitle : RNN|LSTM|GRU
+title : Ustage Day 18
+subtitle : Seq2seq|Attention|Beam Search|BLEU score
 tags : [BoostCamp AI Tech]
 author : Heeseok Jeong
 comments : True
