@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Ustage Day 17" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="BoostCamp AI Tech" />
+  <meta name="description" content="RNN|LSTM|GRU" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Ustage Day 17" />
+  <meta property="og:description" content="RNN|LSTM|GRU" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2021/02/17/bcaitech-ustage-day18.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Ustage Day 17" />
+  <meta name="twitter:description" content="RNN|LSTM|GRU" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Ustage Day 17</title>
+</head>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        TeX: {
+          equationNumbers: {
+            autoNumber: "AMS"
+          }
+        },
+        tex2jax: {
+        inlineMath: [ ['$', '$'] ],
+        displayMath: [ ['$$', '$$'] ],
+        processEscapes: true,
+      }
+    });
+    MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Ustage Day 17</h1>
+    <p class="subtitle">RNN|LSTM|GRU</p>
+    <p class="meta">
+      February 17, 2021
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+
+<p><br /></p>
+
+<ul>
+  <li><a href="#sequence-to-sequence-with-attention">Sequence to Sequence with Attention</a></li>
+  <li><a href="#beam-search-and-bleu">Beam Search and BLEU</a></li>
+  <li><a href="#seq2seq-구현">Seq2Seq 구현</a></li>
+  <li><a href="#seq2seq-with-attention-구현">Seq2Seq with Attention 구현</a></li>
+  <li><a href="#seq2seq-model-training-with-fairseq">Seq2Seq Model Training with Fairseq</a></li>
+  <li><a href="#마스터-클래스">마스터 클래스</a></li>
+  <li><a href="#피어-세션">피어 세션</a></li>
+  <li><a href="#today-i-felt">Today I Felt</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="sequence-to-sequence-with-attention">Sequence to Sequence with Attention</h1>
+
+<p><br /></p>
+
+<h2 id="seq2seq-model">Seq2Seq Model</h2>
+
+<p><img src="/assets/img/ustage_day18/1.png" alt="image1" /></p>
+
+<ul>
+  <li>many to many, 번역 모델에 사용
+    <ul>
+      <li>단어 시퀀스를 입력으로 받고 단어 시퀀스를 출력으로 줌</li>
+    </ul>
+  </li>
+  <li>인코더 - 디코더 구조
+    <ul>
+      <li>인코더 : 입력 문장을 모두 받음</li>
+      <li>디코더 : 인코더의 마지막 히든 스테이트 벡터와 sos 를 입력으로 하여 단어 시퀀스 출력, 마지막에 eos 가 들어오면 종료</li>
+    </ul>
+  </li>
+  <li>LSTM 사용</li>
+  <li>문제점
+    <ul>
+      <li>벡터는 크기가 고정, 입력 문장이 짧든 길든 마지막 히든 스테이트 벡터에 정보가 다 담겨야 하므로 표현에 부족함이 있음</li>
+      <li>LSTM 으로 롱텀 디펜던시를 해결했더라도 문장이 길면 부족한 성능</li>
+      <li>인코더의 첫 단어와 디코더의 첫 단어를 내야 하는데 멀어서 잘 못함 → 양방향 사용.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="attention">Attention</h3>
+
+<p><img src="/assets/img/ustage_day18/2.png" alt="image2" /></p>
+
+<ul>
+  <li>인코더에서 나온 마지막 h 와 디코더의 입력으로 디코더의 h 를 만들고 이를 인코더 입력 단어 각각과 어텐션 스코어를 계산 (내적) 한 후 어텐션 분포 (소프트맥스) 를 만듦. 이 분포를 어텐션 벡터 (합이 1 인 확률분포)라고 함.</li>
+</ul>
+
+<p><img src="/assets/img/ustage_day18/3.png" alt="image3" /></p>
+
+<ul>
+  <li>만들어진 어텐션 분포를 인코더의 각 히든 스테이트 벡터에 적용해서 가중 평균을 구함. 이 가중 평균은 어텐션 아웃풋, 또는 컨텍스트 벡터가 됨</li>
+  <li>즉, 위에서 파란 부분은 어텐션 모듈이고 그 입력으로 <strong>디코더의 h 벡터</strong>와 <strong>인코더 단어들의 각 h 벡터 세트</strong>가 들어가서 하나의 컨텍스트 벡터를 출력함</li>
+  <li>디코더의 h 벡터는 컨텍스트 벡터와 concat 되어 단어 예측에 사용</li>
+  <li>디코더의 히든 스테이트 벡터는 어텐션을 만드는 역할과 출력 단어를 만드는 역할을 수행함. 역전파 과정에서는 예측 단어가 실제 단어와 다르면 어텐션의 웨이트들과 디코더의 웨이트는 같이 수정됨.</li>
+  <li>학습에는 Teacher forcing 함, ground truth 를 디코더의 입력으로 넣음. 하지만 Teacher forcing 을 안했을 때 regularlization 이 잘되므로 초반에 Teacher forcing 사용</li>
+</ul>
+
+<p>Q. 컨텍스트 벡터는 같은게 계속 갱신되는거겠지? 그 전에 어텐션 벡터 (분포) 는 계속 갱신되는거겠지?</p>
+
+<p>→ 갱신이 아니라 어텐션은 그냥 계산해서 디코더 스텝 단계에서 빼주는 역할</p>
+
+<h3 id="different-attention-mechanism">Different Attention Mechanism</h3>
+
+<ul>
+  <li>
+    <p>디코더의 h 벡터와 인코더의 각 h 벡터로 어텐션 구하는 법</p>
+
+    <p><img src="/assets/img/ustage_day18/4.png" alt="image4" /></p>
+  </li>
+  <li>
+    <p>general</p>
+
+    <p><img src="/assets/img/ustage_day18/5.png" alt="image5" /></p>
+
+    <ul>
+      <li>벡터끼리 곱을 하는 내적에서 항등행렬을 가운데 곱해도 결과는 그대로임. 여기서 항등행렬의 값을 변형시키는 방식 사용 가능 → 가중치가 됨</li>
+      <li>항등행렬말고 이 행렬의 값을 a, b, c, d 로 변형시키면 내적이라는 단순한 계산을 더 확장시켜 어텐션을 구할 수 있게 해줌</li>
+    </ul>
+  </li>
+  <li>
+    <p>concat</p>
+    <ul>
+      <li>디코더의 h 와 인코더의 h 를 통해 스칼라를 구해야 함. 이 때, 내적 말고 MLP 로 해결하려 함. 두 벡터를 concat 하고 MLP 수행해서 스칼라 구함.</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day18/6.png" alt="image6" /></p>
+
+    <ul>
+      <li>$W_a$ 는 첫 번째 웨이트, $v_a^T$ 는 두 번째 웨이트</li>
+      <li>이 파라미터들은 전체 역전파 과정에서 학습됨</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="어텐션-장점">어텐션 장점</h3>
+
+<ul>
+  <li>NMT 기계번역 분야에서 성능 많이 높임
+    <ul>
+      <li>디코더가 입력의 어느 부분에 초점을 맞출지 알게됨</li>
+    </ul>
+  </li>
+  <li>문장이 길수록 초반 단어의 의미가 퇴색되는 bottleneck 현상 해결
+    <ul>
+      <li>디코더가 직접 입력 단어의 h 를 보므로</li>
+    </ul>
+  </li>
+  <li>vanishing gradient 문제 해결
+    <ul>
+      <li>멀리 있는 뒤에 단어부터 역전파 해오면 처음 단어 쪽 웨이트는 학습이 잘 안 되는데, 어텐션으로 지름길이 생겨서 학습 영향 끼침</li>
+    </ul>
+  </li>
+  <li>새로운 해석을 할 수 있게 해줌
+    <ul>
+      <li>어텐션 분포 (어텐션 벡터) 를 조사해서 디코더가 어떤 것에 집중하는지 알 수 있음</li>
+      <li>언제 어떤 단어를 봐야할 지 스스로 학습함</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/ustage_day18/7.png" alt="image7" /></p>
+
+<ul>
+  <li>왼쪽이 입력, 오른쪽이 출력</li>
+  <li>디코더에서 어떤 입력에 집중하는지 알 수 있음</li>
+  <li>입력 문장과 출력 문장의 어순 차이 등도 극복 가능</li>
+</ul>
+
+<p><strong>Further Reading</strong></p>
+
+<ul>
+  <li><a href="https://arxiv.org/abs/1409.3215">Sequence to sequence learning with neural networks, ICML’14</a></li>
+  <li><a href="https://arxiv.org/abs/1508.04025">Effective Approaches to Attention-based Neural Machine Translation, EMNLP 2015</a></li>
+  <li><a href="https://web.stanford.edu/class/cs224n/slides/cs224n-2019-lecture08-nmt.pdf">CS224n(2019)_Lecture8_NMT</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="beam-search-and-bleu">Beam Search and BLEU</h1>
+
+<p><br /></p>
+
+<h2 id="beam-search">Beam Search</h2>
+
+<ul>
+  <li>디코더에서 단어 예측할 때, 확률 기반이므로 어떤 단어를 선택할지 돕는 알고리즘</li>
+  <li>Greedy decoding
+    <ul>
+      <li>현재 타임 스텝에서 확률에서 가장 큰 단어 (가장 좋아보이는 단어) 를 선택</li>
+      <li>만약 잘못 예측했다면? 돌아가야하는데 갈 수 없음 → 다음 후보군 필요</li>
+    </ul>
+  </li>
+  <li>Exhaustive search
+    <ul>
+      <li>이상적으로는 전체 경우의 수를 다 따지는게 맞음</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day18/8.png" alt="image8" /></p>
+
+    <ul>
+      <li>매 타임 스텝마다 V (보캡 사이즈) 의 t 승의 경우의 수를 구해야함 → 시간 소요 너무 큼</li>
+    </ul>
+  </li>
+  <li>적당한 크기 후보군 선정, Beam Search</li>
+  <li>아이디어 : 디코더의 매 타임 스텝마다, k 개의 후보군을 정하고 가장 높은 확률 단어 선택, 후보 상황을 hypothesis 라고 부름
+    <ul>
+      <li>k : beam size (보통 5~10 사용)</li>
+    </ul>
+  </li>
+  <li>
+    <p>로그로 확률값들을 더함</p>
+
+    <p><img src="/assets/img/ustage_day18/9.png" alt="image9" /></p>
+  </li>
+  <li>모든 경우를 따지는 것보다는 정확하지 않지만 훨씬 효율적임</li>
+  <li>
+    <p>예시</p>
+
+    <p><img src="/assets/img/ustage_day18/10.png" alt="image10" /></p>
+
+    <p><img src="/assets/img/ustage_day18/11.png" alt="image11" /></p>
+
+    <ul>
+      <li>매 타임 스텝마다 k 개 단어를 뽑고 각 격우의 확률을 구함</li>
+    </ul>
+  </li>
+  <li>언제 빔서치가 멈추는가?
+    <ul>
+      <li>각 가정은 END 토큰을 만나면 멈춤</li>
+      <li>멈춘 가정들의 결과를 따로 저장해 둠</li>
+      <li>빔서치가 멈추는 경우는 정해둔 타임스텝 T 까지만 디코딩해서 멈추거나 n 개의 가설이 완료되면 멈춤</li>
+    </ul>
+  </li>
+  <li>완성된 가설들 중 가장 높은 점수를 지닌 가설을 선택, log 결합확률분포로 구함
+    <ul>
+      <li>가설의 길이가 짧을수록 점수가 높다는 문제가 있음 (항상 - 값을 더해주므로 긴 가설을 점수가 낮음)</li>
+      <li>공평하게 비교하기 위해 각 가설의 길이로 Normalize 진행</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day18/12.png" alt="image12" /></p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="bleu-score">BLEU score</h2>
+
+<ul>
+  <li>문장 예측 결과의 성능을 측정하는 지표</li>
+  <li>기존 방법들의 문제점
+    <ul>
+      <li>단어가 맞는지 칸칸이 비교하는 방법의 경우, 잘 번역했어도 한 두 단어가 추가, 누락된 경우 낮은 정확도가 나옴
+        <ul>
+          <li>정답 : I love you, 예측 : My I love you ⇒ 칸칸이 비교하므로 0% 정확도</li>
+        </ul>
+      </li>
+      <li>다른 방법, F-measure</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day18/13.png" alt="image13" /></p>
+
+    <ul>
+      <li>정밀도 : 예측된 결과가 나왔을 때 실질적으로 느끼는 정확도</li>
+      <li>재현율 : 전체 결과 중 예측 결과로 나오지 않은 누락 정보를 알 수 있음 (아비터의 리콜처럼 소환 기능, 누락되지 않게 소환해야 리콜 잘한 것)</li>
+      <li>위 두 값을 평가하기 위해 F-measure (조화평균, 여기서는 역수로 안더하는듯) 사용
+        <ul>
+          <li>산술평균 (더하고 나누기 개수) ≥ 기하평균 (곱하고 루트 개수) ≥ 조화평균 (역수 더하고 개수로 나누고 다시 전체 역수)</li>
+        </ul>
+      </li>
+      <li>
+        <p>문제점</p>
+
+        <p><img src="/assets/img/ustage_day18/14.png" alt="image14" /></p>
+
+        <ul>
+          <li>말이 되지 않는 문장인데 점수가 높음</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>BiLingual Evaluation Understudy (BLEU)
+    <ul>
+      <li>개별 단어 레벨에서 얼마나 겹치냐 + <strong>N-gram</strong> (얼마나 연속으로 맞는지) 반영 (N 은 1~4 모두 사용)</li>
+      <li>정밀도만 고려하고 재현율은 사용하지 않음 (정밀도의 특성 때문, 번역 결과만 보고 고려하기 때문)</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day18/15.png" alt="image15" /></p>
+
+    <ul>
+      <li>brevity penalty 는 실제 문장보다 짧게 문장을 뽑아내면 점수를 낮춰주고, 너무 많아지면 1 로만 계산하기 위해 사용</li>
+      <li>산술 평균보다는 작게 만들고 싶고, 조화 평균은 너무 작은 값에 치중하므로 기하 평균 사용</li>
+      <li>
+        <p>예시</p>
+
+        <p><img src="/assets/img/ustage_day18/16.png" alt="image16" /></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Further Reading</strong></p>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=RLWuzLLSIgw&amp;feature=youtu.be">Deep learning.ai-BeamSearch</a></li>
+  <li><a href="https://www.youtube.com/watch?v=gb__z7LlN_4&amp;feature=youtu.be">Deep learning.ai-RefiningBeamSearch</a></li>
+  <li><a href="https://opennmt.net/OpenNMT/translation/beam_search/">OpenNMT-beam search</a></li>
+</ul>
+
+<p><strong>Further Question</strong></p>
+
+<ul>
+  <li>BLEU score가 번역 문장 평가에 있어서 갖는 단점은 무엇이 있을까요?
+    <ul>
+      <li>참고: <a href="https://arxiv.org/abs/2006.06264?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%253A+arxiv%252FQSXk+%2528ExcitingAds%2521+cs+updates+on+arXiv.org%2529">Tangled up in BLEU: Reevaluating the Evaluation of Automatic Machine Translation Evaluation Metrics</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="seq2seq-구현">Seq2Seq 구현</h1>
+
+<p><br /></p>
+
+<h2 id="필요-패키지-import">필요 패키지 import</h2>
+
+<ul>
+  <li>필요 패키지 import</li>
+</ul>
+
+<h2 id="데이터-전처리">데이터 전처리</h2>
+
+<ul>
+  <li>전체 단어 수 100, src_data 와 trg_data 가 대응되도록 데이터 준비</li>
+  <li>trg_data 에 sos 와 eos 를 붙여 전처리</li>
+  <li>src 와 trg 데이터의 최대 길이에 맞게 패딩 넣기</li>
+  <li>각각 src_batch, trg_batch 로 묶기</li>
+  <li>
+    <p>PackedSequence 사용을 위해 source data 길이 기준으로 정렬</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">src_batch_lens</span><span class="p">,</span> <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">src_batch_lens</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">descending</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+  <span class="n">src_batch</span> <span class="o">=</span> <span class="n">src_batch</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">]</span>
+  <span class="n">trg_batch</span> <span class="o">=</span> <span class="n">trg_batch</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">]</span>
+  <span class="n">trg_batch_lens</span> <span class="o">=</span> <span class="n">trg_batch_lens</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">]</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="encoder-구현">Encoder 구현</h2>
+
+<ul>
+  <li>입력 데이터를 받아서 마지막 히든 스테이트 벡터를 만드는 역할</li>
+  <li>
+    <p>임베딩 → 양방향 GRU → Linear (인코더의 양방향 사이즈에서 디코더의 단방향 사이즈로 줄이기 위해)</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">class</span> <span class="nc">Encoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="nb">super</span><span class="p">(</span><span class="n">Encoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+
+      <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">)</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">gru</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">GRU</span><span class="p">(</span>
+          <span class="n">input_size</span><span class="o">=</span><span class="n">embedding_size</span><span class="p">,</span> 
+          <span class="n">hidden_size</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
+          <span class="n">num_layers</span><span class="o">=</span><span class="n">num_layers</span><span class="p">,</span>
+          <span class="n">bidirectional</span><span class="o">=</span><span class="bp">True</span> <span class="k">if</span> <span class="n">num_dirs</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="bp">False</span><span class="p">,</span>
+          <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span>
+      <span class="p">)</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_dirs</span> <span class="o">*</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_lens</span><span class="p">):</span>  <span class="c1"># batch: (B, S_L), batch_lens: (B)
+</span>      <span class="c1"># d_w: word embedding size
+</span>      <span class="n">batch_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>  <span class="c1"># (B, S_L, d_w)
+</span>      <span class="n">batch_emb</span> <span class="o">=</span> <span class="n">batch_emb</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># (S_L, B, d_w)
+</span>
+      <span class="n">packed_input</span> <span class="o">=</span> <span class="n">pack_padded_sequence</span><span class="p">(</span><span class="n">batch_emb</span><span class="p">,</span> <span class="n">batch_lens</span><span class="p">)</span>
+
+      <span class="n">h_0</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_layers</span> <span class="o">*</span> <span class="n">num_dirs</span><span class="p">,</span> <span class="n">batch</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hidden_size</span><span class="p">))</span>  <span class="c1"># (num_layers*num_dirs, B, d_h) = (4, B, d_h)
+</span>      <span class="n">packed_outputs</span><span class="p">,</span> <span class="n">h_n</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">gru</span><span class="p">(</span><span class="n">packed_input</span><span class="p">,</span> <span class="n">h_0</span><span class="p">)</span>  <span class="c1"># h_n: (4, B, d_h)
+</span>      <span class="n">outputs</span> <span class="o">=</span> <span class="n">pad_packed_sequence</span><span class="p">(</span><span class="n">packed_outputs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># outputs: (S_L, B, 2d_h)
+</span>
+      <span class="n">forward_hidden</span> <span class="o">=</span> <span class="n">h_n</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+      <span class="n">backward_hidden</span> <span class="o">=</span> <span class="n">h_n</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+      <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">linear</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">forward_hidden</span><span class="p">,</span> <span class="n">backward_hidden</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)).</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (1, B, d_h)
+</span>
+      <span class="k">return</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">hidden</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="decoder-구현">Decoder 구현</h2>
+
+<ul>
+  <li>인코더는 입력 단어를 그냥 넣어주면 되는데 디코더는 출력 단어를 넣어야하므로 구현이 조금 달라짐</li>
+  <li>인코더에서는 입력 차원 크기가  (B, S_L) 이었는데 디코더는 (B) 로 한 단어만 사용하도록 구현함</li>
+  <li>
+    <p>밖에서 호출할 때 출력 단어를 다시 넣어주는 구조</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="nb">super</span><span class="p">(</span><span class="n">Decoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+
+      <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">)</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">gru</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">GRU</span><span class="p">(</span>
+          <span class="n">input_size</span><span class="o">=</span><span class="n">embedding_size</span><span class="p">,</span> 
+          <span class="n">hidden_size</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
+      <span class="p">)</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">output_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">hidden</span><span class="p">):</span>  <span class="c1"># batch: (B), hidden: (1, B, d_h)
+</span>      <span class="n">batch_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>  <span class="c1"># (B, d_w)
+</span>      <span class="n">batch_emb</span> <span class="o">=</span> <span class="n">batch_emb</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (1, B, d_w)
+</span>
+      <span class="n">outputs</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">gru</span><span class="p">(</span><span class="n">batch_emb</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>  <span class="c1"># outputs: (1, B, 2d_h), hidden: (1, B, d_h)
+</span>        
+      <span class="c1"># V: vocab size
+</span>      <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">output_layer</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>  <span class="c1"># (1, B, V)
+</span>
+      <span class="k">return</span> <span class="n">outputs</span><span class="p">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">hidden</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="seq2seq-모델-구축">Seq2seq 모델 구축</h2>
+
+<ul>
+  <li>
+    <p>encoder 와 decoder 사용</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">class</span> <span class="nc">Seq2seq</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoder</span><span class="p">,</span> <span class="n">decoder</span><span class="p">):</span>
+      <span class="nb">super</span><span class="p">(</span><span class="n">Seq2seq</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+
+      <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">encoder</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">decoder</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src_batch</span><span class="p">,</span> <span class="n">src_batch_lens</span><span class="p">,</span> <span class="n">trg_batch</span><span class="p">,</span> <span class="n">teacher_forcing_prob</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+      <span class="c1"># src_batch: (B, S_L), src_batch_lens: (B), trg_batch: (B, T_L)
+</span>
+      <span class="n">_</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">src_batch</span><span class="p">,</span> <span class="n">src_batch_lens</span><span class="p">)</span>  <span class="c1"># hidden: (1, B, d_h)
+</span>
+  		<span class="c1"># sos 를 첫 입력으로 사용
+</span>      <span class="n">input_ids</span> <span class="o">=</span> <span class="n">trg_batch</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># (B)
+</span>      <span class="n">batch_size</span> <span class="o">=</span> <span class="n">src_batch</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="n">outputs</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">trg_max_len</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>  <span class="c1"># (T_L, B, V)
+</span>
+      <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">trg_max_len</span><span class="p">):</span>
+        <span class="n">decoder_outputs</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>  <span class="c1"># decoder_outputs: (B, V), hidden: (1, B, d_h)
+</span>
+        <span class="n">outputs</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">decoder_outputs</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">top_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">decoder_outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># top_ids: (B)
+</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">trg_batch</span><span class="p">[:,</span> <span class="n">t</span><span class="p">]</span> <span class="k">if</span> <span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">teacher_forcing_prob</span> <span class="k">else</span> <span class="n">top_ids</span>
+
+      <span class="k">return</span> <span class="n">outputs</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="모델-사용해보기">모델 사용해보기</h2>
+
+<ul>
+  <li>학습
+    <ul>
+      <li>모델을 통해 outputs 를 얻음</li>
+      <li>outputs = seq2seq(src_batch, src_batch_lens, trg_batch)</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day18/17.png" alt="image17" /></p>
+
+    <ul>
+      <li>eos 를 넣어서 나온 결과는 관심 없으므로 제거 (shift)</li>
+      <li>반대로 정답 (trg_batch) 의 sos 부분은 필요 없으므로 제거</li>
+    </ul>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">loss_function</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+  <span class="n">preds</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:].</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, T_L-1, V)
+</span>  <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_function</span><span class="p">(</span><span class="n">preds</span><span class="p">.</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">),</span> <span class="n">trg_batch</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:].</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+  <span class="k">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>output 과 정답을 이용해 loss (크로스 엔트로피) 비교</li>
+      <li>loss 구했으니까 backprop, step 진행해서 학습하면 됨</li>
+    </ul>
+  </li>
+  <li>추정
+    <ul>
+      <li>src_batch 를 인코더에 넣고 나온 h 와 sos 로 추정</li>
+      <li>이 때 나온 실제 출력값으로 다음 스텝 진행</li>
+      <li>eos 나오면 종료</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="seq2seq-with-attention-구현">Seq2Seq with Attention 구현</h1>
+
+<p><br /></p>
+
+<h2 id="필요-패키지-import-1">필요 패키지 import</h2>
+
+<h2 id="데이터-전처리-1">데이터 전처리</h2>
+
+<h2 id="encoder-구현-1">Encoder 구현</h2>
+
+<ul>
+  <li>
+    <p>이제는 어텐션을 위해 모든 hidden state vectors 가 필요함</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">class</span> <span class="nc">Encoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="nb">super</span><span class="p">(</span><span class="n">Encoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+
+      <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">)</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">gru</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">GRU</span><span class="p">(</span>
+          <span class="n">input_size</span><span class="o">=</span><span class="n">embedding_size</span><span class="p">,</span> 
+          <span class="n">hidden_size</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
+          <span class="n">num_layers</span><span class="o">=</span><span class="n">num_layers</span><span class="p">,</span>
+          <span class="n">bidirectional</span><span class="o">=</span><span class="bp">True</span> <span class="k">if</span> <span class="n">num_dirs</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="bp">False</span><span class="p">,</span>
+          <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span>
+      <span class="p">)</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_dirs</span> <span class="o">*</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_lens</span><span class="p">):</span>  <span class="c1"># batch: (B, S_L), batch_lens: (B)
+</span>      <span class="c1"># d_w: word embedding size
+</span>      <span class="n">batch_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>  <span class="c1"># (B, S_L, d_w)
+</span>      <span class="n">batch_emb</span> <span class="o">=</span> <span class="n">batch_emb</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># (S_L, B, d_w)
+</span>
+      <span class="n">packed_input</span> <span class="o">=</span> <span class="n">pack_padded_sequence</span><span class="p">(</span><span class="n">batch_emb</span><span class="p">,</span> <span class="n">batch_lens</span><span class="p">)</span>
+
+      <span class="n">h_0</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_layers</span> <span class="o">*</span> <span class="n">num_dirs</span><span class="p">,</span> <span class="n">batch</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hidden_size</span><span class="p">))</span>  <span class="c1"># (num_layers*num_dirs, B, d_h) = (4, B, d_h)
+</span>      <span class="n">packed_outputs</span><span class="p">,</span> <span class="n">h_n</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">gru</span><span class="p">(</span><span class="n">packed_input</span><span class="p">,</span> <span class="n">h_0</span><span class="p">)</span>  <span class="c1"># h_n: (4, B, d_h)
+</span>      <span class="n">outputs</span> <span class="o">=</span> <span class="n">pad_packed_sequence</span><span class="p">(</span><span class="n">packed_outputs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># outputs: (S_L, B, 2d_h)
+</span>      <span class="n">outputs</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tanh</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">linear</span><span class="p">(</span><span class="n">outputs</span><span class="p">))</span>  <span class="c1"># (S_L, B, d_h)
+</span>
+      <span class="n">forward_hidden</span> <span class="o">=</span> <span class="n">h_n</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+      <span class="n">backward_hidden</span> <span class="o">=</span> <span class="n">h_n</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+      <span class="n">hidden</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tanh</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">linear</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">forward_hidden</span><span class="p">,</span> <span class="n">backward_hidden</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))).</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (1, B, d_h)
+</span>
+      <span class="k">return</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">hidden</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="dot-product-attention-구현">Dot-product Attention 구현</h2>
+
+<ul>
+  <li>위에서 배운 어텐션 방법 중 내적 방법</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DotAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decoder_hidden</span><span class="p">,</span> <span class="n">encoder_outputs</span><span class="p">):</span>  <span class="c1"># (1, B, d_h), (S_L, B, d_h)
+</span>    <span class="n">query</span> <span class="o">=</span> <span class="n">decoder_hidden</span><span class="p">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (B, d_h)
+</span>    <span class="n">key</span> <span class="o">=</span> <span class="n">encoder_outputs</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, S_L, d_h)
+</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">mul</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">query</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, S_L)
+</span>
+    <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">energy</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, S_L)
+</span>    <span class="n">attn_values</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">mul</span><span class="p">(</span><span class="n">encoder_outputs</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">attn_scores</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, d_h)
+</span>
+    <span class="k">return</span> <span class="n">attn_values</span><span class="p">,</span> <span class="n">attn_scores</span>
+</code></pre></div></div>
+
+<ul>
+  <li>attn_scores : 어텐션 벡터</li>
+  <li>attn_values : 컨텍스트 벡터</li>
+</ul>
+
+<h2 id="decoder-구현-1">Decoder 구현</h2>
+
+<ul>
+  <li>attention 추가</li>
+  <li>Linear 에서 디코더의 h 와 어텐션의 컨텍스트 벡터 사이즈를 concat 해서 2*hidden_size 가 됨</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attention</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">attention</span> <span class="o">=</span> <span class="n">attention</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">GRU</span><span class="p">(</span>
+        <span class="n">embedding_size</span><span class="p">,</span>
+        <span class="n">hidden_size</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">output_linear</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">encoder_outputs</span><span class="p">,</span> <span class="n">hidden</span><span class="p">):</span>  <span class="c1"># batch: (B), encoder_outputs: (L, B, d_h), hidden: (1, B, d_h)  
+</span>    <span class="n">batch_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>  <span class="c1"># (B, d_w)
+</span>    <span class="n">batch_emb</span> <span class="o">=</span> <span class="n">batch_emb</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (1, B, d_w)
+</span>
+    <span class="n">outputs</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">batch_emb</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>  <span class="c1"># (1, B, d_h), (1, B, d_h)
+</span>
+    <span class="n">attn_values</span><span class="p">,</span> <span class="n">attn_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">attention</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="n">encoder_outputs</span><span class="p">)</span>  <span class="c1"># (B, d_h), (B, S_L)
+</span>    <span class="n">concat_outputs</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">outputs</span><span class="p">,</span> <span class="n">attn_values</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1, B, 2d_h)
+</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">output_linear</span><span class="p">(</span><span class="n">concat_outputs</span><span class="p">).</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">hidden</span>  <span class="c1"># (B, V), (1, B, d_h)
+</span></code></pre></div></div>
+
+<h2 id="seq2seq-모델-구축-1">Seq2seq 모델 구축</h2>
+
+<ul>
+  <li>인코더의 히든 벡터들을 디코더에 넣어 어텐션을 진행함</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Seq2seq</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoder</span><span class="p">,</span> <span class="n">decoder</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">Seq2seq</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">encoder</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">decoder</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src_batch</span><span class="p">,</span> <span class="n">src_batch_lens</span><span class="p">,</span> <span class="n">trg_batch</span><span class="p">,</span> <span class="n">teacher_forcing_prob</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="c1"># src_batch: (B, S_L), src_batch_lens: (B), trg_batch: (B, T_L)
+</span>
+    <span class="n">encoder_outputs</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">src_batch</span><span class="p">,</span> <span class="n">src_batch_lens</span><span class="p">)</span>  <span class="c1"># encoder_outputs: (S_L, B, d_h), hidden: (1, B, d_h)
+</span>
+    <span class="n">input_ids</span> <span class="o">=</span> <span class="n">trg_batch</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># (B)
+</span>    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">src_batch</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">trg_max_len</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>  <span class="c1"># (T_L, B, V)
+</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">trg_max_len</span><span class="p">):</span>
+      <span class="n">decoder_outputs</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">encoder_outputs</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>  <span class="c1"># decoder_outputs: (B, V), hidden: (1, B, d_h)
+</span>
+      <span class="n">outputs</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">decoder_outputs</span>
+      <span class="n">_</span><span class="p">,</span> <span class="n">top_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">decoder_outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># top_ids: (B)
+</span>
+      <span class="n">input_ids</span> <span class="o">=</span> <span class="n">trg_batch</span><span class="p">[:,</span> <span class="n">t</span><span class="p">]</span> <span class="k">if</span> <span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">teacher_forcing_prob</span> <span class="k">else</span> <span class="n">top_ids</span>
+
+    <span class="k">return</span> <span class="n">outputs</span>
+</code></pre></div></div>
+
+<h2 id="모델-사용해보기-1">모델 사용해보기</h2>
+
+<ul>
+  <li>학습 하여 추정</li>
+</ul>
+
+<h2 id="concat-attention-bahdanau-attention-구현">Concat Attention (=Bahdanau Attention) 구현</h2>
+
+<ul>
+  <li>디코더 h 를 S_L 크기로 중복시켜서 인코더의 h 들과 concat</li>
+  <li>concat 으로 2*h 이므로 w 레이어에서 h 로 바꿔줌</li>
+  <li>v 에서 h → 1 (어텐션 벡터, attn_scores) 로 바꿔줌</li>
+  <li>attn_scores 를 평균내서 attn_values (컨텍스트 벡터) 구함</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ConcatAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="p">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decoder_hidden</span><span class="p">,</span> <span class="n">encoder_outputs</span><span class="p">):</span>  <span class="c1"># (1, B, d_h), (S_L, B, d_h)
+</span>    <span class="n">src_max_len</span> <span class="o">=</span> <span class="n">encoder_outputs</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">decoder_hidden</span> <span class="o">=</span> <span class="n">decoder_hidden</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">src_max_len</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, S_L, d_h)
+</span>    <span class="n">encoder_outputs</span> <span class="o">=</span> <span class="n">encoder_outputs</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, S_L, d_h)
+</span>
+    <span class="n">concat_hiddens</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">decoder_hidden</span><span class="p">,</span> <span class="n">encoder_outputs</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (B, S_L, 2d_h)
+</span>    <span class="n">energy</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tanh</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">w</span><span class="p">(</span><span class="n">concat_hiddens</span><span class="p">))</span>  <span class="c1"># (B, S_L, d_h)
+</span>
+    <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">v</span><span class="p">(</span><span class="n">energy</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, S_L, 1)
+</span>    <span class="n">attn_values</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">mul</span><span class="p">(</span><span class="n">encoder_outputs</span><span class="p">,</span> <span class="n">attn_scores</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, d_h)
+</span>
+    <span class="k">return</span> <span class="n">attn_values</span><span class="p">,</span> <span class="n">attn_scores</span>
+</code></pre></div></div>
+
+<h3 id="decoder">Decoder</h3>
+
+<ul>
+  <li>dot-product 의 디코더는 rnn 먼저 돌고 그 벡터로 어텐션을 했다면, 여기서는 어텐션을 먼저하고 rnn 진행</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attention</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">attention</span> <span class="o">=</span> <span class="n">attention</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">GRU</span><span class="p">(</span>
+        <span class="n">embedding_size</span> <span class="o">+</span> <span class="n">hidden_size</span><span class="p">,</span>
+        <span class="n">hidden_size</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">output_linear</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">encoder_outputs</span><span class="p">,</span> <span class="n">hidden</span><span class="p">):</span>  <span class="c1"># batch: (B), encoder_outputs: (S_L, B, d_h), hidden: (1, B, d_h)  
+</span>    <span class="n">batch_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>  <span class="c1"># (B, d_w)
+</span>    <span class="n">batch_emb</span> <span class="o">=</span> <span class="n">batch_emb</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (1, B, d_w)
+</span>
+    <span class="n">attn_values</span><span class="p">,</span> <span class="n">attn_scores</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">attention</span><span class="p">(</span><span class="n">hidden</span><span class="p">,</span> <span class="n">encoder_outputs</span><span class="p">)</span>  <span class="c1"># (B, d_h), (B, S_L)
+</span>
+    <span class="n">concat_emb</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">((</span><span class="n">batch_emb</span><span class="p">,</span> <span class="n">attn_values</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1, B, d_w+d_h)
+</span>
+    <span class="n">outputs</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">concat_emb</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>  <span class="c1"># (1, B, d_h), (1, B, d_h)
+</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">output_linear</span><span class="p">(</span><span class="n">outputs</span><span class="p">).</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">hidden</span>  <span class="c1"># (B, V), (1, B, d_h)
+</span></code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="seq2seq-model-training-with-fairseq">Seq2Seq Model Training with Fairseq</h1>
+
+<p><br /></p>
+
+<h2 id="fairseq">Fairseq</h2>
+
+<ul>
+  <li>pytorch 를 만드는 facebook 의 오픈소스 프로젝트로 시퀀스 모델링 (번역, 요약, 문장 생성 등) 학습을 도움</li>
+  <li>Library reference
+    <ol>
+      <li><a href="https://fairseq.readthedocs.io/en/latest/tasks.html">tasks</a>
+        <ul>
+          <li>translation task와 language modeling task가 있고 나머지 sequence를 다루는 task는 register_task() function decorator를 이용해 등록할 수 있습니다.</li>
+        </ul>
+      </li>
+      <li><a href="https://fairseq.readthedocs.io/en/latest/models.html">models</a>
+        <ul>
+          <li>모델은 CNN, LSTM, Transformer 기반 모델들이 분류가 되어 있습니다. transformer 모델쪽 코드가 꼼꼼히 잘되어 있습니다. 새로운 모델을 등록하기 위해서는 register_model() function decorator를 이용할 수 있습니다.</li>
+        </ul>
+      </li>
+      <li><a href="https://fairseq.readthedocs.io/en/latest/criterions.html">criterions</a>
+        <ul>
+          <li>모델 학습을 위한 다양한 loss들이 구현되어 있습니다.</li>
+        </ul>
+      </li>
+      <li><a href="https://fairseq.readthedocs.io/en/latest/optim.html">optimizers</a>
+        <ul>
+          <li>모델 학습을 위한 다양한 optimizer들이 구현되어 있습니다.</li>
+        </ul>
+      </li>
+      <li>l<a href="https://fairseq.readthedocs.io/en/latest/lr_scheduler.html">earning rate schedulers</a>
+        <ul>
+          <li>모델의 더 나은 학습을 위한 다양한 learning rate scheduler들이 구현되어 있습니다.</li>
+        </ul>
+      </li>
+      <li><a href="https://fairseq.readthedocs.io/en/latest/data.html">data loading and utilities</a>
+        <ul>
+          <li>전처리 및 데이터 관련 다양한 class들이 구현되어 있습니다.</li>
+        </ul>
+      </li>
+      <li><a href="https://fairseq.readthedocs.io/en/latest/modules.html">modules</a>
+        <ul>
+          <li>앞의 6군데에 속하지 못한(?) 다양한 모듈들이 구현되어 있습니다.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>Command-line Tools</p>
+
+    <p><a href="https://fairseq.readthedocs.io/en/latest/command_line_tools.html">https://fairseq.readthedocs.io/en/latest/command_line_tools.html</a></p>
+
+    <ol>
+      <li>fairseq-preprocess
+        <ul>
+          <li>데이터 학습을 위한 vocab을 만들고 data를 구성합니다.</li>
+        </ul>
+      </li>
+      <li>fairseq-train
+        <ul>
+          <li>여러 gpu 또는 단일 gpu에서 모델을 학습시킵니다.</li>
+        </ul>
+      </li>
+      <li>fairseq-generate
+        <ul>
+          <li>학습된 모델을 이용해 전처리된 데이터를 번역합니다.</li>
+        </ul>
+      </li>
+      <li>fairseq-interactive
+        <ul>
+          <li>학습된 모델을 이용해 raw 데이터를 번역합니다.</li>
+        </ul>
+      </li>
+      <li>fairseq-score
+        <ul>
+          <li>학습된 모델이 생성한 문장과 정답 문장을 비교해 bleu score를 산출합니다.</li>
+        </ul>
+      </li>
+      <li>fairseq-eval-lm
+        <ul>
+          <li>language model을 평가할 수 있는 command입니다.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="마스터-클래스">마스터 클래스</h1>
+
+<p><br /></p>
+
+<h2 id="주재걸-교수님-1">주재걸 교수님 (1)</h2>
+
+<h4 id="세부-연구분야-선정-어떤-기준으로-결정하셨나요-p-stage-에서-주제-선정할-때-팁이-있을까요">세부 연구분야 선정 어떤 기준으로 결정하셨나요? P stage 에서 주제 선정할 때 팁이 있을까요?</h4>
+
+<ul>
+  <li>교수님랩 현재는 비전 50, nlp 25, 시계열 25</li>
+  <li>비전이 연구하고 공부하기 더 수월한 분야, 발전도 빠르고 본인이 뭔가 할 수 있으나 사람이 많아서 경쟁이 치열</li>
+  <li>nlp 쪽은 대규모 모델 프리 트레이닝쪽으로 가고 있어서 인프라 확충이 힘든 부분이 있음, NLP 쪽 사람이 적어서 시장에서는 인기 더 좋음</li>
+  <li>더 끌리는 분야 가라~</li>
+</ul>
+
+<h4 id="신입-ai-개발자에게-요구하는-역량은-어느정도일까요-이정도는-알고-취업을-하는게-좋겠다라는-기준이-있나요">신입 AI 개발자에게 요구하는 역량은 어느정도일까요? 이정도는 알고 취업을 하는게 좋겠다라는 기준이 있나요?</h4>
+
+<ul>
+  <li>학교에 있다보니 산업에서 요구하는 역량 정확히는 모르겠음</li>
+  <li>네이버같은 곳은 서류, 코테 (AI 관련, 알고리즘) 요구</li>
+  <li>산업에서 서비스할 때는 전체 파이프라인을 다뤄야하므로 AI 모듈은 빙산의 일각이므로 앞 뒤 부분 다 잘해야 함</li>
+  <li>기준은 뭐 U 스테이지에서 배우는 어텐션, 트랜스포머, 백프로파게이션 등등 전부</li>
+  <li>최근 논문, 기술을 보고 (영어로 빨리 읽고) 빨리 구현할 줄 아는 사람</li>
+</ul>
+
+<h4 id="nlp-데이터를-구할-때-현업에서도-웹의-여러-텍스트를-크롤링하나요-크롤링이-산업-현장에서-nlp-엔지이어에게-유효한-기술-스택일까요">NLP 데이터를 구할 때 현업에서도 웹의 여러 텍스트를 크롤링하나요? 크롤링이 산업 현장에서 NLP 엔지이어에게 유효한 기술 스택일까요?</h4>
+
+<ul>
+  <li>그렇다. 돈 주고 데이터 얻는 경우도 많지만, 회사 사정 등으로 직접 구해야하는 경우 많음</li>
+</ul>
+
+<h4 id="ai가-신기하지만-직관적이지-않아-답답합니다-이런-부분을-어떻게-받아들이시나요-계속-공부할-수-있는-원동력이-있나요">AI가 신기하지만 직관적이지 않아 답답합니다. 이런 부분을 어떻게 받아들이시나요? 계속 공부할 수 있는 원동력이 있나요?</h4>
+
+<ul>
+  <li>협업의 중요성, 혼자서만 꾸준히 하기보다 여러 사람들과 같이 일해서 한 태스크를 빨리 끝내는 분위기. 공부할 때도 혼자 공부보다 마음 맞는 사람들이랑 같이 하는거 추천</li>
+</ul>
+
+<h4 id="gpt-3-학습은-어려워서-허가받아야하는데-개인이나-작은-단체는-어떻게-학습하고-활용할-수-있을까요-앞으로-더-규모가-큰-모델이-나오면-어떻게-대처해야할까요">GPT-3 학습은 어려워서 허가받아야하는데 개인이나 작은 단체는 어떻게 학습하고 활용할 수 있을까요? 앞으로 더 규모가 큰 모델이 나오면 어떻게 대처해야할까요?</h4>
+
+<ul>
+  <li>풀리지 않는 문제, 핵심적인 문제</li>
+  <li>답은 사실 없다..? 자본력, 규묘의 경제. 잘모르겠다?</li>
+  <li>협업해야하지 않을까 허허</li>
+</ul>
+
+<h4 id="시장에서-cv-가-nlp-보다-수요가-많은거-같은데-ai-엔지니어로-nlp-분야-서비스-공부하는데-있어-무엇을-공부하고-어떤-함정들을-조심해야할까요">시장에서 CV 가 NLP 보다 수요가 많은거 같은데, AI 엔지니어로 NLP 분야 서비스 공부하는데 있어 무엇을 공부하고, 어떤 함정들을 조심해야할까요?</h4>
+
+<ul>
+  <li>NLP 가 더 인기 많을거라 생각, 실력있으면 가능</li>
+  <li>실적이나 외부 스펙 신경쓰는게 좋을듯</li>
+</ul>
+
+<h4 id="cs-분야-ml-포함-해외-유학-어떻게-생각하시나요">CS 분야 (ML 포함) 해외 유학 어떻게 생각하시나요</h4>
+
+<ul>
+  <li>견문 넓힐 수 있어서 추천</li>
+  <li>우리나라도 요즘 상향 평준화돼서 좋긴함</li>
+  <li>미국 가면 미국 취업하기 좋음</li>
+</ul>
+
+<h4 id="공부할-때-밑바닥부터-할지-탑다운으로-최신-논문-위주로-할지-고민입니다">공부할 때 밑바닥부터 할지, 탑다운으로 최신 논문 위주로 할지 고민입니다</h4>
+
+<ul>
+  <li>선택과 집중, 밸런스 문제</li>
+  <li>최신 논문만 봐도 한계가 있고, 기초 공부만 해도 비효율적</li>
+</ul>
+
+<h4 id="프론트엔드와-ai의-결합이-가능할까요">프론트엔드와 AI의 결합이 가능할까요?</h4>
+
+<ul>
+  <li>잘 안하지만 그런 프로그램이나 시스템 만들어지면 가능할듯</li>
+  <li>cli 로 하는게 보통 더 빠르고 수월하니..</li>
+</ul>
+
+<h4 id="대학원을-연구가-아닌-취업이-목적이면-어떨까요-취업에-석사-학위가-필요한-경우가-많아서요">대학원을 연구가 아닌 취업이 목적이면 어떨까요? 취업에 석사 학위가 필요한 경우가 많아서요.</h4>
+
+<ul>
+  <li>일반적으로 AI 는 대학원 기술이라는 생각이 강함. 학부과정에서 깊이 있게 다루기 쉽지 않기 때문.</li>
+  <li>많은 경우 회사에서 석사 이상 원하니까 대학원가는거 좋다.</li>
+  <li>작은 사회생활 (조직) 이므로 경험하는거 좋음</li>
+</ul>
+
+<h4 id="모델-이해할-때-작은-예시로-이해하는-편인데-이-공부법이-유효할까요">모델 이해할 때 작은 예시로 이해하는 편인데 이 공부법이 유효할까요?</h4>
+
+<ul>
+  <li>교수님도 그렇게 이해하시는 편.</li>
+</ul>
+
+<h4 id="c-로-큰-퍼포먼스-향상이-가능할까요">C++ 로 큰 퍼포먼스 향상이 가능할까요?</h4>
+
+<ul>
+  <li>그렇다</li>
+</ul>
+
+<h4 id="자연어처리-석사생으로서-발화-생성에-관심갖고-연구-트랜스포머-이후-nlp-트렌드가-빨리-변해-커버해야할-양이-많은데-성공적으로-석사생-마칠-팁이-있을까요">자연어처리 석사생으로서 발화 생성에 관심갖고 연구. 트랜스포머 이후 NLP 트렌드가 빨리 변해 커버해야할 양이 많은데 성공적으로 석사생 마칠 팁이 있을까요</h4>
+
+<ul>
+  <li>주변 사람들 도움 받고 일하길</li>
+</ul>
+
+<h4 id="랩실-선발기준">랩실 선발기준</h4>
+
+<ul>
+  <li>기초 내용 잘 아는 사람?</li>
+  <li>교수님 연구실 FAQ 참고</li>
+</ul>
+
+<h4 id="lstm-gru-가-트랜스포머-이후-밀렸는데-유통기한이-어느정도일까요">LSTM, GRU 가 트랜스포머 이후 밀렸는데 유통기한이 어느정도일까요?</h4>
+
+<ul>
+  <li>숏텀 정보가 중요할 떄는 LSTM 이 중요한 경우도 많음</li>
+  <li>롱텀은 트랜스포머</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="피어-세션">피어 세션</h1>
+
+<p><br /></p>
+
+<h2 id="ted-세션---펭귄님">TED 세션 - 펭귄님</h2>
+
+<p>펭귄님께서 이 때까지 데이터 분석과 관련된 공모전과 캐글 스터디 등을 한 경험을 공유하였다.</p>
+
+<h2 id="수업-질문">수업 질문</h2>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="today-i-felt">Today I Felt</h1>
+
+<p><br /></p>
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>
