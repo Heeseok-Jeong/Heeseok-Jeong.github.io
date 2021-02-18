@@ -144,7 +144,7 @@
     <ul>
       <li>벡터는 크기가 고정, 입력 문장이 짧든 길든 마지막 히든 스테이트 벡터에 정보가 다 담겨야 하므로 표현에 부족함이 있음</li>
       <li>LSTM 으로 롱텀 디펜던시를 해결했더라도 문장이 길면 부족한 성능</li>
-      <li>인코더의 첫 단어와 디코더의 첫 단어를 내야 하는데 멀어서 잘 못함 → 양방향 사용.</li>
+      <li>인코더의 첫 단어와 디코더의 첫 단어를 내야 하는데 멀어서 잘 못함</li>
     </ul>
   </li>
 </ul>
@@ -262,7 +262,7 @@
   <li>디코더에서 단어 예측할 때, 확률 기반이므로 어떤 단어를 선택할지 돕는 알고리즘</li>
   <li>Greedy decoding
     <ul>
-      <li>현재 타임 스텝에서 확률에서 가장 큰 단어 (가장 좋아보이는 단어) 를 선택</li>
+      <li>현재 타임 스텝에서 확률이 가장 큰 단어 (가장 좋아보이는 단어) 를 선택</li>
       <li>만약 잘못 예측했다면? 돌아가야하는데 갈 수 없음 → 다음 후보군 필요</li>
     </ul>
   </li>
@@ -309,7 +309,7 @@
   </li>
   <li>완성된 가설들 중 가장 높은 점수를 지닌 가설을 선택, log 결합확률분포로 구함
     <ul>
-      <li>가설의 길이가 짧을수록 점수가 높다는 문제가 있음 (항상 - 값을 더해주므로 긴 가설을 점수가 낮음)</li>
+      <li>가설의 길이가 짧을수록 점수가 높다는 문제가 있음 (항상 - 값을 더해주므로 긴 가설은 점수가 낮음)</li>
       <li>공평하게 비교하기 위해 각 가설의 길이로 Normalize 진행</li>
     </ul>
 
@@ -554,7 +554,7 @@
 
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">loss_function</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
 
-  <span class="n">preds</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:].</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, T_L-1, V)
+  <span class="n">preds</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:,</span> <span class="p">:].</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, T_L-1, V)
 </span>  <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_function</span><span class="p">(</span><span class="n">preds</span><span class="p">.</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">),</span> <span class="n">trg_batch</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:].</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
   <span class="k">print</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
@@ -1017,6 +1017,10 @@
 
 <h2 id="수업-질문">수업 질문</h2>
 
+<ul>
+  <li><a href="https://github.com/boostcamp-ai-tech-4/peer-session/issues/71">[히스] Seq2seq with Attention 에서 Decoder 의 step 중 context vector 생성</a></li>
+</ul>
+
 <p><br /></p>
 
 <hr />
@@ -1024,6 +1028,10 @@
 <p><br /></p>
 
 <h1 id="today-i-felt">Today I Felt</h1>
+
+<h2 id="부지런함">부지런함</h2>
+
+<p>오늘 펭귄님의 TED 세션은 인상깊었다. 각종 공모전 참여에 케글 스터디까지,, 똑같이 대학교를 다녔는데 저렇게 많은 일을 했다는 것은 더 부지런하게 살았다는게 아닐까하는 생각이 들었다. 나도 나름 열심히 살았다고 생각했지만 막상 그렇지 않은 것 같기도 하다. 과거로 갈 순 없으니 지금부터라도 꾸준히 롤링해야겠다. 또한 해보지 않은 영역이라도 뭐든 도전하는 자세를 가져야지!</p>
 
 <p><br /></p>
 

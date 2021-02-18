@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Ustage Day 19" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="BoostCamp AI Tech" />
+  <meta name="description" content="Transformer" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Ustage Day 19" />
+  <meta property="og:description" content="Transformer" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2021/02/18/bcaitech-ustage-day19.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Ustage Day 19" />
+  <meta name="twitter:description" content="Transformer" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Ustage Day 19</title>
+</head>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        TeX: {
+          equationNumbers: {
+            autoNumber: "AMS"
+          }
+        },
+        tex2jax: {
+        inlineMath: [ ['$', '$'] ],
+        displayMath: [ ['$$', '$$'] ],
+        processEscapes: true,
+      }
+    });
+    MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Ustage Day 19</h1>
+    <p class="subtitle">Transformer</p>
+    <p class="meta">
+      February 18, 2021
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+
+<p><br /></p>
+
+<ul>
+  <li><a href="#transformer">Transformer</a></li>
+  <li><a href="#multi-head-attention-구현">Multi-head Attention 구현</a></li>
+  <li><a href="#masked-multi-head-attention-구현">Masked Multi-head Attention 구현</a></li>
+  <li><a href="#byte-pair-encoding">Byte Pair Encoding</a></li>
+  <li><a href="#피어-세션">피어 세션</a></li>
+  <li><a href="#today-i-felt">Today I Felt</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="transformer">Transformer</h1>
+
+<p><br /></p>
+
+<h2 id="참고">참고</h2>
+
+<p>지난 번에 배운 Transformer 내용도 참고하자.</p>
+
+<ul>
+  <li><a href="https://heeseok-jeong.github.io/2021/02/04/bcaitech-ustage-day14.html">https://heeseok-jeong.github.io/2021/02/04/bcaitech-ustage-day14.html</a></li>
+</ul>
+
+<p>[사진1]</p>
+
+<h2 id="특징">특징</h2>
+
+<ul>
+  <li>RNN 구조 대신 Attention 으로만 번역 모델 구성</li>
+  <li>Long-Term Dependency 해결</li>
+  <li>인코더와 디코더에서 어텐션 사용</li>
+  <li>기존 어텐션과 다르게 자기 문장 내에서 어텐션을 수행하므로 셀프 어텐션</li>
+  <li>
+    <p>간단한 내적만 수행하면 자기 단어의 가중치가 높을 것</p>
+
+    <p>→ 쿼리, 키, 밸류를 이용한 어텐션 방법으로 해결</p>
+  </li>
+  <li>쿼리 : 해당 단어와 관련된 벡터</li>
+  <li>키 : 문장 내 각 단어와 관련된 벡터</li>
+  <li>밸류 : 쿼리와 키로 구한 확률분포와 결합되는 벡터</li>
+  <li>한 단어의 쿼리와 모든 단어의 키를 내적하여 벡터를 만듦 → 이를 소프트맥스하여 가중치를 만들고 모든 단어에 대한 밸류 벡터의 가중 평균을 얻어냄</li>
+  <li>멀리 있는 단어끼리도 정보를 알 수 있음</li>
+</ul>
+
+<p>[사진2]</p>
+
+<h2 id="scaled-dot-product-attention">Scaled Dot-Product Attention</h2>
+
+<ul>
+  <li>입력 : 한 단어의 Q 와 모든 단어의 K, V (Q, K, V, Output 은 모두 벡터임)</li>
+  <li>출력은 밸류 벡터의 가중합임</li>
+  <li>Q, K 는 내적을 하기 때문에 차원이 같아야 함. V 는 상관없음 (실제 구현에서는 Q, K, V 차원 같게 함)</li>
+  <li>
+    <p>수식</p>
+
+    <p>[사진3]</p>
+
+    <ul>
+      <li>scaled (루트 k차원으로 나누기)
+        <ul>
+          <li>dk 가 커지면 분산도 커짐 → 소프트맥스 했을 때 특정 값이 매우 크게 나오는 문제 발생</li>
+          <li>이를 해결하기 위해 scaled 수행</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>[사진4]</p>
+  </li>
+</ul>
+
+<h2 id="multi-head-attention">Multi-head Attention</h2>
+
+<ul>
+  <li>
+    <p>단일 어텐션은 단어들끼리 연관성을 짓는 방법이 하나이므로 만약 잘못된 연관이 지어질 경우 성능이 낮아짐</p>
+
+    <p>[사진5]</p>
+  </li>
+  <li>멀티 헤드 어텐션 수행 후 concat 하고 다시 원래 차원으로 돌려냄</li>
+  <li>
+    <p>Cost</p>
+
+    <p>[사진6]</p>
+
+    <ul>
+      <li>Complexity per Layer : RNN 에 비해 Self-Attention 은 각 어텐션에 대한 정보를 지녀야하므로 더 많은 메모리 소요</li>
+      <li>Sequential Operations : 하지만 GPU 개수만 된다면 병렬 연산이 가능하므로 RNN 에 비해 좋음 (RNN 은 순차진행이니까 병렬해도 오래걸림)
+        <ul>
+          <li>따라서 트랜스포머는 RNN 에 비해 메모리는 많이 먹지만 학습 시간은 적게 듦</li>
+        </ul>
+      </li>
+      <li>Sequential Operations : 멀리 있더라도 뒤에 있는 단어가 앞 단어를 참조할 수 있음</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="block-단위로-보기">Block 단위로 보기</h2>
+
+<p>[사진7]</p>
+
+<ul>
+  <li>Multi-Head Attention 부분과 Feed Forward 부분으로 나뉨</li>
+  <li>각 부분은 만들어진 벡터에 Residual connection (이를 위해서는 입력과 출력 벡터 차원이 같아야 함) 을 진행하고 Norm 을 수행</li>
+</ul>
+
+<h3 id="layer-normalization">Layer Normalization</h3>
+
+<ul>
+  <li>Normalization
+    <ul>
+      <li>딥러닝에 다양한 Normalization 존재 → 주어진 다수의 sample 에 대해 평균을 0, 분산을 1 로 만든 뒤 원하는 평균과 분산으로 구성할 수 있도록 함</li>
+      <li>Normalization 을 거친 후 y = 2x + 3 의 x 에 넣어주면 (affine transformation) , 평균은 3, 분산은 2 의 제곱이 됨</li>
+      <li>
+        <p>이들은 경사하강법의 파라미터가 됨</p>
+
+        <p>[사진8]</p>
+      </li>
+    </ul>
+  </li>
+  <li>Layer Normalization
+    <ul>
+      <li>
+        <p>각 레이어에 대해 평균과 표준편차를 구해서 normalization 수행, 이후 affine transformation 수행</p>
+
+        <p>[사진9]</p>
+      </li>
+      <li>
+        <p>학습 안정화 + 성능 조금 더 끌어올림</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="positional-encoding">Positional Encoding</h2>
+
+<ul>
+  <li>RNN 과 다르게 Self-attention 기반 모듈은 가중치를 구하면 순서에 상관없어짐. 마치 순서를 고려하지 않는 집합으로 인코딩하는 것과 같아짐</li>
+  <li>따라서 위치 정보를 주는 Positional Encoding 필요</li>
+  <li>I go home 에서 I 가 처음이라는 것을 벡터에 기록해줌
+    <ul>
+      <li>간단한 방법으로는 I = [3, -2, 4] 에서 첫 번째에 1000 을 더해줌 [1003, -2, 4]</li>
+      <li>이런 식으로 유니크하게 순서를 알 수 있게 특정 상수를 벡터에 더해줌. sin, cos 주기 함수 사용</li>
+    </ul>
+
+    <p>[사진10]</p>
+
+    <ul>
+      <li>dim 개수만큼 특정한 sin, cos 그래프가 생김</li>
+      <li>어떤 단어가 어떤 위치에 있었는지 알 수 있게 됨</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="warm-up-learning-rate-scheduler">Warm-up Learning Rate Scheduler</h2>
+
+<ul>
+  <li>
+    <p>학습 중에 러닝 레이트를 적절히 변경시킴</p>
+
+    <p>[사진11]</p>
+  </li>
+</ul>
+
+<h2 id="인코딩-과정">인코딩 과정</h2>
+
+<ul>
+  <li>단어 임베딩</li>
+  <li>포지셔널 인코딩 더하기</li>
+  <li>멀티헤드 어텐션 수행</li>
+  <li>Residual (원래값 더하기) 후 Layer Normalization</li>
+  <li>Feed Forward 수행</li>
+  <li>Residual (원래값 더하기) 후 Layer Normalization</li>
+  <li>위 과정을 N 번 (6, 12, 24 등, 독립적인 파라미터 가짐) 만큼 진행. stack</li>
+</ul>
+
+<p>[사진12]</p>
+
+<ul>
+  <li>사진과 같이 멀티헤드 어텐션으로 인해 한 단어가 문장 내 다른 단어와 어떻게 연관짓는지 알 수 있음</li>
+</ul>
+
+<h2 id="decoder">Decoder</h2>
+
+<p>[사진13]</p>
+
+<ul>
+  <li>출력 문장에 대해 임베딩하고 포지셔널 인코딩한 후 Masked Multi-Head Attention 수행하여 Query 만들어냄. 추가적으로 Residual + Norm 수행</li>
+  <li>
+    <p>인코더에서 나온 최종 벡터가 K, V 로 사용되어 Multi-Head Attention (Encoder-Decoder Attention) 수행. 추가적으로 Residual + Norm 수행. 여기서 Residual 덕에 디코더의 문장 정보를 지니게 됨.</p>
+
+    <p>→ 인코더의 정보와 디코더의 문장 정보를 잘 결합</p>
+  </li>
+  <li>마지막으로 Feed Forward 수행</li>
+</ul>
+
+<h2 id="masked-self-attention">Masked Self-Attention</h2>
+
+<ul>
+  <li>출력 문장에서 이전 단어들에 대해서만 어텐션을 수행. 뒤에 단어들은 masked 가려버림.</li>
+  <li>QK 하고 softmax 한 후 뒤에 해당되는 부분을 0 으로 만듦. 이후 row 별로 합이 1 이 되도록 다시 softmax</li>
+</ul>
+
+<p>[사진14]</p>
+
+<h2 id="결과">결과</h2>
+
+<p>[사진15]</p>
+
+<p><strong>Further Reading</strong></p>
+
+<ul>
+  <li><a href="https://arxiv.org/abs/1706.03762">Attention is all you need, NeurIPS’17</a></li>
+  <li><a href="http://jalammar.github.io/illustrated-transformer/">Illustrated Transformer</a></li>
+  <li><a href="http://nlp.seas.harvard.edu/2018/04/03/attention.html">Annotated Transformer</a></li>
+  <li><a href="https://openaccess.thecvf.com/content_ECCV_2018/papers/Yuxin_Wu_Group_Normalization_ECCV_2018_paper.pdf">Group Normalization</a></li>
+</ul>
+
+<p><strong>Further Question</strong></p>
+
+<ul>
+  <li>Attention은 이름 그대로 어떤 단어의 정보를 얼마나 가져올 지 알려주는 직관적인 방법처럼 보입니다. Attention을 모델의 Output을 설명하는 데에 활용할 수 있을까요?
+    <ul>
+      <li>참고: <a href="https://arxiv.org/pdf/1902.10186.pdf">Attention is not explanation</a></li>
+      <li>참고: <a href="https://www.aclweb.org/anthology/D19-1002.pdf">Attention is not not explanation</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="multi-head-attention-구현">Multi-head Attention 구현</h1>
+
+<p><br /></p>
+
+<h2 id="목적">목적</h2>
+
+<ul>
+  <li>이미 트랜스포머 모델이나 멀티헤드 어텐션은 딥러닝 프레임워크에서 잘 구현돼있지만 간략하게나마 구조를 직접 이해해보는 것</li>
+</ul>
+
+<h2 id="과정">과정</h2>
+
+<h3 id="필요-패키지-import">필요 패키지 import</h3>
+
+<h3 id="데이터-전처리">데이터 전처리</h3>
+
+<ul>
+  <li>최대 길이 기준으로 데이터 패딩</li>
+</ul>
+
+<h3 id="hyperparameter-세팅-및-embedding">Hyperparameter 세팅 및 Embedding</h3>
+
+<ul>
+  <li>n_head = 8, d_model = 512 (d_model 은 n_head 로 나눠 떨어져야함)</li>
+  <li>임베딩 생성 및 배치 임베딩</li>
+</ul>
+
+<h3 id="linear-transformation--여러-head-로-나누기">Linear Transformation &amp; 여러 head 로 나누기</h3>
+
+<ul>
+  <li>w_q, w_k, w_v 생성</li>
+  <li>
+    <p>q, k, v 생성</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">q</span> <span class="o">=</span> <span class="n">w_q</span><span class="p">(</span><span class="n">batch_emb</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>  <span class="n">k</span> <span class="o">=</span> <span class="n">w_k</span><span class="p">(</span><span class="n">batch_emb</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>  <span class="n">v</span> <span class="o">=</span> <span class="n">w_v</span><span class="p">(</span><span class="n">batch_emb</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">k</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>멀티 헤드 어텐션으로 쪼개기, 차원을 n_head 개로 쪼갬</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">batch_size</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">d_k</span> <span class="o">=</span> <span class="n">d_model</span> <span class="o">//</span> <span class="n">num_heads</span>
+
+  <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k)
+</span>  <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k)
+</span>  <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">k</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="scaled-dot-product-self-attention-구현">Scaled dot-product self-attention 구현</h3>
+
+<ul>
+  <li>
+    <p>수식대로 attn_values 를 구함</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, L)
+</span>  <span class="n">attn_dists</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">attn_scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, L)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">attn_dists</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">attn_dists</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+
+  <span class="n">attn_values</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attn_dists</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">attn_values</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="각-head-의-결과물-병합">각 head 의 결과물 병합</h3>
+
+<ul>
+  <li>
+    <p>다시 멀티 헤드를 하나로 합쳐야함</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">attn_values</span> <span class="o">=</span> <span class="n">attn_values</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k)
+</span>  <span class="n">attn_values</span> <span class="o">=</span> <span class="n">attn_values</span><span class="p">.</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">attn_values</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="전체-코드">전체 코드</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MultiheadAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">MultiheadAttention</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="c1"># Q, K, V learnable matrices
+</span>    <span class="bp">self</span><span class="p">.</span><span class="n">w_q</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">w_k</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">w_v</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+
+    <span class="c1"># Linear transformation for concatenated outputs
+</span>    <span class="bp">self</span><span class="p">.</span><span class="n">w_0</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">w_q</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>    <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">w_k</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>    <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">w_v</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k)
+</span>    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k)
+</span>    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k)
+</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>
+    <span class="n">attn_values</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">self_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>    <span class="n">attn_values</span> <span class="o">=</span> <span class="n">attn_values</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">).</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k) =&gt; (B, L, d_model)
+</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">w_0</span><span class="p">(</span><span class="n">attn_values</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">self_attention</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+    <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, L)
+</span>    <span class="n">attn_dists</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">attn_scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, L)
+</span>
+    <span class="n">attn_values</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attn_dists</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>
+    <span class="k">return</span> <span class="n">attn_values</span>
+</code></pre></div></div>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="masked-multi-head-attention-구현">Masked Multi-head Attention 구현</h1>
+
+<p><br /></p>
+
+<h2 id="과정-1">과정</h2>
+
+<h3 id="필요-패키지-import-1">필요 패키지 import</h3>
+
+<h3 id="데이터-전처리-1">데이터 전처리</h3>
+
+<h3 id="hyperparameter-세팅-및-embedding-1">Hyperparameter 세팅 및 embedding</h3>
+
+<h3 id="mask-구축">Mask 구축</h3>
+
+<ul>
+  <li>
+    <p>자기 번호보다 뒷부분과 패딩인 부분을 모두 False 로 두어 mask 설정 (정렬돼있으므로 패딩 발견되면 밑에는 가려도 됨). 나머지는 attention 해도 되므로 True 로 설정</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1"># 패딩 부분 False
+</span>  <span class="n">padding_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch</span> <span class="o">!=</span> <span class="n">pad_id</span><span class="p">).</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, 1, L)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">padding_mask</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">padding_mask</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+
+  <span class="c1"># 자기 번호 뒷부분 False, tril 함수 지원
+</span>  <span class="n">nopeak_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_len</span><span class="p">,</span> <span class="n">max_len</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">bool</span><span class="p">)</span>  <span class="c1"># (1, L, L)
+</span>  <span class="n">nopeak_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tril</span><span class="p">(</span><span class="n">nopeak_mask</span><span class="p">)</span>  <span class="c1"># (1, L, L)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">nopeak_mask</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">nopeak_mask</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+
+  <span class="c1"># 합치기
+</span>  <span class="n">mask</span> <span class="o">=</span> <span class="n">padding_mask</span> <span class="o">&amp;</span> <span class="n">nopeak_mask</span>  <span class="c1"># (B, L, L)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">mask</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="linear-transformation--여러-head-로-나누기-1">Linear Transformation &amp; 여러 head 로 나누기</h3>
+
+<ul>
+  <li>위와 동일</li>
+</ul>
+
+<h3 id="masking-이-적용된-self-attention-구현">Masking 이 적용된 self-attention 구현</h3>
+
+<ul>
+  <li>
+    <p>False 부분은 -무한대로 만듦 → softmax 에서 0 으로 바뀜</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, L)
+</span>
+  <span class="n">masks</span> <span class="o">=</span> <span class="n">mask</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, 1, L, L)
+</span>  <span class="n">masked_attn_scores</span> <span class="o">=</span> <span class="n">attn_scores</span><span class="p">.</span><span class="n">masked_fill_</span><span class="p">(</span><span class="n">masks</span> <span class="o">==</span> <span class="bp">False</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inf</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, L)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">masked_attn_scores</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">masked_attn_scores</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+
+  <span class="n">attn_dists</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">masked_attn_scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, L)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">attn_dists</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">attn_dists</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+
+  <span class="n">attn_values</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attn_dists</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">attn_values</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="전체-코드-1">전체 코드</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MultiheadAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">MultiheadAttention</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="c1"># Q, K, V learnable matrices
+</span>    <span class="bp">self</span><span class="p">.</span><span class="n">w_q</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">w_k</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">w_v</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+
+    <span class="c1"># Linear transformation for concatenated outputs
+</span>    <span class="bp">self</span><span class="p">.</span><span class="n">w_0</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">w_q</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>    <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">w_k</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>    <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">w_v</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k)
+</span>    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k)
+</span>    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k)
+</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>
+    <span class="n">attn_values</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">self_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>    <span class="n">attn_values</span> <span class="o">=</span> <span class="n">attn_values</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">).</span><span class="n">contiguous</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>  <span class="c1"># (B, L, num_heads, d_k) =&gt; (B, L, d_model)
+</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">w_0</span><span class="p">(</span><span class="n">attn_values</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">self_attention</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, L)
+</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+      <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, 1, L, L) or  (B, 1, 1, L)
+</span>      <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">attn_scores</span><span class="p">.</span><span class="n">masked_fill_</span><span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="bp">False</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">inf</span><span class="p">)</span>
+
+    <span class="n">attn_dists</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">attn_scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, L)
+</span>
+    <span class="n">attn_values</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attn_dists</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># (B, num_heads, L, d_k)
+</span>
+    <span class="k">return</span> <span class="n">attn_values</span>
+
+<span class="n">multihead_attn</span> <span class="o">=</span> <span class="n">MultiheadAttention</span><span class="p">()</span>
+
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">multihead_attn</span><span class="p">(</span><span class="n">batch_emb</span><span class="p">,</span> <span class="n">batch_emb</span><span class="p">,</span> <span class="n">batch_emb</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>  <span class="c1"># (B, L, d_model)
+</span>
+<span class="k">print</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">outputs</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="encoder-decoder-attention">Encoder-Decoder attention</h3>
+
+<ul>
+  <li>
+    <p>Q, K, V 만 다를 뿐 나머지는 똑같음</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">q</span> <span class="o">=</span> <span class="n">w_q</span><span class="p">(</span><span class="n">trg_emb</span><span class="p">)</span>  <span class="c1"># (B, T_L, d_model)
+</span>  <span class="n">k</span> <span class="o">=</span> <span class="n">w_k</span><span class="p">(</span><span class="n">src_emb</span><span class="p">)</span>  <span class="c1"># (B, S_L, d_model)
+</span>  <span class="n">v</span> <span class="o">=</span> <span class="n">w_v</span><span class="p">(</span><span class="n">src_emb</span><span class="p">)</span>  <span class="c1"># (B, S_L, d_model)
+</span>
+  <span class="p">...</span>
+
+  <span class="n">attn_scores</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d_k</span><span class="p">)</span>  <span class="c1"># (B, num_heads, T_L, S_L)
+</span>  <span class="n">attn_dists</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">attn_scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (B, num_heads, T_L, S_L)
+</span>
+  <span class="n">attn_values</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attn_dists</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># (B, num_heads, T_L, d_k)
+</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">attn_values</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>attn_dists 는 trg 단어가 인코더의 단어와의 관계를 파악함</li>
+    </ul>
+
+    <p>[사진16]</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="byte-pair-encoding">Byte Pair Encoding</h1>
+
+<p><br /></p>
+
+<h2 id="subword-를-만드는-방법으로-bpe-사용">Subword 를 만드는 방법으로 BPE 사용</h2>
+
+<ul>
+  <li>학습 과정에서 low, lower, newest, widest  이라는 단어들로 vocab 을 만들 때 해당 단어들만 사용하면 테스트 과정에서 lowest 라는 단어는 vocab 에 없기 때문에 UNK 토큰으로 처리되어 번역 성능이 상당히 낮아짐</li>
+  <li>이를 해결하기 위해 BPE 를 사용</li>
+  <li>방법
+    <ul>
+      <li>단어들을 문자 단위로 쪼개고 두 문자씩 합쳤을 때의 등장 횟수가 가장 많은 문자를 vocab 에 넣는 행위를 반복함</li>
+      <li>아래는 단어와 출연 횟수를 나타냄</li>
+      <li>low : 5, lower : 2, newest : 6, widest : 3
+        <ul>
+          <li>
+            <p>처음 vocab : [l, o, w, e, r, n, w, s, t, i, d]</p>
+
+            <p>BPE 1 번 수행</p>
+
+            <ul>
+              <li>l o w → (lo), (ow)</li>
+              <li>l o w e r, 2 → (lo), (ow) … (er)</li>
+              <li>n e w e s t, 6 → (ne), … (es), (st)</li>
+              <li>w i d e s t, 3 → (wi), … (es), (st)</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p>⇒ es 가 9번 등장으로 가장 많음, 결과 vocab : [l, o, w, e, r, n, w, s, t, i, d, es]</p>
+
+        <ul>
+          <li>다음 BPE 결과 → vocab : [l, o, w, e, r, n, w, s, t, i, d, es, est]</li>
+        </ul>
+      </li>
+      <li>이 과정을 반복하다 보면 lowest 라는 단어를 cover 할 수 있게됨</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="피어-세션">피어 세션</h1>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="today-i-felt">Today I Felt</h1>
+
+<p><br /></p>
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>
