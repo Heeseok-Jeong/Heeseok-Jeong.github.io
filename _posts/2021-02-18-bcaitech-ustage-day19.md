@@ -497,6 +497,11 @@ print(outputs.shape)
 
 # 피어 세션
 
+## 수업 질문
+
+- [[MJ] Transformer에서 Batch normalization 대신 layer normalization을 사용하는 이유](https://github.com/boostcamp-ai-tech-4/peer-session/issues/73)
+- [[MJ] position encoding](https://github.com/boostcamp-ai-tech-4/peer-session/issues/74)
+
 <br>
 
 <br>
@@ -506,5 +511,9 @@ print(outputs.shape)
 <br>
 
 # Today I Felt
+
+## 진로 고민
+
+AI 쪽으로 일을 하고 싶은데 취업 vs 대학원, 번역 vs 챗봇 vs 추천시스템 등 여러 고민거리가 머릿속에 있다. 미래를 생각해서 대학원에 가는 것이 좋지 않을까 이런 마음에 많이 드는 요즘, 부족한 영어실력이 아쉬워 아침에 일어나서 영어 단어를 보는게 좋겠다는 생각이 든다. 머지않아 U 스테이지가 끝나면 주제를 선택해야 하는데 아직 저 주제들 중 어떤 주제를 할진 모르지만 더 끌리고 재밌게 할 수 있는 주제를 선택할 수 있도록 고민해야겠다.
 
 <br>
