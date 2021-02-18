@@ -38,7 +38,7 @@ sitemap :
 
 - [https://heeseok-jeong.github.io/2021/02/04/bcaitech-ustage-day14.html](https://heeseok-jeong.github.io/2021/02/04/bcaitech-ustage-day14.html)
 
-[사진1]
+![image1]({{ site.baseurl }}/assets/img/ustage_day19/1.png)
 
 ## 특징
 
@@ -56,7 +56,7 @@ sitemap :
 - 한 단어의 쿼리와 모든 단어의 키를 내적하여 벡터를 만듦 → 이를 소프트맥스하여 가중치를 만들고 모든 단어에 대한 밸류 벡터의 가중 평균을 얻어냄
 - 멀리 있는 단어끼리도 정보를 알 수 있음
 
-[사진2]
+![image2]({{ site.baseurl }}/assets/img/ustage_day19/2.png)
 
 ## Scaled Dot-Product Attention
 
@@ -65,24 +65,24 @@ sitemap :
 - Q, K 는 내적을 하기 때문에 차원이 같아야 함. V 는 상관없음 (실제 구현에서는 Q, K, V 차원 같게 함)
 - 수식
 
-    [사진3]
+    ![image3]({{ site.baseurl }}/assets/img/ustage_day19/3.png)
 
     - scaled (루트 k차원으로 나누기)
         - dk 가 커지면 분산도 커짐 → 소프트맥스 했을 때 특정 값이 매우 크게 나오는 문제 발생
         - 이를 해결하기 위해 scaled 수행
 
-    [사진4]
+    ![image4]({{ site.baseurl }}/assets/img/ustage_day19/4.png)
 
 ## Multi-head Attention
 
 - 단일 어텐션은 단어들끼리 연관성을 짓는 방법이 하나이므로 만약 잘못된 연관이 지어질 경우 성능이 낮아짐
 
-    [사진5]
+    ![image5]({{ site.baseurl }}/assets/img/ustage_day19/5.png)
 
 - 멀티 헤드 어텐션 수행 후 concat 하고 다시 원래 차원으로 돌려냄
 - Cost
 
-    [사진6]
+    ![image6]({{ site.baseurl }}/assets/img/ustage_day19/6.png)
 
     - Complexity per Layer : RNN 에 비해 Self-Attention 은 각 어텐션에 대한 정보를 지녀야하므로 더 많은 메모리 소요
     - Sequential Operations : 하지만 GPU 개수만 된다면 병렬 연산이 가능하므로 RNN 에 비해 좋음 (RNN 은 순차진행이니까 병렬해도 오래걸림)
@@ -91,7 +91,7 @@ sitemap :
 
 ## Block 단위로 보기
 
-[사진7]
+![image7]({{ site.baseurl }}/assets/img/ustage_day19/7.png)
 
 - Multi-Head Attention 부분과 Feed Forward 부분으로 나뉨
 - 각 부분은 만들어진 벡터에 Residual connection (이를 위해서는 입력과 출력 벡터 차원이 같아야 함) 을 진행하고 Norm 을 수행
@@ -103,12 +103,12 @@ sitemap :
     - Normalization 을 거친 후 y = 2x + 3 의 x 에 넣어주면 (affine transformation) , 평균은 3, 분산은 2 의 제곱이 됨
     - 이들은 경사하강법의 파라미터가 됨
 
-        [사진8]
+        ![image8]({{ site.baseurl }}/assets/img/ustage_day19/8.png)
 
 - Layer Normalization
     - 각 레이어에 대해 평균과 표준편차를 구해서 normalization 수행, 이후 affine transformation 수행
 
-        [사진9]
+        ![image9]({{ site.baseurl }}/assets/img/ustage_day19/9.png)
 
     - 학습 안정화 + 성능 조금 더 끌어올림
 
@@ -120,7 +120,7 @@ sitemap :
     - 간단한 방법으로는 I = [3, -2, 4] 에서 첫 번째에 1000 을 더해줌 [1003, -2, 4]
     - 이런 식으로 유니크하게 순서를 알 수 있게 특정 상수를 벡터에 더해줌. sin, cos 주기 함수 사용
 
-    [사진10]
+    ![image10]({{ site.baseurl }}/assets/img/ustage_day19/10.png)
 
     - dim 개수만큼 특정한 sin, cos 그래프가 생김
     - 어떤 단어가 어떤 위치에 있었는지 알 수 있게 됨
@@ -129,7 +129,7 @@ sitemap :
 
 - 학습 중에 러닝 레이트를 적절히 변경시킴
 
-    [사진11]
+    ![image11]({{ site.baseurl }}/assets/img/ustage_day19/11.png)
 
 ## 인코딩 과정
 
@@ -141,13 +141,13 @@ sitemap :
 - Residual (원래값 더하기) 후 Layer Normalization
 - 위 과정을 N 번 (6, 12, 24 등, 독립적인 파라미터 가짐) 만큼 진행. stack
 
-[사진12]
+![image12]({{ site.baseurl }}/assets/img/ustage_day19/12.png)
 
 - 사진과 같이 멀티헤드 어텐션으로 인해 한 단어가 문장 내 다른 단어와 어떻게 연관짓는지 알 수 있음
 
 ## Decoder
 
-[사진13]
+![image13]({{ site.baseurl }}/assets/img/ustage_day19/13.png)
 
 - 출력 문장에 대해 임베딩하고 포지셔널 인코딩한 후 Masked Multi-Head Attention 수행하여 Query 만들어냄. 추가적으로 Residual + Norm 수행
 - 인코더에서 나온 최종 벡터가 K, V 로 사용되어 Multi-Head Attention (Encoder-Decoder Attention) 수행. 추가적으로 Residual + Norm 수행. 여기서 Residual 덕에 디코더의 문장 정보를 지니게 됨.
@@ -161,11 +161,11 @@ sitemap :
 - 출력 문장에서 이전 단어들에 대해서만 어텐션을 수행. 뒤에 단어들은 masked 가려버림.
 - QK 하고 softmax 한 후 뒤에 해당되는 부분을 0 으로 만듦. 이후 row 별로 합이 1 이 되도록 다시 softmax
 
-[사진14]
+![image14]({{ site.baseurl }}/assets/img/ustage_day19/14.png)
 
 ## 결과
 
-[사진15]
+![image15]({{ site.baseurl }}/assets/img/ustage_day19/15.png)
 
 **Further Reading**
 
@@ -455,7 +455,7 @@ print(outputs.shape)
 
     - attn_dists 는 trg 단어가 인코더의 단어와의 관계를 파악함
 
-    [사진16]
+    ![image16]({{ site.baseurl }}/assets/img/ustage_day19/16.png)
 
 <br>
 

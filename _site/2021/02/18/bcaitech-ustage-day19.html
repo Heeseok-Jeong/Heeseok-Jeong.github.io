@@ -129,7 +129,7 @@
   <li><a href="https://heeseok-jeong.github.io/2021/02/04/bcaitech-ustage-day14.html">https://heeseok-jeong.github.io/2021/02/04/bcaitech-ustage-day14.html</a></li>
 </ul>
 
-<p>[사진1]</p>
+<p><img src="/assets/img/ustage_day19/1.png" alt="image1" /></p>
 
 <h2 id="특징">특징</h2>
 
@@ -150,7 +150,7 @@
   <li>멀리 있는 단어끼리도 정보를 알 수 있음</li>
 </ul>
 
-<p>[사진2]</p>
+<p><img src="/assets/img/ustage_day19/2.png" alt="image2" /></p>
 
 <h2 id="scaled-dot-product-attention">Scaled Dot-Product Attention</h2>
 
@@ -161,7 +161,7 @@
   <li>
     <p>수식</p>
 
-    <p>[사진3]</p>
+    <p><img src="/assets/img/ustage_day19/3.png" alt="image3" /></p>
 
     <ul>
       <li>scaled (루트 k차원으로 나누기)
@@ -172,7 +172,7 @@
       </li>
     </ul>
 
-    <p>[사진4]</p>
+    <p><img src="/assets/img/ustage_day19/4.png" alt="image4" /></p>
   </li>
 </ul>
 
@@ -182,13 +182,13 @@
   <li>
     <p>단일 어텐션은 단어들끼리 연관성을 짓는 방법이 하나이므로 만약 잘못된 연관이 지어질 경우 성능이 낮아짐</p>
 
-    <p>[사진5]</p>
+    <p><img src="/assets/img/ustage_day19/5.png" alt="image5" /></p>
   </li>
   <li>멀티 헤드 어텐션 수행 후 concat 하고 다시 원래 차원으로 돌려냄</li>
   <li>
     <p>Cost</p>
 
-    <p>[사진6]</p>
+    <p><img src="/assets/img/ustage_day19/6.png" alt="image6" /></p>
 
     <ul>
       <li>Complexity per Layer : RNN 에 비해 Self-Attention 은 각 어텐션에 대한 정보를 지녀야하므로 더 많은 메모리 소요</li>
@@ -204,7 +204,7 @@
 
 <h2 id="block-단위로-보기">Block 단위로 보기</h2>
 
-<p>[사진7]</p>
+<p><img src="/assets/img/ustage_day19/7.png" alt="image7" /></p>
 
 <ul>
   <li>Multi-Head Attention 부분과 Feed Forward 부분으로 나뉨</li>
@@ -221,7 +221,7 @@
       <li>
         <p>이들은 경사하강법의 파라미터가 됨</p>
 
-        <p>[사진8]</p>
+        <p><img src="/assets/img/ustage_day19/8.png" alt="image8" /></p>
       </li>
     </ul>
   </li>
@@ -230,7 +230,7 @@
       <li>
         <p>각 레이어에 대해 평균과 표준편차를 구해서 normalization 수행, 이후 affine transformation 수행</p>
 
-        <p>[사진9]</p>
+        <p><img src="/assets/img/ustage_day19/9.png" alt="image9" /></p>
       </li>
       <li>
         <p>학습 안정화 + 성능 조금 더 끌어올림</p>
@@ -250,7 +250,7 @@
       <li>이런 식으로 유니크하게 순서를 알 수 있게 특정 상수를 벡터에 더해줌. sin, cos 주기 함수 사용</li>
     </ul>
 
-    <p>[사진10]</p>
+    <p><img src="/assets/img/ustage_day19/10.png" alt="image10" /></p>
 
     <ul>
       <li>dim 개수만큼 특정한 sin, cos 그래프가 생김</li>
@@ -265,7 +265,7 @@
   <li>
     <p>학습 중에 러닝 레이트를 적절히 변경시킴</p>
 
-    <p>[사진11]</p>
+    <p><img src="/assets/img/ustage_day19/11.png" alt="image11" /></p>
   </li>
 </ul>
 
@@ -281,7 +281,7 @@
   <li>위 과정을 N 번 (6, 12, 24 등, 독립적인 파라미터 가짐) 만큼 진행. stack</li>
 </ul>
 
-<p>[사진12]</p>
+<p><img src="/assets/img/ustage_day19/12.png" alt="image12" /></p>
 
 <ul>
   <li>사진과 같이 멀티헤드 어텐션으로 인해 한 단어가 문장 내 다른 단어와 어떻게 연관짓는지 알 수 있음</li>
@@ -289,7 +289,7 @@
 
 <h2 id="decoder">Decoder</h2>
 
-<p>[사진13]</p>
+<p><img src="/assets/img/ustage_day19/13.png" alt="image13" /></p>
 
 <ul>
   <li>출력 문장에 대해 임베딩하고 포지셔널 인코딩한 후 Masked Multi-Head Attention 수행하여 Query 만들어냄. 추가적으로 Residual + Norm 수행</li>
@@ -308,11 +308,11 @@
   <li>QK 하고 softmax 한 후 뒤에 해당되는 부분을 0 으로 만듦. 이후 row 별로 합이 1 이 되도록 다시 softmax</li>
 </ul>
 
-<p>[사진14]</p>
+<p><img src="/assets/img/ustage_day19/14.png" alt="image14" /></p>
 
 <h2 id="결과">결과</h2>
 
-<p>[사진15]</p>
+<p><img src="/assets/img/ustage_day19/15.png" alt="image15" /></p>
 
 <p><strong>Further Reading</strong></p>
 
@@ -633,7 +633,7 @@
       <li>attn_dists 는 trg 단어가 인코더의 단어와의 관계를 파악함</li>
     </ul>
 
-    <p>[사진16]</p>
+    <p><img src="/assets/img/ustage_day19/16.png" alt="image16" /></p>
   </li>
 </ul>
 
