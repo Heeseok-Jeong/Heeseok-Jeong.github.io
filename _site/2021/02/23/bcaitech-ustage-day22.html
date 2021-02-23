@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Ustage Day 22" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="BoostCamp AI Tech" />
+  <meta name="description" content="페이지랭크 알고리즘|그래프 전파 모델" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Ustage Day 22" />
+  <meta property="og:description" content="페이지랭크 알고리즘|그래프 전파 모델" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2021/02/23/bcaitech-ustage-day22.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Ustage Day 22" />
+  <meta name="twitter:description" content="페이지랭크 알고리즘|그래프 전파 모델" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Ustage Day 22</title>
+</head>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        TeX: {
+          equationNumbers: {
+            autoNumber: "AMS"
+          }
+        },
+        tex2jax: {
+        inlineMath: [ ['$', '$'] ],
+        displayMath: [ ['$$', '$$'] ],
+        processEscapes: true,
+      }
+    });
+    MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Ustage Day 22</h1>
+    <p class="subtitle">페이지랭크 알고리즘|그래프 전파 모델</p>
+    <p class="meta">
+      February 23, 2021
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+
+<p><br /></p>
+
+<ul>
+  <li><a href="#검색-엔진과-그래프">검색 엔진과 그래프</a></li>
+  <li><a href="#바이럴-마케팅과-그래프">바이럴 마케팅과 그래프</a></li>
+  <li><a href="#피어-세션">피어 세션</a></li>
+  <li><a href="#today-i-felt">Today I Felt</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="검색-엔진과-그래프">검색 엔진과 그래프</h1>
+
+<p><br /></p>
+
+<h2 id="페이지랭크-알고리즘">페이지랭크 알고리즘</h2>
+
+<h3 id="배경">배경</h3>
+
+<ul>
+  <li>웹
+    <ul>
+      <li>웹은 <strong>웹페이지와 하이퍼링크</strong>로 구성된 거대한 <strong>방향성이 있는 그래프</strong></li>
+      <li>웹페이지는 정점</li>
+      <li>하이퍼링크는 나가는 간선</li>
+      <li>웹페이지는 키워드 정보를 포함</li>
+    </ul>
+  </li>
+  <li>초창기에는 (야후) 웹을 거대한 <strong>디렉토리</strong>로 정리했음
+    <ul>
+      <li>카테고리의 수와 깊이가 무한으로 커짐</li>
+    </ul>
+  </li>
+  <li>두번째는 웹페이지에 포함된 <strong>키워드</strong>에 의존한 검색 엔진
+    <ul>
+      <li>광고 사이트 등으로 들어갈 수 있음</li>
+      <li>키워드와 관련성이 높고 신뢰할 수 있는 웹페이지를 어떻게 찾을 수 있을까?
+        <ul>
+          <li>구글 창업자 래리 페이지와 세르게이 브린의 페이지랭크 논문이 답을 줌</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="정의">정의</h3>
+
+<ul>
+  <li>핵심 아이디어 투표, 투표를 통해 사용자 키워드와 관련성 높고 신뢰할 수 있는 웹페이지 찾음</li>
+  <li>투표의 주체는 웹페이지, 웹페이지는 하이퍼링크를 통해 투표함</li>
+  <li>웹페이지 u 가 웹페이지 v 로의 하이퍼링크를 포함하면, u 가 v 에게 투표한 것 (u 의 작성자가 v 를 키워드와 관계 있고 신뢰)</li>
+  <li>들어오는 간선이 많을 수록 신뢰할 수 있는 웹페이지
+    <ul>
+      <li>들어오는 간선의 수를 세는 것으로 충분할까?
+        <ul>
+          <li>아님. 웹페이지를 여러 개 만들어서 간선의 수를 부풀릴 수 있음.</li>
+          <li>돈을 주고 트위터 팔로워를 높이는 것도 포함</li>
+        </ul>
+      </li>
+      <li>악용을 막기 위해 페이지랭크는 가중 투표를 함
+        <ul>
+          <li>관련성이 높고 신뢰할 수 있는 웹사이트의 투표를 더 중요하게 간주</li>
+        </ul>
+      </li>
+      <li>관련성과 신뢰성을 어떻게 알까?
+        <ul>
+          <li>재귀, 연립방정식 풀이로 파악</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>측정하려는 웹페이지의 관련성 및 신뢰도를 <strong>페이지랭크 점수</strong>라 함
+    <ul>
+      <li>각 웹페이지는 나가는 이웃에게 자신의 페이지랭크 점수 / 나가는 이웃의 수 만큼의 가중치로 투표를 함</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day22/1.png" alt="image1" /></p>
+  </li>
+  <li>페이지랭크는 임의 보행 (Random Walk) 관점으로도 설명 가능
+    <ul>
+      <li>임의 보행을 통해 웹을 서핑하는 웹서퍼를 가정</li>
+      <li>웹서퍼는 현재 웹페이지의 파이퍼링크 중 하나를 균일한 확률로 클릭</li>
+      <li>웹서퍼가 t 번째 방문한 웹페이지가 웹페이지 i 일 확률은 $p_i(t)$.</li>
+      <li>p(t) 는 길이가 웹페이지 수와 같은 확률분포 벡터가 됨</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day22/2.png" alt="image2" /></p>
+
+    <ul>
+      <li>위 과정을 무한히 반복, t 가 무한히 커지면 확률 분포 p(t) 는 수렴</li>
+      <li>다시 말해 p(t) = p(t+1) = p.</li>
+      <li>수렴한 확률 분포 p 는 <strong>정상 분포 (Stationary Distribution)</strong></li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day22/3.png" alt="image3" /></p>
+
+    <ul>
+      <li>앞서 본 투표 관점의 페이지랭크 수식과 비슷</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day22/4.png" alt="image4" /></p>
+  </li>
+</ul>
+
+<h3 id="페이지랭크-계산">페이지랭크 계산</h3>
+
+<ul>
+  <li>반복곱 (Power Iteration) 사용
+    <ul>
+      <li>1) 각 웹페이지 i 의 페이지랭크 점수 $r_i(0)$ 를 동일하게 1 / 웹페이지 수 로 초기화</li>
+      <li>2) 페이지랭크 식을 이용하여 각 웹페이지의 페이지랭크 점수 갱신</li>
+      <li>3) 페이지랭크 점수가 수렴하면 종료. 아니면 2) 반복.</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day22/5.png" alt="image5" /></p>
+  </li>
+  <li>
+    <p>반복곱이 항상 수렴할까?</p>
+
+    <p><img src="/assets/img/ustage_day22/6.png" alt="image6" /></p>
+
+    <ul>
+      <li>No. 스파이더 트랩 때문.</li>
+      <li>위 사진은 2 칸 간격으로 같음.</li>
+    </ul>
+  </li>
+  <li>
+    <p>반복곱이 합리적인 점수로 수렴할까?</p>
+
+    <p><img src="/assets/img/ustage_day22/7.png" alt="image7" /></p>
+
+    <ul>
+      <li>No. 막다른 정점 때문</li>
+      <li>0 으로 수렴.</li>
+    </ul>
+  </li>
+  <li>위 문제를 해결하기 위해 <strong>순간이동 (Teleport)</strong> 도입
+    <ul>
+      <li>1) 현재 웹페이지에 하이퍼링크가 없다면, 임의의 웹페이지로 순간이동</li>
+      <li>2) 있다면, 앞면이 나올 확률이 a 인 동전을 던짐</li>
+      <li>3) 앞면이면, 하이퍼링크 중 하나를 균일한 확률로 선택</li>
+      <li>4) 뒷면이면, 임의의 웹페이지로 순간이동</li>
+      <li>임의의 웹페이지로 이동함으로써 스파이더 트랩이나 막다른 정점에 갇히지 않음</li>
+      <li>a 는 감폭 비율 (Damping Factor) 라고 부르며 보통 0.8 사용</li>
+    </ul>
+  </li>
+  <li>순간이동을 적용한 페이지랭크 점수 계산
+    <ul>
+      <li>1) 각 막다른 정점에서 (자신을 포함) 모든 다른 정점으로 가는 간선 추가</li>
+      <li>2) 아래 수식을 사용하여 반복곱 수행</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day22/8.png" alt="image8" /></p>
+  </li>
+</ul>
+
+<p><strong>Further Reading</strong></p>
+
+<p>- <a href="http://infolab.stanford.edu/~ullman/mmds/ch5.pdf">http://infolab.stanford.edu/~ullman/mmds/ch5.pdf</a></p>
+
+<p>- <a href="http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf">http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf</a></p>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="바이럴-마케팅과-그래프">바이럴 마케팅과 그래프</h1>
+
+<p><br /></p>
+
+<h2 id="그래프를-통한-정보의-전파">그래프를 통한 정보의 전파</h2>
+
+<ul>
+  <li>SNS 를 통해 다양한 <strong>정보</strong>가 전파됨
+    <ul>
+      <li>스페인 시위 등</li>
+    </ul>
+  </li>
+  <li>SNS 를 통해 다양한 <strong>행동</strong>도 전파됨
+    <ul>
+      <li>아이스 버킷 챌린지 등</li>
+    </ul>
+  </li>
+  <li>컴퓨터 네트워크에서는 일부 장비의 <strong>고장</strong>이 전파되어 전체 네트워크를 마비시킬 수 있음
+    <ul>
+      <li>파워 그리드에서 정전이 전파되는 것도 유사</li>
+    </ul>
+  </li>
+  <li>사회라는 거대한 소셜 네트워크에서 <strong>질병</strong>의 전파도 있음
+    <ul>
+      <li>코로나19</li>
+    </ul>
+  </li>
+  <li>전파 과정은 다양하고 매우 복잡하므로 체계적으로 대처하기 위해 <strong>수학적 모형화</strong>가 필요</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="의사결정-기반의-전파-모형">의사결정 기반의 전파 모형</h2>
+
+<ul>
+  <li>카카오톡과 라인 중에 어떤 것을 사용할까?
+    <ul>
+      <li>주변 사람들의 의사결정이 본인의 의사결정에 영향을 미침</li>
+      <li>친구들이 카톡을 쓰기 때문에 카톡 사용</li>
+    </ul>
+  </li>
+  <li>주변 사람들의 의사결정을 고려한 의사결정을 내리는 경우, <strong>의사결정 기반의 전파 모형</strong> 사용
+    <ul>
+      <li>가장 간단한 모형인 선<strong>형 임계치 모형 (Linear Threshold Model)</strong> 소개</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="선형-임계치-모형">선형 임계치 모형</h3>
+
+<ul>
+  <li>친구 u 와 v 가 두 개의 호환되지 않는 기술 A 와 B 중에서 하나를 선택
+    <ul>
+      <li>둘 모두 A 를 사용하면 행복이 a 만큼 증가</li>
+      <li>둘 모두 B 를 사용하면 행복이 b 만큼 증가</li>
+      <li>하지만 서로 다른 기술을 사용하면 행복 증가 x</li>
+      <li>같은 기술을 사용하면 서로 주고 받을 수 있기 때문에 행복 증가</li>
+    </ul>
+  </li>
+  <li>소셜 네트워크 예시. A 기술 사용 친구 2명, B 기술 사용 친구 3명.
+    <ul>
+      <li>각자가 행복이 최대화되는 선택을 한다고 가정</li>
+      <li>2a &gt; 3b 면 A 선택</li>
+      <li>2a &lt; 3b 면 B 선택</li>
+      <li>2a == 3b 면 B 선택</li>
+      <li>일반화. p 비율 A 선택,  1-p 비율 B 선택</li>
+      <li>
+        <p>A 를 선택하는 경우, ap &gt; b(a-p)</p>
+
+        <p>→ p &gt; (b/a+b) 일 때 A 선택.</p>
+
+        <ul>
+          <li>(b/a+b) 를 임계치 q 라고 함.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>선형 임계치 모형</strong>, 각 정점은 이웃 중 A 를 선택한 비율이 임계치 q 를 넘을 때만 A 를 선택.</li>
+  <li>이 모형은 모두 B 를 사용하는 상황 가정 (기존)</li>
+  <li>처음 A 를 사용하는 얼리 어답터 가정 (신규 기술)
+    <ul>
+      <li><strong>시드 집합 (Seed Set)</strong> 이라고 불리는 얼리 어답터들은 항상 A 를 고수함</li>
+    </ul>
+  </li>
+  <li>예시
+    <ul>
+      <li>임계치 q = 0.55</li>
+      <li>u 와 v 는 시드 집합. (u 와 v, 얼리 어답터의 등장으로 주변에 영향을 줌)</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day22/9.png" alt="image9" /></p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="확률적-전파-모형">확률적 전파 모형</h2>
+
+<ul>
+  <li>코로나의 전파는 의사 결정 전파 모형이 맞지 않음 (걸리는 걸 의사 결정하지 않기 때문)</li>
+  <li>코로나의 전파는 <strong>확률적 과정</strong>이므로 <strong>확률적 전파 모형</strong>을 고려해야함</li>
+  <li>가장 간단한 형태의 확률적 전파 모형인 <strong>독립 전파 모형 (Independent Cascade Model)</strong> 소개</li>
+</ul>
+
+<h3 id="독립적-전파-모형">독립적 전파 모형</h3>
+
+<p><img src="/assets/img/ustage_day22/10.png" alt="image10" /></p>
+
+<ul>
+  <li>방향성이 있고 가중치가 있는 그래프 가정</li>
+  <li>각 간선 (u, v) 의 가중치 $p_\mathit{uv}$ 는 u 가 감염되었을 때 (v 는 감염 안됨) u 가 v 를 감염시킬 확률.</li>
+  <li>각 정점 u 가 감염될 때마다, 각 이웃 v 는 $p_\mathit{uv}$ 확률로 전염됨</li>
+  <li>서로 다른 이웃이 전염되는 확률은 독립적. u 가 v 를 감염시킬 확률과 u 가 w 를 감염시킬 확률은 독립적.</li>
+  <li>모형은 최초 감염자 <strong>시드 집합</strong>으로부터 시작</li>
+  <li>더 이상 새로운 감염자가 없으면 종료</li>
+  <li>감염자는 계속 감염자 상태로 남아있는 것을 가정, 감염자의 회복을 가정하는 SIS, SIR 등의 다른 전파 모형도 있음</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="바이럴-마케팅과-전파-최대화-문제">바이럴 마케팅과 전파 최대화 문제</h2>
+
+<h3 id="바이럴-마케팅">바이럴 마케팅</h3>
+
+<ul>
+  <li>소비자로 하여금 상품에 대한 긍정적인 입소문을 내게 하는 기법</li>
+  <li>효과적으로 하기 위해서는 소문의 시작점이 중요, 입소문이 전파되는 범위가 영향받기 때문 (소셜 인플루언서가 높은 광고비를 받는 이유)</li>
+</ul>
+
+<h3 id="시드-집합의-중요성">시드 집합의 중요성</h3>
+
+<ul>
+  <li>앞서 본 전파 모형들에서도 시드 집합이 전파 크기에 많은 영향을 미쳤음</li>
+  <li>그래프, 전파 모형, 시드 집합의 크기가 주어졌을 때 전파를 최대화하는 시드 집합을 찾는 문제를 <strong>전파 최대화</strong> (Influence Maximization) 문제라고 함</li>
+  <li>전파 최대화 문제는 매우 어려움. 그래프에 |V| 개의 정점이 있을 경우, 시드 집합의 크기를 k 개로 제한하여도 경우의 수는 VCk, 매우 많음</li>
+  <li>
+    <p>이론적으로 많은 전파 모형에 대해 전파 최대화 문제는 NP-hard 임이 증명됨</p>
+
+    <p>→ 최고의 시드 집합 찾기 포기</p>
+  </li>
+</ul>
+
+<h3 id="정점-중심성-휴리스틱-근사-알고리즘-사용">정점 중심성 휴리스틱 (근사 알고리즘 사용)</h3>
+
+<ul>
+  <li>대표적 휴리스틱으로 정점의 중심성 (Node Centrality) 사용</li>
+  <li>시드 집합 크기가 k 개로 고정되어 있을 때, 정점의 중심성이 높은 순으로 k 개 정점 선택</li>
+  <li>정점의 중심성으로는 <strong>페이지랭크 점수, 연결 중심성, 근접 중심성, 매개 중심성</strong> 등이 있음
+    <ul>
+      <li>합리적인 방법이지만, 최고의 시드 집합을 찾는다는 보장이 없음</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="탐욕-알고리즘-greedy-algorithm">탐욕 알고리즘 (Greedy Algorithm)</h3>
+
+<ul>
+  <li>전파 최대화 문제를 풀기 위해 그리디 알고리즘 역시 많이 사용됨</li>
+  <li>시드 집합의 원소, 즉 최초 전파자를 한 번에 한 명씩 선택.</li>
+  <li>한 명의 최초 전파자를 찾기 위해 크기가 1 인 부분집합의 값을 비교하여 전파를 최대화하는 시드 집합 {x} 집합 찾음.</li>
+  <li>x 를 기반으로 다음 전파자 찾음. 크기 2 인 부분집합 비교. 전파를 최대화하는 시드 집합 {x, y} 찾음.</li>
+  <li>위 과정을 목표하는 크기의 시드 집합에 도달할 때까지 반복</li>
+  <li>최초 전파자 간의 조합의 효과를 고려하지 않고 근시안적으로 최초 전파자를 선택</li>
+  <li>
+    <p>독립 전파 모형에 적용할 경우, 이론적으로 정확도가 일부 보장됨 (최저 성능 보장). 항상 입력 그래프와 무관하게 다음 부등식 성립</p>
+
+    <p><img src="/assets/img/ustage_day22/11.png" alt="image11" /></p>
+  </li>
+</ul>
+
+<p><strong>Further Questions</strong></p>
+
+<ul>
+  <li>감염병의 전파를 모델링 하기 위해서는 감염과 더불어 감염된 환자의 회복을 고려해야 합니다. 감염된 사람이 회복될 수 있고, 한 번 감염이 된 사람은 추가적으로 감염이 되지 않는다고 가정한다면 어떻게 전파 모델을 설계할 수 있을까요?</li>
+</ul>
+
+<p><strong>Futher Reading</strong></p>
+
+<ul>
+  <li><a href="https://arxiv.org/abs/1808.05502">https://arxiv.org/abs/1808.05502</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="피어-세션">피어 세션</h1>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="today-i-felt">Today I Felt</h1>
+
+<p><br /></p>
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>
