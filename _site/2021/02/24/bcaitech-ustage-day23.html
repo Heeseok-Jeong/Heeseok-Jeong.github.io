@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Ustage Day 23" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="BoostCamp AI Tech" />
+  <meta name="description" content="군집 탐색|추천 시스템 (기초)" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Ustage Day 23" />
+  <meta property="og:description" content="군집 탐색|추천 시스템 (기초)" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2021/02/24/bcaitech-ustage-day23.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Ustage Day 23" />
+  <meta name="twitter:description" content="군집 탐색|추천 시스템 (기초)" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Ustage Day 23</title>
+</head>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        TeX: {
+          equationNumbers: {
+            autoNumber: "AMS"
+          }
+        },
+        tex2jax: {
+        inlineMath: [ ['$', '$'] ],
+        displayMath: [ ['$$', '$$'] ],
+        processEscapes: true,
+      }
+    });
+    MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Ustage Day 23</h1>
+    <p class="subtitle">군집 탐색|추천 시스템 (기초)</p>
+    <p class="meta">
+      February 24, 2021
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+
+<p><br /></p>
+
+<ul>
+  <li><a href="#그래프의-구조를-어떻게-분석할까?">그래프의 구조를 어떻게 분석할까?</a></li>
+  <li><a href="#그래프를-추천-시스템에-어떻게-활용할까?--기본-">그래프를 추천 시스템에 어떻게 활용할까? (기본)</a></li>
+  <li><a href="#피어-세션">피어 세션</a></li>
+  <li><a href="#today-i-felt">Today I Felt</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="그래프의-구조를-어떻게-분석할까">그래프의 구조를 어떻게 분석할까?</h1>
+
+<p><br /></p>
+
+<h2 id="군집">군집</h2>
+
+<p><img src="/assets/img/ustage_day23/1.png" alt="image1" /></p>
+
+<ul>
+  <li>온라인 소셜 네트워크의 군집들은 사회적 무리 (Social Circle) 을 의미하는 경우가 많음</li>
+  <li>소셜 네트워크의 군집들이 부정 행위와 관련된 경우도 있음</li>
+  <li>조직 내 분란이 소셜 네트워크 상의 군집으로 표현된 경우도 있음</li>
+  <li>뉴런간 연결 그래프에서는 군집들이 뇌의 특정 기능을 담당<br />
+-&gt; 이렇듯 군집은 정점 간의 특별한 관계를 알려주기도 함</li>
+</ul>
+
+<h3 id="군집-탐색-문제">군집 탐색 문제</h3>
+
+<ul>
+  <li>그래프를 여러 군집으로 잘 나누는 문제를 군집 탐색 (Community Detection) 문제라 함</li>
+  <li>보통은 각 정점이 한 개의 군집에 속하도록 나눔</li>
+  <li>비지도 기계학습 문제인 클러스터링과 유사</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="군집-구조의-통계적-유의성과-군집성">군집 구조의 통계적 유의성과 군집성</h2>
+
+<h3 id="비교-대상--배치-모형">비교 대상 : 배치 모형</h3>
+
+<p><img src="/assets/img/ustage_day23/2.png" alt="image2" /></p>
+
+<ul>
+  <li>성공적인 군집 탐색을 정의하기 위해 <strong>배치 모형</strong> 사용</li>
+  <li>주어진 그래프에 대한 배치 모형은
+    <ul>
+      <li>각 정점의 연결성을 보존한 상태에서</li>
+      <li>간선들을 무작위로 재배치하여 얻은 그래프</li>
+    </ul>
+  </li>
+  <li>배치 모형에서 임의의 두 정점 i 와 j 사이에 간선이 존재할 확률은 두 정점의 연결성에 비례</li>
+</ul>
+
+<h3 id="군집성">군집성</h3>
+
+<ul>
+  <li>군집 탐색의 성공 여부를 판단하기 위해 <strong>군집성</strong> 사용</li>
+  <li>
+    <p>그래프와 군집들의 집합 S 가 주어졌을 때 각 군집 s 가 군집의 성질을 잘 만족하는지 살펴보기 위해, 군집 내부의 간선의 수를 그래프와 배치 모형에서 비교</p>
+
+    <p><img src="/assets/img/ustage_day23/3.png" alt="image3" /></p>
+
+    <ul>
+      <li>기댓값 사용하는 이유 : 배치 모형이 무작위성을 포함하기 때문</li>
+      <li>-1 ≤ 군집성 ≤ 1</li>
+    </ul>
+  </li>
+  <li>배치 모형과 비교해서 그래프에서 군집 내부 간선의 수가 많을 수록, 위 식의 값이 커질 수록 성공한 군집 탐색</li>
+  <li>군집성은 무작위로 연결된 배치 모형과의 비교를 통해 통계적 유의성을 판단</li>
+  <li>항상 -1 과 1 사이의 값을 가짐</li>
+  <li>0.3~0.7 정도 값을 가질 때 그래프에 존재하는 통계적으로 유의미한 군집들을 찾아냈다고 볼 수 있음</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="군집-탐색-알고리즘">군집 탐색 알고리즘</h2>
+
+<h3 id="girvan-newman-알고리즘">Girvan-Newman 알고리즘</h3>
+
+<ul>
+  <li>하향식, 탑-다운 군집 탐색 알고리즘</li>
+  <li>전체 그래프에서 탐색을 시작해서 군집들이 서로 분리되도록 간선을 순차적으로 제거</li>
+  <li>서로 다른 군집을 연결하는 다리 역할의 간선을 제거</li>
+  <li><strong>다리 역할의 간선</strong>을 어떻게 찾을 수 있을까?
+    <ul>
+      <li>간선의 <strong>매개 중심성</strong> (Betweenness Centrality) 사용</li>
+      <li>해당 간선이 정점 간의 최단 경로에 놓이는 횟수</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day23/4.png" alt="image4" /></p>
+  </li>
+  <li><strong>매개 중심성이 높은 간선</strong>을 순차적으로 제거
+    <ul>
+      <li>단계마다 새로 매개 중심성 파악</li>
+    </ul>
+  </li>
+  <li>모든 간선이 제거될 때까지 수행</li>
+  <li>iteration 에 따라 다른 입도 (Granularity) 의 군집 구조가 나타남</li>
+  <li>간선을 어느 정도 제거하는 것이 가장 적합할까?
+    <ul>
+      <li>군집성이 최대가 되는 지점까지 간선 제거</li>
+      <li>단, 현재의 연결 요소들을 군집으로 가정하되, 입력 그래프에서 군집성 계산</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day23/5.png" alt="image5" /></p>
+  </li>
+  <li>과정 정리
+    <ul>
+      <li>전체 그래프에서 시작</li>
+      <li>매개 중심성이 높은 순서로 간선 제거하면서 군집성의 변화를 기록</li>
+      <li>군집성이 가장 커지는 상황 복원</li>
+      <li>이 때 서로 연결된 정점들, 연결 요소를 하나의 군집으로 간주</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="louvain-알고리즘">Louvain 알고리즘</h3>
+
+<ul>
+  <li>상향식, 바텀-업 군집 탐색 알고리즘</li>
+  <li>개별 정점에서 시작해서 점점 큰 군집 형성</li>
+  <li>어떤 기준으로 군집을 합칠까?
+    <ul>
+      <li>군집성</li>
+    </ul>
+  </li>
+  <li>과정 정리
+    <ul>
+      <li>개별 정점으로 구성된 크기 1의 군집들로부터 시작</li>
+      <li>각 정점 u 를 기존 혹은 새로운 군집으로 이동함. 이 때, 군집성이 최대화되도록 군집을 결정</li>
+      <li>더이상 군집성이 증가하지 않을 때까지 2) 반복</li>
+      <li>각 군집을 하나의 정점으로하는 군집 레벨의 그래프를 얻은 뒤 3) 을 수행</li>
+      <li>한 개의 정점이 남을 때까지 4) 반복</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="중첩이-있는-군집-탐색">중첩이 있는 군집 탐색</h2>
+
+<ul>
+  <li>실제 그래프의 군집들은 중첩되어 있는 경우가 많음
+    <ul>
+      <li>소셜 네트워크에서 개인은 여러 사회적 역할을 수행</li>
+      <li>위의 두 알고리즘은 한 정점은 한 군집이라 가정했음</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day23/6.png" alt="image6" /></p>
+  </li>
+  <li>중첩 군집 모형
+    <ul>
+      <li>각 정점은 여러 개의 군집에 속할 수 있음</li>
+      <li>각 군집 A 에 대하여 같은 군집에 속하는 두 정점은 $P_A$ 확률로 간선 연결</li>
+      <li>두 정점이 여러 군집에 동시에 속할 경우 간선 연결 확률은 독립적
+        <ul>
+          <li>A 와 B 에 동시에 속할 경우 두 정점이 간선으로 직접 연결될 확률은 1-(1-PA)(1-PB)</li>
+        </ul>
+      </li>
+      <li>어느 군집에도 함께 속하지 않는 두 정점은 낮은 확률 e 로 직접 연결됨</li>
+    </ul>
+  </li>
+  <li>중첩 군집 모형이 주어지면, 주어진 그래프의 확률을 계산할 수 있음
+    <ul>
+      <li>그래프의 확률은 다음 확률들의 곱
+        <ul>
+          <li>그래프의 각 간선의 두 정점이 (모형에 의해) 직접 연결될 확률</li>
+          <li>그래프에서 직접 연결되지 않은 각 정점 쌍이 (모형에 의해) 직접 연결되지 않을 확률</li>
+        </ul>
+      </li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day23/7.png" alt="image7" /></p>
+  </li>
+  <li><strong>중첩 군집 탐색</strong>은 주어진 그래프의 확률을 최대화하는 중첩 군집 모형을 찾는 과정
+    <ul>
+      <li>최우도 추정치 (MLE) 를 찾는 과정</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day23/8.png" alt="image8" /></p>
+
+    <ul>
+      <li>각 정점이 각 군집에 속한다, 속하지 않는다 (1, 0) 이산적으로 나오기 때문에 최적화 방법 (경사하강법 등) 을 사용할 수 없어서 중첩 군집 탐색 힘듦</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="완화된-중첩-군집-모형">완화된 중첩 군집 모형</h3>
+
+<ul>
+  <li>완화된 중첩 군집 모형을 통해 중첩 군집 탐색 용이해짐</li>
+  <li>
+    <p>각 정점이 각 군집에 속해 있는 정도를 실숫값으로 표현, 중간 상태 표현 가능</p>
+
+    <p><img src="/assets/img/ustage_day23/9.png" alt="image9" /></p>
+  </li>
+  <li>모형의 매개변수들이 실숫값을 가지므로 최적화 도구 (경사하강법 등) 을 사용하여 모형을 탐색할 수 있음</li>
+</ul>
+
+<p><strong>Further Reading</strong></p>
+
+<ul>
+  <li><a href="http://infolab.stanford.edu/~ullman/mmds/ch10n.pdf">http://infolab.stanford.edu/~ullman/mmds/ch10n.pdf</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="그래프를-추천-시스템에-어떻게-활용할까-기본">그래프를 추천 시스템에 어떻게 활용할까? (기본)</h1>
+
+<p><br /></p>
+
+<h2 id="우리-주변의-추천-시스템">우리 주변의 추천 시스템</h2>
+
+<ul>
+  <li>아마존
+    <ul>
+      <li>메인 페이지 고객 맞춤형 상품 목록</li>
+      <li>특정 상품을 살펴볼 때 함께 or 대신 구매할 상품 목록</li>
+    </ul>
+  </li>
+  <li>넷플릭스
+    <ul>
+      <li>메인 페이지 고객 맞춤형 영화 목록</li>
+    </ul>
+  </li>
+  <li>유튜브
+    <ul>
+      <li>메인 페이지 고객 맞춤형 영상 목록</li>
+      <li>현재 재생 중인 영상과 관련된 영상 목록</li>
+    </ul>
+  </li>
+  <li>페이스북
+    <ul>
+      <li>추천 친구 목록</li>
+    </ul>
+  </li>
+  <li>추천 시스템과 그래프
+    <ul>
+      <li>사용자 각각이 구매할 만한 혹은 선호할 만한 상품을 추천함</li>
+      <li>그래프 관점에서 추천 시스템은 ‘미래의 간선을 예측하는 문제’ 혹은 ‘누락된 간선의 가중치를 추정하는 문제’</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="내용-기반-추천-시스템">내용 기반 추천 시스템</h2>
+
+<p><img src="/assets/img/ustage_day23/10.png" alt="image10" /></p>
+
+<ul>
+  <li>각 사용자가 구매 / 만족했던 상품과 유사한 것을 추천
+    <ul>
+      <li>동일한 <strong>장르</strong>의 영화 추천, 동일한 <strong>감독</strong> 영화, 동일한 <strong>배우</strong> 출현 영화 추천</li>
+      <li>동일한 <strong>카테고리</strong> 상품 추천</li>
+      <li>동갑의 같은 <strong>학교</strong> 졸업한 학생 친구로 추천</li>
+    </ul>
+  </li>
+  <li>단계
+    <ul>
+      <li>1) 사용자가 선호했던 상품들의 <strong>상품 프로필 (Item Profile)</strong> 수집
+        <ul>
+          <li>상품 프로필은 해당 상품의 특성을 나열한 벡터, 영화의 경우 감독, 장르, 배우 등의 원-핫 인코딩이 상품 프로필이 됨</li>
+        </ul>
+
+        <p><img src="/assets/img/ustage_day23/11.png" alt="image11" /></p>
+      </li>
+      <li>2) <strong>사용자 프로필 (User Profile)</strong> 구성
+        <ul>
+          <li>사용자 프로필은 선호한 상품들의 상품 프로필을 가중 평균하여 계산. 사용자 프로필 역시 벡터.</li>
+        </ul>
+
+        <p><img src="/assets/img/ustage_day23/12.png" alt="image12" /></p>
+      </li>
+      <li>3) 사용자 프로필과 다른 상품들의 상품 프로필을 매칭
+        <ul>
+          <li>사용자 프로필 벡터 u 와 상품 프로필 벡터 v 에 대해 코사인 유사도 (내적/두벡터크기곱) 계산</li>
+          <li>사용자가 빨간 원, 빨간 삼각형을 선호했다면, 빨강 1, 원 0.5, 삼각형 0.5 이므로 후보들과 코사인 유사도를 계산하면 빨간 상품이 추천될 확률이 높음</li>
+        </ul>
+      </li>
+      <li>4) 사용자에게 상품을 추천. 계산한 코사인 유사도가 높은 상품 추천</li>
+    </ul>
+  </li>
+  <li>장점
+    <ul>
+      <li>다른 사용자의 구매 기록이 필요하지 않음 (자기 기록만 사용)</li>
+      <li>독특한 취향의 사용자에게도 추천 가능</li>
+      <li>새 상품에 대해서도 추천 가능</li>
+      <li>추천의 이유를 제공할 수 있음
+        <ul>
+          <li>빨간색 선호하니까 빨간색 추천</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>단점
+    <ul>
+      <li>상품에 대한 부가 정보가 없는 경우 사용 불가</li>
+      <li>구매 기록이 없는 사용자에게는 사용할 수 없음</li>
+      <li>과적합(오버피팅) 으로 지나치게 협소한 추천을 할 위험이 있음
+        <ul>
+          <li>빨간색만 계속 추천</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="협업-필터링">협업 필터링</h2>
+
+<p><img src="/assets/img/ustage_day23/13.png" alt="image13" /></p>
+
+<ul>
+  <li>사용자-사용자 협업 필터링</li>
+  <li>단계
+    <ul>
+      <li>1) 대상 사용자 x 와 유사한 취향의 사용자들을 찾음</li>
+      <li>2) 유사한 취향의 사용자들이 선호한 상품을 찾음</li>
+      <li>3) 이 상품들을 x 에게 추천함</li>
+    </ul>
+  </li>
+  <li>
+    <p>취향의 유사도를 어떻게 계산할까?</p>
+
+    <p><img src="/assets/img/ustage_day23/14.png" alt="image14" /></p>
+
+    <ul>
+      <li>지수와 제니는 취향이 유사하고, 로제는 다른 취향을 가짐을 알 수 있음</li>
+      <li>상관 계수 (Correlation Coefficient) 사용</li>
+    </ul>
+  </li>
+  <li>
+    <p>상관 계수</p>
+
+    <p><img src="/assets/img/ustage_day23/15.png" alt="image15" /></p>
+
+    <ul>
+      <li>두 사람이 한 상품에 대해 자신의 평균보다 높게 매기면 높아짐 (일치가 많아질 수록 양의값을 가짐)</li>
+      <li>각각 평균보다 높고 낮아지면 음의 값이 나옴 (불일치가 많아질 수록 음의값을 가짐)</li>
+      <li>분모는 정규화 목적</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/assets/img/ustage_day23/16.png" alt="image16" /></p>
+
+<ul>
+  <li>지수는 미녀와 야수를 좋아할 확률이 낮음, 비슷한 취향의 제니는 좋아하지 않고 다른 취향의 로제는 좋아했으므로</li>
+  <li>추천 과정
+    <ul>
+      <li>사용자 x 가 상품 s 에 대한 평가를 어떻게 할지, $r_\mathit{xs}$ 에 대해 추정
+        <ul>
+          <li>상품 s 를 구매한 사용자 중, x 와 취향이 가장 유사한 k 명의 사용자 N(x;s) 를 뽑아냄</li>
+          <li>아래 수식 사용</li>
+        </ul>
+
+        <p><img src="/assets/img/ustage_day23/17.png" alt="image17" /></p>
+      </li>
+      <li>x 가 구매하지 않은 여러 상품에 대해 위 과정을 진행하고 가장 추정 평점이 높은 상품을 추천</li>
+    </ul>
+  </li>
+  <li>장점
+    <ul>
+      <li>상품에 대한 부가 정보가 없는 경우에도 사용 가능 (다른 사람의 평점 정보 필요)</li>
+    </ul>
+  </li>
+  <li>단점
+    <ul>
+      <li>충분한 수의 평점 데이터가 누적되어야 효과적</li>
+      <li>새 상품, 새로운 사용자에 대한 추천 불가능</li>
+      <li>독특한 취향의 사용자에게 추천 힘듦</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="추천-시스템의-평가">추천 시스템의 평가</h2>
+
+<p><img src="/assets/img/ustage_day23/18.png" alt="image18" /></p>
+
+<ul>
+  <li>평점 데이터는 행렬로 표현 가능</li>
+  <li>훈련 데이터와 평가 데이터를 두고 평가 데이터의 평점을 추정함</li>
+  <li>추정 결과와 그라운드 트루스와 비교, loss 로 (MSE) 사용</li>
+  <li>이외에도 다양한 지표 사용가 사용됨
+    <ul>
+      <li>추정 평점으로 순위를 매긴 후, 실제 평점의 순위와 상관 계수 계산</li>
+      <li>추천한 상품 중 실제 구매로 이루어진 것의 비율 측정</li>
+      <li>추천의 순서 혹은 다양성까지 고려하는 지표 사용</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Further Reading</strong></p>
+
+<ul>
+  <li><a href="http://infolab.stanford.edu/~ullman/mmds/ch9.pdf">http://infolab.stanford.edu/~ullman/mmds/ch9.pdf</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="피어-세션">피어 세션</h1>
+
+<h2 id="ted-세미나">TED 세미나</h2>
+<p>MJ님이 GAN 에 관해 간략한 설명과 함께 GAN 을 이용해서 글씨체를 생성해주는 프로젝트를 설명해주셨다. GAN 에 대해 대충은 알고 있었지만 조금 더 자세히 알 수 있어서 좋았다. 특히 제너레이터에 들어가기 전 잠재벡터의 형태에 대해 확실히 알 수 있어서 좋았다.</p>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="today-i-felt">Today I Felt</h1>
+
+<p><br /></p>
+
+<h2 id="keep-problem-try">KEEP, Problem, Try</h2>
+
+<p>펭귄님의 <a href="https://cooding-penguin.netlify.app/retrospect/restrospect-boostcamp-u-stage/">부캠 회고록</a> 포스팅을 보며 회고와 함께 앞으로 더 잘 헤쳐나가기 위해 <code class="language-plaintext highlighter-rouge">KEEP, Problem, Try</code> 를 해야겠다는 생각이 들었다. 지금처럼 매일 느낀 감정을 적는 것도 의미가 있지만 주차별로, 또는 정기적으로 잘 지켜나가고 있는 것과, 새로 닥친 문제점과 이를 극복할 방안을 생각해보고 실천하면 조금씩 더 좋은 습관과 노하우를 가진 엔지니어가 되지 않을까 생각한다 :)</p>
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>
