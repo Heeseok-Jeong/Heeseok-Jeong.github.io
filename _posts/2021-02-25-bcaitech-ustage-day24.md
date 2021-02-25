@@ -260,7 +260,7 @@ sitemap :
 
     ![image18]({{ site.baseurl }}/assets/img/ustage_day24/18.png)
 
-- 잠재 인수 모형은 다음 손실 함수를 최소화하는 P 와 Q 를 찾는 것을 목표로 함
+- 잠재 인수 모형은 아래 손실 함수를 최소화하는 P 와 Q 를 찾는 것을 목표로 함
 
     ![image19]({{ site.baseurl }}/assets/img/ustage_day24/19.png)
 
