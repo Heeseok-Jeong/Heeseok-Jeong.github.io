@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css"
+    integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous">
+
+  <!-- Spoqa Han Sans -->
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- OG Tag -->
+  
+  <meta name="title" content="Heeseok Jeong-Ustage Day 25" />
+  <meta name="author" content="Heeseok Jeong" />
+  <meta name="keywords" content="BoostCamp AI Tech" />
+  <meta name="description" content="GNN (그래프 신경망)" />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="Heeseok Jeong-Ustage Day 25" />
+  <meta property="og:description" content="GNN (그래프 신경망)" />
+  <meta property="og:type" content="website, blog" />
+  <meta property="og:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+  <meta property="og:site_name" content="Heeseok Jeong" />
+  <meta property="og:url" content="http://localhost:4000/2021/02/26/bcaitech-ustage-day25.html" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Heeseok Jeong-Ustage Day 25" />
+  <meta name="twitter:description" content="GNN (그래프 신경망)" />
+  <meta name="twitter:image"
+    content="http://localhost:4000/assets/img/smile.png" />
+
+  <title>Heeseok Jeong-Ustage Day 25</title>
+</head>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        TeX: {
+          equationNumbers: {
+            autoNumber: "AMS"
+          }
+        },
+        tex2jax: {
+        inlineMath: [ ['$', '$'] ],
+        displayMath: [ ['$$', '$$'] ],
+        processEscapes: true,
+      }
+    });
+    MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+          alert("Math Processing Error: "+message[1]);
+        });
+    </script>
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+<body>
+  <div class="container">
+    
+
+<header>
+  <nav>
+    <ul>
+      
+      <!-- others -->
+      <a href="http://localhost:4000">
+        <li class="current btn-nav">Blog</li>
+      </a>
+      <a href="http://localhost:4000/tags">
+        <li class="btn-nav">Tags</li>
+      </a>
+      <a href="http://localhost:4000/portfolio">
+        <li class="btn-nav">Portfolio</li>
+      </a>
+      
+    </ul>
+  </nav>
+</header>
+<div id="post">
+  <section class="post-header">
+    <h1 class="title">Ustage Day 25</h1>
+    <p class="subtitle">GNN (그래프 신경망)</p>
+    <p class="meta">
+      February 26, 2021
+    </p>
+  </section>
+  <section class="post-content">
+    <h1 id="목차">목차</h1>
+
+<p><br /></p>
+
+<ul>
+  <li><a href="#그래프-신경망이란-무엇일까?-(기본)">그래프 신경망이란 무엇일까? (기본)</a></li>
+  <li><a href="#그래프-신경망이란-무엇일까?-(심화)">그래프 신경망이란 무엇일까? (심화)</a></li>
+  <li><a href="#마스터-클래스">마스터 클래스</a></li>
+  <li><a href="#피어-세션">피어 세션</a></li>
+  <li><a href="#today-i-felt">Today I Felt</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="그래프-신경망이란-무엇일까-기본">그래프 신경망이란 무엇일까? (기본)</h1>
+
+<p><br /></p>
+
+<h2 id="변환식-정점-표현-학습과-귀납식-정점-표현-학습">변환식 정점 표현 학습과 귀납식 정점 표현 학습</h2>
+
+<h3 id="출력으로-임베딩-자체를-얻는-변환식-임베딩-방법의-한계">출력으로 임베딩 자체를 얻는 변환식 임베딩 방법의 한계</h3>
+
+<ul>
+  <li>학습이 진행된 이후 정점에 대해서는 임베딩을 얻을 수 없음</li>
+  <li>모든 정점에 대한 임베딩을 미리 계산해서 저장해야 함</li>
+  <li>정점의 속성 정보는 고려하지 않음</li>
+</ul>
+
+<p>→ 출력으로 인코더를 얻는 귀납식 임베딩 방법은 위 문제 모두 해결</p>
+
+<p><br /></p>
+
+<h2 id="그래프-신경망">그래프 신경망</h2>
+
+<h3 id="그래프-신경망의-구조">그래프 신경망의 구조</h3>
+
+<ul>
+  <li>그래프와 정점의 속성 정보를 입력으로 받음</li>
+  <li>정점 u 의 속성 벡터는 $X_u$ 라고 하고 이는 속성의 수 m 차원 벡터이다.</li>
+  <li>정점의 속성의 예시
+    <ul>
+      <li>SNS 에서 사용자의 지역, 성별, 연령 등</li>
+      <li>논문 인용 그래프에서 논문에 사용된 키워드에 대한 원-핫 벡터</li>
+      <li>페이지랭크 등의 정점 중심성, 군집 계수 등</li>
+    </ul>
+  </li>
+  <li>그래프 신경망은 이웃 정점들의 정보를 집계하는 과정을 반복하여 임베딩을 얻음
+    <ul>
+      <li>대상 정점의 임베딩을 얻기 위해 이웃들 그리고 이웃들의 정보를 집계함</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day25/1.png" alt="image1" /></p>
+
+    <ul>
+      <li>각 집계 단계를 층 (Layer) 라고 부르고, 각 층마다 임베딩을 얻음</li>
+      <li>0번 층, 즉 입력 층의 임베딩으로는 정점의 속성 벡터 사용</li>
+    </ul>
+  </li>
+  <li>대상 정점마다 집계되는 정보가 상이함</li>
+  <li>
+    <p>대상 정점 별 집계되는 구조를 계산 그래프라고 부름</p>
+
+    <p><img src="/assets/img/ustage_day25/2.png" alt="image2" /></p>
+  </li>
+  <li>
+    <p>서로 다른 대상 정점간에도 층 별 집계 함수 공유</p>
+
+    <p><img src="/assets/img/ustage_day25/3.png" alt="image3" /></p>
+  </li>
+  <li>
+    <p>집계 함수는 이웃의 정보를 평균 계산하고 신경망에 적용함</p>
+
+    <p><img src="/assets/img/ustage_day25/4.png" alt="image4" /></p>
+  </li>
+  <li>마지막 층의 임베딩이 출력 임베딩 $z_v$ 이 됨</li>
+  <li>그래프 신경망의 학습 변수는 층 별 신경망의 가중치 $W_k, B_k$ (k 는 층)</li>
+</ul>
+
+<h3 id="그래프-신경망의-학습">그래프 신경망의 학습</h3>
+
+<ul>
+  <li>손실함수 결정, 정점간 거리를 보존하는 것이 목표</li>
+  <li>
+    <p>인접성을 기반으로 유사도를 정의하면 손실함수는 아래와 같음</p>
+
+    <p><img src="/assets/img/ustage_day25/5.png" alt="image5" /></p>
+  </li>
+  <li>후속 과제 (Downstream Task) 의 손실함수로 종단종 (End-to-End) 학습 가능
+    <ul>
+      <li>정점 분류가 최종 목표
+        <ul>
+          <li>그래프 신경망을 통해 정점의 임베딩을 얻음</li>
+          <li>이룰 분류기의 입력으로 사용함</li>
+          <li>각 정점의 유형을 분류</li>
+        </ul>
+      </li>
+      <li>
+        <p>분류기의 손실함수, 크로스 엔트로피를 전체 프로세스의 손실함수로 사용하여 종단종 학습 가능</p>
+
+        <p><img src="/assets/img/ustage_day25/6.png" alt="image6" /></p>
+
+        <ul>
+          <li>분류 정확도가 가장 높게끔 그래프 신경망의 학습 변수들을 학습</li>
+        </ul>
+
+        <p><img src="/assets/img/ustage_day25/7.png" alt="image7" /></p>
+      </li>
+    </ul>
+  </li>
+  <li>그래프 신경망의 종단종 학습을 통한 분류는 변환적 정점 임베딩 후 별도의 분류기를 학습하는 것보다 성능이 좋음 (정확도가 높음)</li>
+  <li>학습에 모든 정점을 사용할 필요 없음. 일부 선택해서 그래프 신경망 학습하면 됨. 층마다 학습 변수가 있기 때문!</li>
+  <li>마지막으로 백프로파게이션을 통해 손실 함수 최소화 (학습)</li>
+  <li>
+    <p>학습 완료되면 학습에 사용하지 않은 정점의 임베딩 얻을 수 있음</p>
+
+    <p>→ 새로 추가된 정점도 임베딩 가능</p>
+
+    <p>→ 심지어 한 그래프로 학습하고, 다른 그래프에도 적용 가능</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="그래프-신경망-변형">그래프 신경망 변형</h2>
+
+<h3 id="그래프-합성곱-신경망">그래프 합성곱 신경망</h3>
+
+<ul>
+  <li>다양한 형태의 집계 함수 사용 가능</li>
+  <li>
+    <p>GCN (Graph Convolutional Network) 의 집계 함수</p>
+
+    <p><img src="/assets/img/ustage_day25/8.png" alt="image8" /></p>
+
+    <ul>
+      <li>B 로 이전 신경망 들어오는거 없어짐</li>
+      <li>정규화 방법이 기하 평균으로 변함</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="graphsage">GraphSAGE</h3>
+
+<ul>
+  <li>집계 함수</li>
+  <li>
+    <p>AGG 함수 (어그리게이션) 를 이용해 이웃의 임베딩을 합친 후 자신의 임베딩과 연결함</p>
+
+    <p><img src="/assets/img/ustage_day25/9.png" alt="image9" /></p>
+  </li>
+  <li>
+    <p>AGG 함수로는 Mean, Pool, LSTM 등 사용 가능</p>
+
+    <p><img src="/assets/img/ustage_day25/10.png" alt="image10" /></p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="합성곱-신경망-cnn-과의-비교">합성곱 신경망 (CNN) 과의 비교</h2>
+
+<h3 id="합성곱-신경망과-그래프-신경망의-유사성">합성곱 신경망과 그래프 신경망의 유사성</h3>
+
+<ul>
+  <li>합성곱 신경망과 그래프 신경망은 모두 이웃의 정보를 집계하는 과정 반복
+    <ul>
+      <li>구체적으로 합성곱 신경망은 이웃 픽셀의 정보를 집계하는 과정 반복</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="합성곱-신경망과-그래프-신경망의-차이">합성곱 신경망과 그래프 신경망의 차이</h3>
+
+<ul>
+  <li>합성곱 신경망에서는 이웃의 수가 균일하지만, 그래프 신경망은 아님 (정점 별로 집계하는 이웃의 수가 다름)</li>
+  <li>그래프의 인접 행렬에 합성곱 신경망을 적용하면 효과적일까?
+    <ul>
+      <li>그래프에는 합성곱 신경망이 아닌 그래프 신경망을 적용해야함 (흔히 범하는 실수)</li>
+      <li>합성곱 신경망이 주로 쓰이는 이미지에서는 인접 픽셀이 유용한 정보를 담고 있을 가능성이 높음</li>
+      <li>하지만 그래프의 인접 행렬에서 인접 원소는 제한된 정보를 가짐, 특히 인접 행렬의 행과 열의 순서가 임의로 결정되는 경우가 많음</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Further Reading</strong></p>
+
+<ul>
+  <li><a href="https://arxiv.org/abs/1609.02907">Semi-Supervised Classification with Graph Convolutional Networks</a></li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="그래프-신경망이란-무엇일까-심화">그래프 신경망이란 무엇일까? (심화)</h1>
+
+<p><br /></p>
+
+<h2 id="그래프-신경망에서의-어텐션">그래프 신경망에서의 어텐션</h2>
+
+<h3 id="기본-그래프-어텐션의-한계">기본 그래프 어텐션의 한계</h3>
+
+<ul>
+  <li>기본 그래프 신경망에서는 이웃들의 정보를 동일한 가중치로 평균냄</li>
+  <li>그래프 합성곱 신경망 역시 단순히 연결성을 고려한 가중치로 평균냄</li>
+  <li>즉, 더 친한 친구 등 관계에 대한 가중치가 고려되지 않음</li>
+</ul>
+
+<h3 id="그래프-어텐션-신경망">그래프 어텐션 신경망</h3>
+
+<ul>
+  <li><strong>그래프 어텐션 신경망 (Graph Attention Network, GAT)</strong> 에서는 <strong>가중치 자체도 학습</strong>
+    <ul>
+      <li>실제 그래프에서는 이웃 별로 미치는 영향이 다를 수 있기 때문</li>
+      <li>가중치를 학습하기 위해 셀프-어텐션이 사용됨</li>
+    </ul>
+
+    <p><img src="/assets/img/ustage_day25/11.png" alt="image11" /></p>
+  </li>
+  <li>각 층에서 정점 i 로부터 이웃 j 로의 가중치 $a_\mathit{ij}$ 는 세 단계를 통해 계산됨
+    <ul>
+      <li>
+        <p>1) 해당 층의 정점 i 의 임베딩 $h_i$ 에 신경망 W 를 곱해 새로운 임베딩을 얻음</p>
+
+        <p><img src="/assets/img/ustage_day25/12.png" alt="image12" /></p>
+      </li>
+      <li>
+        <p>2) 정점 i 와 정점 j 의 새로운 임베딩을 연결 (컨캣) 한 후, 어텐션 계수 a 를 내적함. 어텐션 계수 a 는 모든 정점이 공유하는 학습 변수</p>
+
+        <p><img src="/assets/img/ustage_day25/13.png" alt="image13" /></p>
+      </li>
+      <li>
+        <p>3) 2)의 결과에 소프트맥스 적용</p>
+
+        <p><img src="/assets/img/ustage_day25/14.png" alt="image14" /></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>여러 개의 어텐션을 동시에 학습한 뒤, 결과를 연결하여 사용 → 멀티헤드 어텐션</p>
+
+    <p><img src="/assets/img/ustage_day25/15.png" alt="image15" /></p>
+  </li>
+  <li>GAT 가 GCN 보다 정확도가 향상됨</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="그래프-표현-학습과-그래프-풀링">그래프 표현 학습과 그래프 풀링</h2>
+
+<h3 id="그래프-표현-학습">그래프 표현 학습</h3>
+
+<ul>
+  <li><strong>그래프 표현 학습 or 그래프 임베딩</strong>은 그래프 전체를 벡터의 형태로 표현하는 것 (개별 정점으 다루는 정점 표현 학습과 구분됨)</li>
+  <li>그래프 임베딩은 <strong>벡터의 형태로 표현된 그래프</strong> 자체를 의미하기도 함</li>
+  <li>그래프 임베딩은 그래프 분류 등에 활용
+    <ul>
+      <li>그래프로 표현된 화합물의 분자 구조로부터 특성을 예측하는 것이 한가지 예시</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="그래프-풀링">그래프 풀링</h3>
+
+<ul>
+  <li><strong>그래프 풀링</strong>이란 <strong>정점 임베딩들로부터 그래프 임베딩</strong>을 얻는 과정</li>
+  <li>평균 등 단순한 방법보다 그래프의 구조를 고려한 방법을 사용할 경우 그래프 분류 등 후속 과제에서 더 높은 성능을 얻음</li>
+</ul>
+
+<p><img src="/assets/img/ustage_day25/16.png" alt="image16" /></p>
+
+<ul>
+  <li>DiffPool</li>
+  <li>정점별 임베딩 → 군집별 임베딩 → 군집의 군집 임베딩 → 최종 벡터 → 분류 문제 사용</li>
+  <li>그래프 신경망으로 임베딩 얻기, 군집 얻기, 군집 내 합산 총 세 종류의 곳에서 그래프 신경망이 활용</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="지나친-획일화-문제">지나친 획일화 문제</h2>
+
+<h3 id="개념">개념</h3>
+
+<ul>
+  <li><strong>지나친 획일화 (Over-smoothing) 문제</strong>란 <strong>그래프 신경망 층의 수가 증가</strong>하면서 <strong>정점의 임베딩이 서로 유사</strong>해지는 현상</li>
+  <li>작은 세상 효과와 관련 있음, 정점 간 거리가 너무 가까워서 문제</li>
+  <li>적은 수의 층으로도 다수의 정점에 의해 영향 받음, 즉 층이 적어도 다수의 정점을 보면 그래프 전반을 보기 때문에 모두 비슷해짐</li>
+</ul>
+
+<p><img src="/assets/img/ustage_day25/17.png" alt="image17" /></p>
+
+<ul>
+  <li>결과적으로 그래프 신경망 층의 수를 늘렸을 때, 후속 과제에서 정확도가 감소함</li>
+</ul>
+
+<p><img src="/assets/img/ustage_day25/18.png" alt="image18" /></p>
+
+<ul>
+  <li>그래프 신경망의 층이 2 or 3 개일 때 정확도가 가장 높음</li>
+  <li>
+    <p>문제 해결을 위해 잔차항 (Residual) 을 넣음, 하지만 여전히 문제가 있음</p>
+
+    <p><img src="/assets/img/ustage_day25/19.png" alt="image19" /></p>
+  </li>
+</ul>
+
+<h3 id="지나친-획일화-문제에-대한-대응">지나친 획일화 문제에 대한 대응</h3>
+
+<ul>
+  <li>
+    <p>JK 네트워크 (Jumping Knowledge Network) 는 마지막 층의 임베딩 뿐 아니라, 모든 층의 임베딩을 함께 사용함</p>
+
+    <p><img src="/assets/img/ustage_day25/20.png" alt="image20" /></p>
+  </li>
+  <li>
+    <p>APPNP 라는 그래프 신경망에서는 0번째 층에만 신경망을 사용함 (W 곱하기)</p>
+
+    <p><img src="/assets/img/ustage_day25/21.png" alt="image21" /></p>
+  </li>
+  <li>두 방법 모두 효과 있음</li>
+  <li>
+    <p>특히 APPNP 의 경우, 층의 수 증가에 따른 정확도 감소 효과가 없음을 확인</p>
+
+    <p><img src="/assets/img/ustage_day25/22.png" alt="image22" /></p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="그래프-데이터의-증강">그래프 데이터의 증강</h2>
+
+<h3 id="그래프-데이터-증강">그래프 데이터 증강</h3>
+
+<ul>
+  <li>CNN 에서는 이미지 augmentation 을 통해 데이터를 증강했음</li>
+  <li>Data Augmentation, 데이터 증강은 다양한 기계학습 분야에서 효과적</li>
+  <li>그래프에서도 누락되거나 부정확한 간선이 있을 수 있고, 데이터 증강을 통해 보완 가능</li>
+  <li>
+    <p>임의 보행을 통해 정점간 유사도를 계산하고, 유사도가 높은 정점 간의 간선을 추가하는 방법 제안됨</p>
+
+    <p><img src="/assets/img/ustage_day25/23.png" alt="image23" /></p>
+  </li>
+</ul>
+
+<h3 id="그래프-데이터-증강에-따른-효과">그래프 데이터 증강에 따른 효과</h3>
+
+<ul>
+  <li>정점 분류의 정확도가 개선됨</li>
+</ul>
+
+<p><strong>Further Reading</strong></p>
+
+<ul>
+  <li><a href="https://arxiv.org/pdf/1901.00596.pdf">GNN Survey Paper</a></li>
+</ul>
+
+<p><strong>Further Questions</strong></p>
+
+<ul>
+  <li>GraphSAGE 모델에서는 하나의 정점을 나타내기 위하여 집계 함수를 활용합니다. 이때, 자기 자신만의 임베딩 뿐 아니라 이웃 정점의 임베딩까지 사용합니다. 이러한 방식으로 정점을 정의하게 된다면, 어떠한 장점이 있을까요?</li>
+</ul>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="마스터-클래스">마스터 클래스</h1>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="피어-세션">피어 세션</h1>
+
+<p><br /></p>
+
+<p><br /></p>
+
+<hr />
+
+<p><br /></p>
+
+<h1 id="today-i-felt">Today I Felt</h1>
+
+<p><br /></p>
+
+  </section>
+</div>
+
+<div id="top" class="top-btn" onclick="moveTop()">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<!-- Disqus -->
+
+<div id="comments">
+  <div class="border">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'heeseok-jeong';
+  (function () {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript></noscript>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer">
+    Copyright © 2019
+    <a href="https://github.com/NAYE0NG">Nayeong Kim</a>.
+    Powered by Jekyll with
+    <a href="https://github.com/naye0ng/Grape-Theme">Grape Theme</a>.
+  </div>
+</footer>
+
+
+<script>
+  var lastScrollTop = 0;
+  window.onscroll = function () {
+    var st = document.body.scrollTop || document.documentElement.scrollTop;
+    if (st > 250) {
+      document.getElementById("top").style.display = "block"
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.opacity = 0
+      } else {
+        document.getElementById("top").style.opacity = 1
+      }
+    } else {
+      document.getElementById("top").style.opacity = 0
+      if (st > lastScrollTop) {
+        document.getElementById("top").style.display = "none"
+      }
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }
+  function moveTop() {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
+  }
+</script>
+  </div>
+</body>
+
+</html>
