@@ -146,7 +146,7 @@
 
     <p><img src="/assets/img/ustage_day17/1.png" alt="image1" /></p>
   </li>
-  <li>위 사진처럼 $f_W(h_\mathit{t-1},\ x_t)$ 는 $h_\mathit{t-1},\ x_t$ 를 concat 해서 계산</li>
+  <li>$f_W(h_\mathit{t-1},\ x_t)$ 는 $h_\mathit{t-1},\ x_t$ 를 concat 하여 계산한다는 뜻</li>
 </ul>
 
 <h4 id="rnn-종류">RNN 종류</h4>
@@ -168,7 +168,7 @@
 <h3 id="character-level-language-model">Character-level Language Model</h3>
 
 <ul>
-  <li>“hello” 단어에서 문자 대해 다음 문자 예측 수행</li>
+  <li>“hello” 단어에서 각 문자에 대해 다음 문자 예측 수행</li>
   <li>vocab : [h, e, l, o]</li>
   <li>[1, 0, 0, 0], …, [0, 0, 0, 1]</li>
   <li>h→e, … l→o</li>
@@ -200,7 +200,7 @@
     <p><img src="/assets/img/ustage_day17/5.png" alt="image5" /></p>
 
     <ul>
-      <li>if 안에는 빨간색, 저 부분을 담당하는 특정 dim 이 학습되었음</li>
+      <li>if 뒤에는 빨간색이 됨, 저 부분을 담당하는 특정 dim 이 학습되었음</li>
     </ul>
   </li>
 </ul>
@@ -437,7 +437,7 @@
 
     <p>→ 패딩 전까지만 연산 수행 (PackedSequence 역할)</p>
   </li>
-  <li>packed_batch = pack_padded_sequence(emb, sorted_lens) 하면 PackedSequence 객체로 반환 # 패딩은 게산 안해줌, 차원 줄어듦</li>
+  <li>packed_batch = pack_padded_sequence(emb, sorted_lens) 하면 PackedSequence 객체로 반환 # 패딩은 계산 안해줌, 차원 줄어듦</li>
   <li>outputs, outputs_lens = pad_packed_sequence(packed_outputs) # 원래 차원으로 돌려줌</li>
 </ul>
 
@@ -472,7 +472,7 @@
 
 <ul>
   <li>cell state 없이 hidden state 만 있음</li>
-  <li>GRU 를 사용하여 랭귀지 모델 태스크 수행 할 것</li>
+  <li>GRU 를 사용하여 랭귀지 모델 태스크 수행</li>
   <li>이 모델은 teacher forcing 하지 않음 (출력 단어를 입력으로 넣지 않고 답을 입력으로 넣는 방식)</li>
 </ul>
 
@@ -519,8 +519,8 @@
 <h3 id="양방향-및-여러-layer-사용">양방향 및 여러 layer 사용</h3>
 
 <ul>
-  <li>역방향까지 이해를 하면, 순방향 때 파악하지 못했던 것들을 캐치해서 표현력이 좋아짐</li>
-  <li>양방향을 concat 해서 사용 (나중에 자세히 배울 것)</li>
+  <li>양방향 : 역방향까지 이해를 하면, 순방향 때 파악하지 못했던 것들을 캐치해서 표현력이 좋아짐</li>
+  <li>양방향을 concat 해서 사용</li>
 </ul>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">num_layers</span> <span class="o">=</span> <span class="mi">2</span>

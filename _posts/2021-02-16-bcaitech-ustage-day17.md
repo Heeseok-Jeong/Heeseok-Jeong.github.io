@@ -50,7 +50,7 @@ sitemap :
 
     ![image1]({{ site.baseurl }}/assets/img/ustage_day17/1.png)
 
-- 위 사진처럼 $f_W(h_\mathit{t-1},\ x_t)$ 는 $h_\mathit{t-1},\ x_t$ 를 concat 해서 계산
+- $f_W(h_\mathit{t-1},\ x_t)$ 는 $h_\mathit{t-1},\ x_t$ 를 concat 하여 계산한다는 뜻
 
 #### RNN 종류
 
@@ -65,7 +65,7 @@ sitemap :
 
 ### Character-level Language Model
 
-- "hello" 단어에서 문자 대해 다음 문자 예측 수행
+- "hello" 단어에서 각 문자에 대해 다음 문자 예측 수행
 - vocab : [h, e, l, o]
 - [1, 0, 0, 0], ..., [0, 0, 0, 1]
 - h→e, ... l→o
@@ -89,7 +89,7 @@ sitemap :
 
     ![image5]({{ site.baseurl }}/assets/img/ustage_day17/5.png)
 
-    - if 안에는 빨간색, 저 부분을 담당하는 특정 dim 이 학습되었음
+    - if 뒤에는 빨간색이 됨, 저 부분을 담당하는 특정 dim 이 학습되었음
 
 <br>
 
@@ -247,7 +247,7 @@ sitemap :
 
     → 패딩 전까지만 연산 수행 (PackedSequence 역할)
 
-- packed_batch = pack_padded_sequence(emb, sorted_lens) 하면 PackedSequence 객체로 반환 # 패딩은 게산 안해줌, 차원 줄어듦
+- packed_batch = pack_padded_sequence(emb, sorted_lens) 하면 PackedSequence 객체로 반환 # 패딩은 계산 안해줌, 차원 줄어듦
 - outputs, outputs_lens = pad_packed_sequence(packed_outputs) # 원래 차원으로 돌려줌
 
 <br>
@@ -276,7 +276,7 @@ sitemap :
 ### GRU 사용
 
 - cell state 없이 hidden state 만 있음
-- GRU 를 사용하여 랭귀지 모델 태스크 수행 할 것
+- GRU 를 사용하여 랭귀지 모델 태스크 수행
 - 이 모델은 teacher forcing 하지 않음 (출력 단어를 입력으로 넣지 않고 답을 입력으로 넣는 방식)
 
 ```python
@@ -320,8 +320,8 @@ for t in range(max_len):
 
 ### 양방향 및 여러 layer 사용
 
-- 역방향까지 이해를 하면, 순방향 때 파악하지 못했던 것들을 캐치해서 표현력이 좋아짐
-- 양방향을 concat 해서 사용 (나중에 자세히 배울 것)
+- 양방향 : 역방향까지 이해를 하면, 순방향 때 파악하지 못했던 것들을 캐치해서 표현력이 좋아짐
+- 양방향을 concat 해서 사용
 
 ```python
 num_layers = 2
