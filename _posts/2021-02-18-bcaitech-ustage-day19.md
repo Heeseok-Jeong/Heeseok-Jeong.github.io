@@ -57,15 +57,15 @@ sitemap :
 ## Scaled Dot-Product Attention
 
 - 입력 : 한 단어의 Q 와 모든 단어의 K, V (Q, K, V, Output 은 모두 벡터임)
-- 출력은 밸류 벡터의 가중합임
+- 출력 : 밸류 벡터의 가중합
 - Q, K 는 내적을 하기 때문에 차원이 같아야 함. V 는 상관없음 (실제 구현에서는 Q, K, V 차원 같게 함)
 - 수식
 
     ![image3]({{ site.baseurl }}/assets/img/ustage_day19/3.png)
 
     - scaled (루트 k차원으로 나누기)
-        - Q 와 K 의 곱해지는 값들이 모두 독립이라 하면 각각 분산은 1 임 (이상적으로). 이들은 차원 개수가 dk 가 되면 분산도 dk 가 됨 → 소프트맥스 했을 때 특정 값이 매우 크게 나오는 문제 발생
-        - 이를 해결하기 위해 표준편차 sqrt(dk) 로 scaled 수행 -> 분산은 1 로 유지됨
+        - Q 와 K 의 차원이 커질 수록 QK(T) 값이 커짐, 따라서 softmax 시 큰 값은 매우 커지고 작은 값은 매우 작아지는 문제 발생
+        - 이를 해결하기 위해 정규화 필요. 정규화로 표준편차를 나눠주고자 함. 이 때 분산은 차원개수와 동일하므로 루트(차원개수) 를 나눔. 분산 1 로 유지. (Q 와 K 의 곱해지는 값들이 모두 독립이라 하면 각각 분산은 1 임 (이상적으로). QK(T) 하면 1*1 * dk 가 됨)
 
     ![image4]({{ site.baseurl }}/assets/img/ustage_day19/4.png)
 
@@ -76,6 +76,7 @@ sitemap :
     ![image5]({{ site.baseurl }}/assets/img/ustage_day19/5.png)
 
 - 멀티 헤드 어텐션 수행 후 concat 하고 다시 원래 차원으로 돌려냄
+- 각 단어의 임베딩을 헤드 개수만큼 쪼개서 수행
 - Cost
 
     ![image6]({{ site.baseurl }}/assets/img/ustage_day19/6.png)
@@ -135,7 +136,7 @@ sitemap :
 - Residual (원래값 더하기) 후 Layer Normalization
 - Feed Forward 수행
 - Residual (원래값 더하기) 후 Layer Normalization
-- 위 과정을 N 번 (6, 12, 24 등, 독립적인 파라미터 가짐) 만큼 진행. stack
+- 위 과정을 N 번 (6, 12, 24 등, 독립적인 파라미터 가짐) 만큼 진행. stack (시퀀셜하게 진행)
 
 ![image12]({{ site.baseurl }}/assets/img/ustage_day19/12.png)
 

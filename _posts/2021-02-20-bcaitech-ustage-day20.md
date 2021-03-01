@@ -232,7 +232,7 @@ sitemap :
         ![image16]({{ site.baseurl }}/assets/img/ustage_day20/16.png)
 
         - 만약 임베딩된 벡터 크기가 4차원이 필요하다면 4x4 로 임베딩이 되야하는데, 이제는 4x2 x 2x4 를  함. 근사적으로 2차원을 4차원으로 바꿔주는 matrix factorization 으로 파라미터 수를 줄여줌
-        - CNN 의 VGGNet 처럼 줄여짐
+        - CNN 의 VGGNet 처럼 줄여짐 (5x5 커널보다 3x3 커널 2 개가 더 파라미터 작음)
 
             ![image17]({{ site.baseurl }}/assets/img/ustage_day20/17.png)
 
@@ -242,7 +242,7 @@ sitemap :
         ![image18]({{ site.baseurl }}/assets/img/ustage_day20/18.png)
 
 - Sentence Order Prediction
-    - 원래 BERT 는 마스크된 단어 맞추는 태스크와 두 문장이 연속된 문장인지 맞추는 태스크 (Next Sentence Prediction) 가 존재했음. 버트에게 Next Sentence Predictio 은 너무 쉬워서 별 효과 없음을 후속 논문들이 밝혀냄
+    - 원래 BERT 는 마스크된 단어 맞추는 태스크와 두 문장이 연속된 문장인지 맞추는 태스크 (Next Sentence Prediction) 가 존재했음. 버트에게 Next Sentence Prediction 은 너무 쉬워서 별 효과 없음을 후속 논문들이 밝혀냄
         - 관련 없는 두 문서에서 추출된 두 문장 (Negative samples) 을 보면 같은 문서에서 나온 두 문장은 관련이 높고 다른 문서에서 나온 문장은 관련이 적기 때문에 파악이 너무 쉬움
     - 유의미한 정보를 깨우칠 수 있도록 함. 항상 연속되는 문장들에 대해 하나는 원래 순서대로 가져오고 (AB), 하나는 바뀐 순서로 가져옴 (BA). 위 문제를 더 어렵게 만들어서 학습시켜줌.
 
@@ -259,7 +259,7 @@ sitemap :
 ## Light-weight Models
 
 - 규모가 커서 비대해진 모델들 (비효율적) 을 적은 파라미터와 규모로 줄여주는 경량화 모델들
-- 성능 유지하면서 크기와 계산 속도
+- 성능 유지하면서 크기와 계산 속도 줄여줌
 - DistillBERT
     - 트랜스포머를 이미 구현해서 사용하기 편하게 만든 HuggingFace 에서 발표한 논문
     - 티쳐 모델 (스튜던트 모델을 가르침) 과 스튜던트 모델 (경량화된 모델, 티쳐 모델을 잘 모사할 수 있도록 함) 이 있음
