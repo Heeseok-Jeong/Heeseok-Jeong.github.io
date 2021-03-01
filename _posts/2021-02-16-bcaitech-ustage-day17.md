@@ -36,7 +36,7 @@ sitemap :
 ## 참고
 
 들어가기 앞서 지난 번에 배운 RNN 첫걸음 내용도 참고하자.  
-> [Ustage_day14](https://heeseok-jeong.github.io/2021/02/04/bcaitech-ustage-day14.html)
+- [Ustage_day14](https://heeseok-jeong.github.io/2021/02/04/bcaitech-ustage-day14.html)
 
 <br>
 
